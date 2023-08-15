@@ -1,0 +1,50 @@
+This is BibTeX, Version 0.99d (TeX Live 2023)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: Student_Project_Report.aux
+The style file: alpha.bst
+Database file #1: references.bib
+Database file #2: bad_refs.bib
+Database file #3: corrected_refs.bib
+Warning--empty title in Suss:10bad
+You've used 24 entries,
+            2543 wiz_defined-function locations,
+            701 strings with 8526 characters,
+and the built_in function-call counts, 12886 in all, are:
+= -- 1324
+> -- 590
+< -- 21
++ -- 220
+- -- 207
+* -- 901
+:= -- 1947
+add.period$ -- 78
+call.type$ -- 24
+change.case$ -- 166
+chr.to.int$ -- 13
+cite$ -- 25
+duplicate$ -- 549
+empty$ -- 957
+format.name$ -- 230
+if$ -- 2807
+int.to.chr$ -- 12
+int.to.str$ -- 0
+missing$ -- 24
+newline$ -- 123
+num.names$ -- 76
+pop$ -- 175
+preamble$ -- 1
+purify$ -- 191
+quote$ -- 0
+skip$ -- 491
+stack$ -- 0
+substring$ -- 840
+swap$ -- 194
+text.length$ -- 21
+text.prefix$ -- 3
+top$ -- 0
+type$ -- 192
+warning$ -- 1
+while$ -- 129
+width$ -- 26
+write$ -- 328
+(There was 1 warning)

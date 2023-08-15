@@ -1,0 +1,123 @@
+\newcommand{\etalchar}[1]{$^{#1}$}
+\begin{thebibliography}{KCCO00b}
+
+\bibitem[AGL{\etalchar{+}}02a]{AGLMR:02bad}
+J.~Allard, V.~Gouranton, L.~Lecointre, E.~Melin, and B.~Raffin.
+\newblock Netjuggler: Running {VR Juggler} with multiple displays on a commodity component cluster.
+\newblock In {\em Proceeding IEEE Virtual Reality}, pages 275--276, 2002.
+
+\bibitem[AGL{\etalchar{+}}02b]{AGLMR:02}
+J\'er\'emie Allard, Val\'erie Gouranton, Lo{\"{\i}}ck Lecointre, Emmanuel Melin, and Bruno Raffin.
+\newblock {Net Juggler}: Running {VR Juggler} with multiple displays on a commodity component cluster.
+\newblock In {\em Proceeding IEEE Virtual Reality}, pages 275--276, 2002.
+
+\bibitem[CH09a]{CH:09bad}
+Clement Courbet and Celine Hudelot.
+\newblock Random accessible hierarchical mesh compression for interactive visualization.
+\newblock In {\em Proceedings of the Symposium on Geometry Processing}, SGP '09, pages 1311--1318, Aire-la-Ville, Switzerland, Switzerland, 2009. Eurographics Association.
+
+\bibitem[CH09b]{CH:09}
+Clement Courbet and Celine Hudelot.
+\newblock Random accessible hierarchical mesh compression for interactive visualization.
+\newblock In {\em Proceedings Eurographics Symposium on Geometry Processing}, pages 1311--1318, 2009.
+
+\bibitem[CMF05a]{CMF:05bad}
+Xavier Cavin, Christophe Mion, and Alain Filbois.
+\newblock {COTS} cluster-based sort-last rendering: Performance evaluation and pipelined implementation.
+\newblock In {\em Proceedings IEEE Visualization}, pages 111--118. Computer Society Press, 2005.
+
+\bibitem[CMF05b]{CMF:05}
+Xavier Cavin, Christophe Mion, and Alain Filbois.
+\newblock {COTS} cluster-based sort-last rendering: Performance evaluation and pipelined implementation.
+\newblock In {\em Proceedings IEEE Visualization}, pages 111--118, 2005.
+
+\bibitem[CYH{\etalchar{+}}97a]{CYHPK:97bad}
+Tzi-cker Chiueh, Chuan-kai Yang, Taosong He, Hanspeter Pfister, and Arie~E. Kaufman.
+\newblock Integrated volume compression and visualization.
+\newblock In {\em Proceedings of the 8th conference on Visualization '97}, VIS '97, pages 329--336, Los Alamitos, CA, USA, 1997. IEEE Computer Society Press.
+
+\bibitem[CYH{\etalchar{+}}97b]{CYHPK:97}
+Tzi-cker Chiueh, Chuan-kai Yang, Taosong He, Hanspeter Pfister, and Arie~E. Kaufman.
+\newblock Integrated volume compression and visualization.
+\newblock In {\em Proceedings IEEE Visualization}, pages 329--336, 1997.
+
+\bibitem[FM07a]{Fout:07bad}
+Nathaniel Fout and Kwan-Liu Ma.
+\newblock Transform coding for hardware-accelerated volume rendering.
+\newblock {\em IEEE Trans Vis Comput Graph}, 13(6):1600--1607, 2007.
+
+\bibitem[FM07b]{FM:07}
+Nathaniel Fout and Kwan-Liu Ma.
+\newblock Transform coding for hardware-accelerated volume rendering.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics}, 13(6):1600--1607, 2007.
+
+\bibitem[GSSP10]{GSSP:10}
+Prashant Goswami, Philipp Schlegel, Barbara Solenthaler, and Renato Pajarola.
+\newblock Interactive {SPH} simulation and rendering on the {GPU}.
+\newblock In {\em Proceedings ACM SIGGRAPH/Eurographics Symposium on Computer Animation}, pages 55--64, 2010.
+
+\bibitem[HBC10a]{HWH:10bad}
+Mark Howison, E.~Wes Bethel, and Hank Childs.
+\newblock Mpi-hybrid parallelism for volume rendering on large, multi-core systems.
+\newblock In James~P. Ahrens, Kurt Debattista, and Renato Pajarola, editors, {\em EGPGV}, pages 1--10. Eurographics Association, 2010.
+
+\bibitem[HBC10b]{HWH:10}
+Mark Howison, Wes~E. Bethel, and Hank Childs.
+\newblock {MPI}-hybrid parallelism for volume rendering on large, multi-core systems.
+\newblock In {\em Proceedings Eurographics Symposium on Parallel Graphics and Visualization}, pages 1--10, 2010.
+
+\bibitem[HXS09a]{HXS:09bad}
+Chang Hui, Lei Xiaoyong, and Dai Shuling.
+\newblock A dynamic load balancing algorithm for sort-first rendering clusters.
+\newblock In {\em IEEE International Conference on Computer Science and Information Technology}, pages 515 --519, aug. 2009.
+
+\bibitem[HXS09b]{HXS:09}
+Chang Hui, Lei Xiaoyong, and Dai Shuling.
+\newblock A dynamic load balancing algorithm for sort-first rendering clusters.
+\newblock In {\em Proceedings IEEE International Conference on Computer Science and Information Technology}, pages 515 --519, 2009.
+
+\bibitem[KCCO00a]{Koltun:00bad}
+Vladlen Koltun, Yiorgos Chrysanthou, and Daniel Cohen-Or.
+\newblock Virtual occluders: An efficient intermediate pvs representation.
+\newblock In {\em Proceedings of the Eurographics Workshop on Rendering Techniques 2000}, pages 59--70, London, UK, 2000. Springer-Verlag.
+
+\bibitem[KCCO00b]{KCC:00}
+Vladlen Koltun, Yiorgos Chrysanthou, and Daniel Cohen-Or.
+\newblock Virtual occluders: An efficient intermediate {PVS} representation.
+\newblock In {\em Proceedings Eurographics Workshop on Rendering Techniques}, pages 59--70, 2000.
+
+\bibitem[Paj07]{Pajarola:07}
+Renato Pajarola.
+\newblock Efficient data structures.
+\newblock In Markus~H. Gross and Hanspeter Pfister, editors, {\em Point-Based Graphics}, Series in Computer Graphics, pages 148--165. Morgan Kaufmann Publishers, 2007.
+
+\bibitem[Str09a]{Strugar:10bad}
+Filip Strugar.
+\newblock Continuous distance-dependent level of detail for rendering heightmaps.
+\newblock {\em journal of graphics, gpu, and game tools}, 14(4):57--74, 2009.
+
+\bibitem[Str09b]{Strugar:10}
+Filip Strugar.
+\newblock Continuous distance-dependent level of detail for rendering heightmaps.
+\newblock {\em Journal of Graphics, GPU and Game Tools}, 14(4):57--74, 2009.
+
+\bibitem[SWF10a]{Suss:10bad}
+Tim Suss, Timo Wiesemann, and Matthias Fischer.
+\newblock In {\em Proceedings of the 2010 IEEE Fifth International Conference on Networking, Architecture, and Storage}, NAS '10, pages 448--456, Washington, DC, USA, 2010. IEEE Computer Society.
+
+\bibitem[SWF10b]{SWF:10}
+Tim Suss, Timo Wiesemann, and Matthias Fischer.
+\newblock Evaluation of a c-load-collision-protocol for load-balancing in interactive environments.
+\newblock In {\em Proceedings IEEE International Conference on Networking, Architecture, and Storage}, pages 448--456, 2010.
+
+\bibitem[WGS07a]{WGS:07bad}
+Chaoli Wang, Antonio Garcia, and Han-Wei Shen.
+\newblock Interactive level-of-detail selection using image-based quality metric for large volume visualization.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics}, 13:122--134, 2007.
+
+\bibitem[WGS07b]{WGS:07}
+Chaoli Wang, Antonio Garcia, and Han-Wei Shen.
+\newblock Interactive level-of-detail selection using image-based quality metric for large volume visualization.
+\newblock {\em IEEE Transactions on Visualization and Computer Graphics}, 13(1):122--134, January/February 2007.
+
+\end{thebibliography}
