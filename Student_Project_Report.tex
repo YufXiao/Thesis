@@ -6,11 +6,18 @@
 \usepackage{helvet}   % sets sans serif font
 
 \usepackage{amsmath,amssymb,amsthm}
-
+\usepackage{svg}
 \usepackage{graphicx}
 \usepackage{subfigure}  
 \usepackage{fancybox} % for shadowed or double bordered boxes
 \usepackage{fancyhdr}
+\usepackage{cite}
+\usepackage{hyperref}
+\usepackage{xargs}
+\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+
+
+\newcommand{\todochange}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
 
 \DeclareGraphicsExtensions{.pdf,.jpg,.png}
 
@@ -102,8 +109,25 @@ A clear organization of a report typically encloses the inner main technical par
 \mainmatter
 
 %=====================================================================
-\chapter{Introduction} \label{chp:introduction}
+\chapter{Introduction and related works} \label{chp:introduction}
 %=====================================================================
+\todo{Describe the input point cloud characteristics and the expected output (oclussion metric)}
+\todo{ii) Why is this metric important}
+\todo{ applications where occlusion can be potentially used (semantic segmentation)}
+
+\section{Previous work}
+To the best of our knowledge there is not explicit works that compute oclusion level for an entire scene.
+Some related works are as follows:
+\todo{ briefly mention related works that use oclusion}
+
+\subsection{Scene Flow Estimation on 3D Point Clouds}
+\todo{ summarize the occlusion part in this papers}
+Occlusion Guided Scene Flow Estimation on 3D Point Clouds
+OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion
+
+\section{Positioning and contributions}
+\todo{Solution: Our insights and technical contributions are:}
+
 
 The introduction is a crucial part of your report and sets the stage as well as motivates the work you have completed. It briefly introduces the problem, emphasizes its importance and shows to the reader what you did in your work. That is, you show the reader that your problem is fundamental and that it needs to be solved as it fills a gap in the known literature and prior work.
 
@@ -124,9 +148,15 @@ You may follow that model while writing the introduction. In the first part of t
 At the end of the introduction you may include a short summary of the structure of the rest of the paper, but this can be omitted for saving space (and avoiding the obvious). The introduction together with the conclusion should give a complete short version of your work and what you have achieved.
 
 %=====================================================================
-\section{Background}
+\section{Technical background}
 %=====================================================================
+\subsection{Point Cloud data}
 
+A point cloud is a collection of data points situated in a three-dimensional coordinate system. Each point in this system is represented by a set of three numbers, denoting its position in space. This representation is fundamental for capturing the intricate details of 3D environments, be it the bustling streets of a city or the serene interiors of a room. Point clouds are often derived from 3D sensors or scanning mechanisms, and their rich information content makes them the primary input format for semantic segmentation tasks.
+
+Given the complexity of point cloud data and the challenges posed by occlusions, the Minkowski Engine's focus on sparse tensors offers a promising avenue for advancing the state of the art in semantic segmentation. By leveraging its capabilities, researchers and practitioners can hope to achieve more accurate and robust segmentation results, even in challenging environments.
+
+\subsection{Semantic segmentation}
 Semantic segmentation for point cloud data has rapidly ascended as a pivotal research domain, given its profound implications in a myriad of applications. From the intricate pathways navigated by autonomous vehicles to the precise movements of robotics and the detailed analysis of 3D scenes, the ability to accurately segment and categorize each data point in a 3D environment is paramount.
 
 At the heart of this research lies the challenge of dealing with occlusions. In real-world scenarios, objects within a scene often overlap or obstruct each other, leading to partial or even complete occlusions. Such occlusions can significantly distort the spatial distribution of data points, making it challenging to discern the true structure and category of the obstructed objects. For instance, in an urban driving scenario, a pedestrian might be partially hidden behind a parked car, or in an indoor setting, a chair might be obscured by a table. These occlusions can lead to misclassifications, reducing the overall accuracy of the segmentation process.
@@ -135,7 +165,7 @@ This project proposal is rooted in the quest to unravel the intricacies of occlu
 
 Through this investigation, we hope to not only advance the state of the art in point cloud data segmentation but also pave the way for more robust applications in autonomous driving, robotics, and 3D scene analysis.
 
-\subsection{Minkowski Engine}
+\subsubsection{Minkowski Engine}
 
 The Minkowski Engine stands out as a state-of-the-art tool in this domain. It is an auto-differentiation library specifically designed for sparse tensors. In the realm of deep learning, where dense tensors are commonly used, the Minkowski Engine brings a fresh perspective by focusing on sparse tensors. This is particularly beneficial for 3D data, which often exhibits spatial sparsity. The engine supports all standard neural network layers, including convolution, pooling, unpooling, and broadcasting operations, but tailored for sparse tensors. Such capabilities make it an ideal choice for semantic segmentation tasks, especially when dealing with point cloud data.
 
@@ -146,11 +176,7 @@ The Minkowski Engine stands out as a state-of-the-art tool in this domain. It is
     \label{fig:minkowski}
 \end{figure}
 
-\subsection{Point Cloud}
 
-A point cloud is a collection of data points situated in a three-dimensional coordinate system. Each point in this system is represented by a set of three numbers, denoting its position in space. This representation is fundamental for capturing the intricate details of 3D environments, be it the bustling streets of a city or the serene interiors of a room. Point clouds are often derived from 3D sensors or scanning mechanisms, and their rich information content makes them the primary input format for semantic segmentation tasks.
-
-Given the complexity of point cloud data and the challenges posed by occlusions, the Minkowski Engine's focus on sparse tensors offers a promising avenue for advancing the state of the art in semantic segmentation. By leveraging its capabilities, researchers and practitioners can hope to achieve more accurate and robust segmentation results, even in challenging environments.
 
 \section{Motivation} \label{sec:motivation}
 
