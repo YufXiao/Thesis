@@ -4,69 +4,71 @@
 \contentsline {subsection}{\numberline {1.1.1}Scene Flow Estimation on 3D Point Clouds}{1}{subsection.1.1.1}%
 \contentsline {section}{\numberline {1.2}Positioning and contributions}{1}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Technical background}{2}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Point Cloud data}{2}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}Semantic segmentation}{2}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.1}Point Cloud Data}{2}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Semantic Segmentation}{2}{subsection.1.3.2}%
 \contentsline {subsubsection}{\nonumberline Minkowski Engine}{2}{subsubsection*.11}%
 \contentsline {section}{\numberline {1.4}Motivation}{2}{section.1.4}%
 \contentsline {section}{\numberline {1.5}Outline}{3}{section.1.5}%
-\contentsline {chapter}{\numberline {2}Related Work}{4}{chapter.2}%
-\contentsline {chapter}{\numberline {3}Problem Statement}{5}{chapter.3}%
+\contentsline {chapter}{\numberline {2}Problem Statement}{4}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Occlusion Level of Mesh}{4}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Ground Truth Mesh}{4}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Estimated Mesh from Point Cloud}{4}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Occlusion Level of Point Cloud}{4}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Evaluation}{4}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Technical Solution}{5}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Occlusion Level of Mesh}{5}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Occlusion Level of Region Growing Generated Mesh}{5}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Occlusion Level of Point Cloud}{5}{section.3.3}%
-\contentsline {chapter}{\numberline {4}Technical Solution}{6}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Occlusion Level of Mesh}{6}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Ray Triangle Intersection}{6}{subsection.4.1.1}%
-\contentsline {subsubsection}{\nonumberline Octree Acceleration}{6}{subsubsection*.14}%
-\contentsline {subsubsection}{\nonumberline Visible Are Ratio}{7}{subsubsection*.16}%
-\contentsline {section}{\numberline {4.2}Occlusion Level of Region Growing Generated Mesh}{7}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Region Growing to Segment Point Cloud}{7}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Convex Hull to Build Polygons}{7}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Build Triangles from Polygons}{7}{subsection.4.2.3}%
-\contentsline {subsection}{\numberline {4.2.4}Visible Area Ratio}{7}{subsection.4.2.4}%
-\contentsline {section}{\numberline {4.3}Occlusion Level of Point Cloud}{7}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Ray Tracing Scanning}{7}{subsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.3.2}Ray Based Occlusion Computation}{7}{subsection.4.3.2}%
-\contentsline {subsection}{\numberline {4.3.3}Ray Sphere Intersection}{7}{subsection.4.3.3}%
-\contentsline {subsection}{\numberline {4.3.4}Ray Openings Intersection}{7}{subsection.4.3.4}%
-\contentsline {subsection}{\numberline {4.3.5}Count Occlusion Rays}{7}{subsection.4.3.5}%
-\contentsline {section}{\numberline {4.4}Evaluation}{7}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Metrics}{7}{subsection.4.4.1}%
-\contentsline {subsubsection}{\nonumberline IoU}{7}{subsubsection*.18}%
-\contentsline {subsubsection}{\nonumberline F1 Score}{7}{subsubsection*.20}%
-\contentsline {subsubsection}{\nonumberline Accuracy}{7}{subsubsection*.22}%
-\contentsline {subsubsection}{\nonumberline Recall}{7}{subsubsection*.24}%
-\contentsline {subsubsection}{\nonumberline Precision}{7}{subsubsection*.26}%
-\contentsline {subsection}{\numberline {4.4.2}Semantic Classes}{7}{subsection.4.4.2}%
-\contentsline {chapter}{\numberline {5}Implementation}{8}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Algorithm}{8}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Ray Tracing Scanning}{8}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Occlusion Detection}{8}{subsection.5.1.2}%
-\contentsline {subsubsection}{\nonumberline Ray Sphere Intersection}{8}{subsubsection*.28}%
-\contentsline {subsubsection}{\nonumberline Ray Triangle Intersection}{8}{subsubsection*.30}%
-\contentsline {subsubsection}{\nonumberline Octree Traversal}{8}{subsubsection*.32}%
-\contentsline {subsection}{\numberline {5.1.3}Region Growing}{8}{subsection.5.1.3}%
-\contentsline {section}{\numberline {5.2}Software}{8}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Backend}{8}{subsection.5.2.1}%
-\contentsline {subsubsection}{\nonumberline PCL}{8}{subsubsection*.34}%
-\contentsline {subsubsection}{\nonumberline Eigen}{9}{subsubsection*.36}%
-\contentsline {subsubsection}{\nonumberline JsonCpp}{9}{subsubsection*.38}%
-\contentsline {subsubsection}{\nonumberline Websocketpp}{9}{subsubsection*.40}%
-\contentsline {subsection}{\numberline {5.2.2}Frontend}{9}{subsection.5.2.2}%
-\contentsline {subsubsection}{\nonumberline Three.js}{9}{subsubsection*.42}%
-\contentsline {subsubsection}{\nonumberline Web Technical Stack}{9}{subsubsection*.44}%
-\contentsline {subsubsection}{\nonumberline User Interface}{10}{subsubsection*.46}%
-\contentsline {subsection}{\numberline {5.2.3}Structure}{10}{subsection.5.2.3}%
-\contentsline {subsubsection}{\nonumberline Flowchart}{10}{subsubsection*.48}%
-\contentsline {subsubsection}{\nonumberline Class Diagram}{10}{subsubsection*.50}%
-\contentsline {subsubsection}{\nonumberline Sequence Diagram}{10}{subsubsection*.52}%
-\contentsline {section}{\numberline {5.3}Command Line Only Mode}{10}{section.5.3}%
-\contentsline {subsection}{\numberline {5.3.1}Usage}{10}{subsection.5.3.1}%
-\contentsline {subsubsection}{\nonumberline Arguments}{10}{subsubsection*.54}%
-\contentsline {chapter}{\numberline {6}Experimental Results}{11}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Conclusion and Discussion}{12}{chapter.7}%
-\contentsline {paragraph}{\nonumberline Placement}{16}{paragraph*.69}%
-\contentsline {paragraph}{\nonumberline Figures}{17}{paragraph*.71}%
-\contentsline {paragraph}{\nonumberline Screenshots}{17}{paragraph*.73}%
-\contentsline {paragraph}{\nonumberline Graphs}{17}{paragraph*.75}%
+\contentsline {subsection}{\numberline {3.1.1}Uniform Sampling of Triangles}{5}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Ray Triangle Intersection}{5}{subsection.3.1.2}%
+\contentsline {subsubsection}{\nonumberline Octree Acceleration}{5}{subsubsection*.15}%
+\contentsline {subsection}{\numberline {3.1.3}Visible Area Ratio}{5}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Estimated Mesh from Point Cloud}{6}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Region Growing to Segment Point Cloud}{6}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Build Triangles}{6}{subsection.3.2.2}%
+\contentsline {subsubsection}{\nonumberline Convex Hull Estimate Polygon}{6}{subsubsection*.17}%
+\contentsline {subsubsection}{\nonumberline Compute Polygon Cetroid}{6}{subsubsection*.19}%
+\contentsline {section}{\numberline {3.3}Occlusion Level of Point Cloud}{6}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Ray Tracing Scanning}{6}{subsection.3.3.1}%
+\contentsline {subsubsection}{\nonumberline Spherical Light source}{6}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Ray Point Intersection}{6}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline Ray Openings Intersection}{6}{subsubsection*.25}%
+\contentsline {subsection}{\numberline {3.3.2}Ray Based Occlusion Computation}{6}{subsection.3.3.2}%
+\contentsline {section}{\numberline {3.4}Evaluation}{7}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Metrics}{7}{subsection.3.4.1}%
+\contentsline {subsubsection}{\nonumberline IoU}{7}{subsubsection*.27}%
+\contentsline {subsubsection}{\nonumberline F1 Score}{7}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline Accuracy}{7}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Recall}{7}{subsubsection*.33}%
+\contentsline {subsubsection}{\nonumberline Precision}{7}{subsubsection*.35}%
+\contentsline {subsection}{\numberline {3.4.2}Semantic Classes}{7}{subsection.3.4.2}%
+\contentsline {chapter}{\numberline {4}Implementation}{8}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Algorithm}{8}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Ray Tracing Scanning}{8}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Occlusion Detection}{8}{subsection.4.1.2}%
+\contentsline {subsubsection}{\nonumberline Ray Sphere Intersection}{8}{subsubsection*.37}%
+\contentsline {subsubsection}{\nonumberline Ray Triangle Intersection}{8}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline Octree Traversal}{8}{subsubsection*.41}%
+\contentsline {subsection}{\numberline {4.1.3}Region Growing}{8}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Software}{8}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Backend}{8}{subsection.4.2.1}%
+\contentsline {subsubsection}{\nonumberline PCL}{8}{subsubsection*.43}%
+\contentsline {subsubsection}{\nonumberline Eigen}{9}{subsubsection*.45}%
+\contentsline {subsubsection}{\nonumberline JsonCpp}{9}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Websocketpp}{9}{subsubsection*.49}%
+\contentsline {subsection}{\numberline {4.2.2}Frontend}{9}{subsection.4.2.2}%
+\contentsline {subsubsection}{\nonumberline Three.js}{9}{subsubsection*.51}%
+\contentsline {subsubsection}{\nonumberline Web Technical Stack}{9}{subsubsection*.53}%
+\contentsline {subsubsection}{\nonumberline User Interface}{10}{subsubsection*.55}%
+\contentsline {subsection}{\numberline {4.2.3}Structure}{10}{subsection.4.2.3}%
+\contentsline {subsubsection}{\nonumberline Flowchart}{10}{subsubsection*.57}%
+\contentsline {subsubsection}{\nonumberline Class Diagram}{10}{subsubsection*.59}%
+\contentsline {subsubsection}{\nonumberline Sequence Diagram}{10}{subsubsection*.61}%
+\contentsline {section}{\numberline {4.3}Command Line Only Mode}{10}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Usage}{10}{subsection.4.3.1}%
+\contentsline {subsubsection}{\nonumberline Arguments}{10}{subsubsection*.63}%
+\contentsline {chapter}{\numberline {5}Experimental Results}{11}{chapter.5}%
+\contentsline {chapter}{\numberline {6}Conclusion and Discussion}{12}{chapter.6}%
+\contentsline {paragraph}{\nonumberline Placement}{16}{paragraph*.78}%
+\contentsline {paragraph}{\nonumberline Figures}{17}{paragraph*.80}%
+\contentsline {paragraph}{\nonumberline Screenshots}{17}{paragraph*.82}%
+\contentsline {paragraph}{\nonumberline Graphs}{17}{paragraph*.84}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

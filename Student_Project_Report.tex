@@ -150,13 +150,13 @@ At the end of the introduction you may include a short summary of the structure 
 %=====================================================================
 \section{Technical background}
 %=====================================================================
-\subsection{Point Cloud data}
+\subsection{Point Cloud Data}
 
 A point cloud is a collection of data points situated in a three-dimensional coordinate system. Each point in this system is represented by a set of three numbers, denoting its position in space. This representation is fundamental for capturing the intricate details of 3D environments, be it the bustling streets of a city or the serene interiors of a room. Point clouds are often derived from 3D sensors or scanning mechanisms, and their rich information content makes them the primary input format for semantic segmentation tasks.
 
 Given the complexity of point cloud data and the challenges posed by occlusions, the Minkowski Engine's focus on sparse tensors offers a promising avenue for advancing the state of the art in semantic segmentation. By leveraging its capabilities, researchers and practitioners can hope to achieve more accurate and robust segmentation results, even in challenging environments.
 
-\subsection{Semantic segmentation}
+\subsection{Semantic Segmentation}
 Semantic segmentation for point cloud data has rapidly ascended as a pivotal research domain, given its profound implications in a myriad of applications. From the intricate pathways navigated by autonomous vehicles to the precise movements of robotics and the detailed analysis of 3D scenes, the ability to accurately segment and categorize each data point in a 3D environment is paramount.
 
 At the heart of this research lies the challenge of dealing with occlusions. In real-world scenarios, objects within a scene often overlap or obstruct each other, leading to partial or even complete occlusions. Such occlusions can significantly distort the spatial distribution of data points, making it challenging to discern the true structure and category of the obstructed objects. For instance, in an urban driving scenario, a pedestrian might be partially hidden behind a parked car, or in an indoor setting, a chair might be obscured by a table. These occlusions can lead to misclassifications, reducing the overall accuracy of the segmentation process.
@@ -190,29 +190,6 @@ In this work we use ray-tracing based methods to scan ground truth cloud and com
 
 Finally, an interactive web application is developed to visualize the point cloud together with a backend is developed to compute the occlusion level of the point cloud.
 
-%=====================================================================
-\chapter{Related Work} \label{chp:related}
-%=====================================================================
-
-After the introduction there should follow the related work section which has to review the closest related work. Establish the position of your work with respect to those competing on the same turf. Summarize the core contributions of the most important related prior solutions within the context of your work: if different from yours, clearly indicate the limitations that your solution improves upon; if similar to yours, state its advantage over other methods and thus indirectly justify your method. At the end, it should be clear why a new solution is required to solve the same problem and how your method is different from other related work.
-
-Try to group or classify the related methods in the literature with respect to the problems and solutions in your work. Each work, or group of related methods should be delineated from your work:
-
-\begin{itemize}
-\item generally, describe how the related work is different from yours
-\item if they do not directly solve the same thing, explain why this is and how they are different
-\item if they do (almost) the same, summarize how their work is limited (in comparison to yours, e.g. in functionality or performance)
-\end{itemize}
-
-This should be clear for each related paper, or better for groups of similar related papers. Just listing and explaining them is not good enough, from the basic introduction and motivation it should be clear that there is a missing gap, which is elaborated on in the related work.
-
-You should know your literature well in order to find the missing link, or the most important unsolved problem, understand your contribution to the field, place your contributions in the midst of other works, and to sell your work.
-
-Select references carefully and organize them into related groups. Within one topic you can organize references from old (first seminal) paper to newest achievements, and if too many related solutions exist, restrict to the last few most important papers if necessary.
-
--------------------------------------------------------------------------------------------------------------------------
-
-Currently there's no work has been found that directly computes the occlusion level of point cloud. However, there are some works in which some methods have been proposed to compute occlusion related properties. In this section, we will introduce these works and discuss their applications and limitations.
 
 %=====================================================================
 \chapter{Problem Statement} \label{chp:problem}
@@ -228,15 +205,22 @@ Alternatively, in particular if the open problem to be solved is not that simple
 
 We have to validate here that more viewpoints lead to lower occlusion level of the interior scene.
 
-\section{Occlusion Level of Region Growing Generated Mesh} \label{sec:occlusion}
+\subsection{Ground Truth Mesh} \label{subsec:occlusion}
 
-Same as section above.
+We should compute the occlusion level of ground truth mesh.
+
+\subsection{Estimated Mesh from Point Cloud} \label{subsec:occlusion}
+
+We also want to estimate the occlusion level of the mesh generated from ground truth point cloud.
+\todo{Why do we wanna do this?}
 
 \section{Occlusion Level of Point Cloud} \label{sec:occlusion}
 
-We should compute the occlusion level of point cloud and evalute the segmentation result of Minkowski Engine.
+After validation in previous steps, we should directly compute the occlusion level of the ground truth point cloud.
 
+\section{Evaluation} \label{sec:evaluation}
 
+It's essential to evaluate result of segmentation of point cloud so that we can maybe find correlation between occlusion level and segmentation performance.
 
 %=====================================================================
 \chapter{Technical Solution} \label{chp:solution}
@@ -262,36 +246,62 @@ Note that implementation details should be avoided as much as possible, and the 
 
 \section{Occlusion Level of Mesh}
 
+\subsection{Uniform Sampling of Triangles}
+
+We choose random uniform sampling here. Randomly generate arguments to compute barycentric coordinates of sampled points.
+
 \subsection{Ray Triangle Intersection}
 
 \subsubsection{Octree Acceleration}
 Build Octree Based on Cetroid of Triangles.
 
-\subsubsection{Visible Are Ratio}
+\subsection{Visible Area Ratio}
 
-\section{Occlusion Level of Region Growing Generated Mesh}
+Compute the visible area ratio based on sampled points.
+
+\section{Estimated Mesh from Point Cloud}
+
+We have to segment the point cloud into different clusters first.
 
 \subsection{Region Growing to Segment Point Cloud}
 
-\subsection{Convex Hull to Build Polygons}
+Gain a number of clusters of point cloud.
 
-\subsection{Build Triangles from Polygons}
+\subsection{Build Triangles}
 
-\subsection{Visible Area Ratio}
+First steo is always to build triangles.
+
+\subsubsection{Convex Hull Estimate Polygon}
+
+Compute convex hull of each cluster to estimate the polygon.
+
+\subsubsection{Compute Polygon Cetroid}
+
+Compute cetroid of each polygon. And connect cetroid with vertices of polygon to form triangles.
 
 \section{Occlusion Level of Point Cloud}
+
+Since we have ground truth point cloud, we should generate point cloud from certain viewpoints.
 
 \subsection{Ray Tracing Scanning}
 
 We use ray tracing based method to scan the ground truth point cloud, then we can get a point cloud with occlusion.
 
+\subsubsection{Spherical Light source}
+
+Uniformly sample points on a sphere to simulate light source. Number of rays is given.
+
+\subsubsection{Ray Point Intersection}
+
+Each point in the point cloud is a sphere with a certain radius.
+
+\subsubsection{Ray Openings Intersection}
+
+Openings in the scene should not be identified as occlusion.
+
 \subsection{Ray Based Occlusion Computation}
 
-\subsection{Ray Sphere Intersection}
-
-\subsection{Ray Openings Intersection}
-
-\subsection{Count Occlusion Rays}
+In previous steps, rays are classified based on if it intersect with the scene. If not, it's an occlusion ray. We count occlusion rays to compute occlusion level.
 
 \section{Evaluation}
 
