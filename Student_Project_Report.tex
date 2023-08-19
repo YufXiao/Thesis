@@ -201,7 +201,7 @@ A simple and straight-forward problem or goal could sufficiently be stated alrea
 
 Alternatively, in particular if the open problem to be solved is not that simple, it may have to be described in full detail in a dedicated problem section.
 
-\section{Occlusion Level of Mesh} \label{sec:occlusion}
+\section{Occlusion Level Computation of Mesh} \label{sec:occlusion}
 
 We have to validate here that more viewpoints lead to lower occlusion level of the interior scene.
 
@@ -214,11 +214,11 @@ We should compute the occlusion level of ground truth mesh.
 We also want to estimate the occlusion level of the mesh generated from ground truth point cloud.
 \todo{Why do we wanna do this?}
 
-\section{Occlusion Level of Point Cloud} \label{sec:occlusion}
+\section{Occlusion Level Computation of Point Cloud} \label{sec:occlusion}
 
 After validation in previous steps, we should directly compute the occlusion level of the ground truth point cloud.
 
-\section{Evaluation} \label{sec:evaluation}
+\section{Evaluation of Segmentation Result} \label{sec:evaluation}
 
 It's essential to evaluate result of segmentation of point cloud so that we can maybe find correlation between occlusion level and segmentation performance.
 
@@ -244,102 +244,198 @@ For each subtask or -problem that is solved, a clear definition is needed and it
 
 Note that implementation details should be avoided as much as possible, and the focus should be on the formal and algorithmic solution; the implementation section is specifically targeted to explain any programming details.
 
-\section{Occlusion Level of Mesh}
+\section{Ray Tracing Based Estimation of Visible Area Ratio} \label{sec:ray tracing visible area ratio}
 
 \subsection{Uniform Sampling of Triangles}
 
 We choose random uniform sampling here. Randomly generate arguments to compute barycentric coordinates of sampled points.
 
+\subsection{Generate Rays}
+
+In this step we generate rays from sampled points to light source. We use sampled points as origin of a ray and view point as destination.
+
 \subsection{Ray Triangle Intersection}
 
-\subsubsection{Octree Acceleration}
-Build Octree Based on Cetroid of Triangles.
+
 
 \subsection{Visible Area Ratio}
 
 Compute the visible area ratio based on sampled points.
 
-\section{Estimated Mesh from Point Cloud}
+\section{Region Growing Based Estimation of Mesh}
 
 We have to segment the point cloud into different clusters first.
 
-\subsection{Region Growing to Segment Point Cloud}
+\subsection{Point Cloud Segmentation}
 
 Gain a number of clusters of point cloud.
 
-\subsection{Build Triangles}
+\subsection{Build Triangles From Clusters}
 
 First steo is always to build triangles.
 
-\subsubsection{Convex Hull Estimate Polygon}
+\subsubsection{Convex Hull Estimate Polygons}
 
-Compute convex hull of each cluster to estimate the polygon.
+Compute convex hull of each cluster to estimate a polygon.
 
 \subsubsection{Compute Polygon Cetroid}
 
 Compute cetroid of each polygon. And connect cetroid with vertices of polygon to form triangles.
 
-\section{Occlusion Level of Point Cloud}
+\subsubsection{Occlusion Level Estimation}
 
-Since we have ground truth point cloud, we should generate point cloud from certain viewpoints.
+We apply the same method as in \ref{sec:ray tracing visible area ratio} to compute occlusion level of mesh.
 
-\subsection{Ray Tracing Scanning}
+\section{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
 
 We use ray tracing based method to scan the ground truth point cloud, then we can get a point cloud with occlusion.
 
-\subsubsection{Spherical Light source}
+\subsection{Spherical Light Source}
 
 Uniformly sample points on a sphere to simulate light source. Number of rays is given.
 
-\subsubsection{Ray Point Intersection}
+\subsection{Ray Point Intersection}
 
 Each point in the point cloud is a sphere with a certain radius.
 
+\subsection{Ray Tracing Based Occlusion Computation}
+
+Generate rays from multiple light sources. 
+
+We propose occlusion rays here.
+
+\subsubsection{Ray Point Cloud Intersection}
+
+If intersect, not an occlusion ray.
+
 \subsubsection{Ray Openings Intersection}
 
-Openings in the scene should not be identified as occlusion.
+Openings in the scene should not be identified as occlusion. If not intersect with point cloud, but intersect with openings, it's also not an occlusion ray. When both conditions are not satisfied, it's an occlusion ray.
 
-\subsection{Ray Based Occlusion Computation}
+We compute occlusion ray ratio to estimate occlusion level of the point cloud.
 
-In previous steps, rays are classified based on if it intersect with the scene. If not, it's an occlusion ray. We count occlusion rays to compute occlusion level.
+\section{Evaluate Performance with Metrics}
 
-\section{Evaluation}
+In the realm of semantic segmentation, evaluating the performance of a model is crucial to ensure its reliability and effectiveness. Metrics serve as standardized measures to assess the quality of segmentation results, comparing the predicted outputs against the ground truth. By using these metrics, researchers and practitioners can gauge the strengths and weaknesses of their models, facilitating improvements and ensuring optimal performance. In this section, we discuss the metrics used to evaluate the performance of semantic segmentation models.
+
+\subsection{Semantic Classes}
+
+Due to the difference of the dataset and the pre-trained model, we consider the following classes in our semantic segmentation task:
 
 \subsection{Metrics}
 
+We use the following metrics to evaluate the performance of our model:
+
 \subsubsection{IoU}
+
+Inttersection over Union, also known as the Jaccard Index, IoU measures the overlap between the predicted segmentation and the ground truth. It's calculated as the area of overlap divided by the area of union of the two sets.
+
+\begin{equation}
+	IoU = \frac{\text{Intersection}}{\text{Union}}
+\end{equation}
+
+A higher IoU indicates better segmentation accuracy.
 
 \subsubsection{F1 Score}
 
+The F1 Score is the harmonic mean of precision and recall. It provides a balance between the two, ensuring that both false positives and false negatives are taken into account.
+
+\begin{equation}
+	F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+\end{equation}
+
+An F1 Score closer to 1 indicates better performance, while a score closer to 0 indicates poor performance.
+
 \subsubsection{Accuracy}
+
+Accuracy measures the proportion of correctly predicted segmentation pixels to the total number of pixels.
+
+\begin{equation}
+	\text{Accuracy} = \frac{\text{Number of Correct Predictions}}{\text{Total Number of Predictions}}
+\end{equation}
+
+While a useful metric, accuracy can sometimes be misleading, especially if the classes are imbalanced.
 
 \subsubsection{Recall}
 
+Recall measures the proportion of actual positives that were correctly identified.
+
+\begin{equation}
+	\text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
+\end{equation}
+
+A higher recall indicates that fewer actual positives were missed by the model.
+
 \subsubsection{Precision}
 
-\subsection{Semantic Classes}
+Precision measures the proportion of positive identifications that were actually correct.
+
+\begin{equation}
+	\text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
+\end{equation}
+
+A higher precision indicates that a larger percentage of the model's positive predictions were correct.
 
 %=====================================================================
 \chapter{Implementation} \label{chp:implementation}
 %=====================================================================
 
 The implementation section focuses on the major programming problems and details such as the overall organization of the source code, major dependencies of different modules etc. In the core of the report this should be kept concise, and should be developed top-down, focusing on anything that is maybe not standard good practice, or that has a non-obvious implementation. An appendix can be used for more details if needed.
-\section{Algorithm} \label{sec:algorithm}
+\section{PCL Serves as Main Component of Computation} \label{sec:pcl and eigen}
 
-\subsection{Ray Tracing Scanning}
+PCL is the main component of our implementation. We use PCL to read point cloud data, segment point cloud, compute occlusion level of point cloud, and visualize point cloud. We also use Eigen to compute some mathematical operations within the whole pipeline.
 
-\subsection{Occlusion Detection}
+\subsection{Uniform Sampling} \label{subsec:uniform sampling}
 
-\subsubsection{Ray Sphere Intersection}
+Sampling for sphere and triangle. Standard library is used for generating uniformly distributed random numbers.
 
-\subsubsection{Ray Triangle Intersection}
+\subsubsection{Spherical Light Source}
 
-\subsubsection{Octree Traversal}
-We use the octree to store the point cloud data. The octree is a tree data structure in which each internal node has exactly eight children. Octrees are most often used to partition a three-dimensional space by recursively subdividing it into eight octants. Octrees are the three-dimensional analog of quadtrees.
+\subsubsection{Triangle}
 
-\subsection{Region Growing}
+\subsection{Mesh Estimation} \label{sec:mesh estimation}
 
-\section{Software} \label{sec:software}
+\subsubsection{Region Growing}
+
+\subsubsection{Convex Hull}
+
+\subsubsection{Polygon Centroid}
+
+\subsection{Ray Tracing Intersection Computation} \label{sec:ray tracing}
+
+\subsubsection{Ray Intersect Sphere}
+
+\subsubsection{Ray Intersect Triangle}
+
+\subsubsection{Ray Intersect Polygon}
+
+Ray intersect with openings.
+
+\subsection{Octree Partitioning}
+
+To accelerate the computation of ray tracing, we use octree to partition the point cloud and mesh
+
+\subsubsection{Point Cloud}
+
+
+
+\subsubsection{Mesh}
+
+Partition mesh into octree based on center of gravity of each triangle.
+
+\subsection{Other Libraries Serve as Supporting Components} \label{sec:supporting libraries}
+
+\subsubsection{JsonCpp Serves as Parameter Parser} \label{subsec:jsoncpp}
+
+\subsubsection{Websocketpp Serves as Communication Channel} \label{subsec:websocketpp}
+
+\subsubsection{OpenMP Serves as Parallel Computation} \label{subsec:openmp}
+
+\subsubsection{Three.js Serves as Visualization} \label{subsec:three.js}
+
+\todo{Change contents below}
+
+\section{Software Structure} \label{sec:software}
 We present this software in a form of a web application. The backend is written in C++ and the frontend is written in TypeScript. The backend is responsible for the computation of the occlusion detection algorithm and the frontend is responsible for the visualization of the point cloud and the occlusion detection result. The backend and the frontend communicate with each other through a websocket connection. 
 
 \subsection{Backend}
@@ -415,7 +511,7 @@ The last section puts the results in perspective, discussing it in relationship 
 State the \emph{take home message} of the paper that the reader should remember and provide an outlook on possible future work that extends the given solution or fixes specific limitations. Close with a brief description (that is different from the Abstract) of the proposed solution.
 
 %-------------------------------------------------------------------------------------------------------------------------
-\section*{Acknowledgements}
+\chapter{Acknowledgements} \label{chp:acknowledgements}
 
 Acknowledge any data and code sources you used or for help you received.
 
