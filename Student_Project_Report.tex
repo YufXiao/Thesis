@@ -11,7 +11,9 @@
 \usepackage{subfigure}  
 \usepackage{fancybox} % for shadowed or double bordered boxes
 \usepackage{fancyhdr}
+\usepackage{float}
 \usepackage{cite}
+\usepackage{listings}
 \usepackage{hyperref}
 \usepackage{xargs}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
@@ -39,9 +41,37 @@
 \widowpenalty=10000
 \clubpenalty=10000
 
-%\author{Hans Muster}
-%\title{Blockwise Hierarchical Data Decompositions}
-%\date{Fall Semester 2011}
+\lstdefinelanguage{json}{
+    basicstyle=\normalfont\ttfamily,
+    numbers=left,
+    numberstyle=\scriptsize,
+    stepnumber=1,
+    numbersep=8pt,
+    showstringspaces=false,
+    breaklines=true,
+    frame=lines,
+    backgroundcolor=\color{background},
+    stringstyle=\color{string},
+    keywordstyle=\color{keyword},
+    commentstyle=\color{comment},
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morecomment=[l]{\#},
+    morestring=[b]",
+    morestring=[b]',
+    morekeywords={true,false,null}
+}
+
+\definecolor{background}{HTML}{EEEEEE}
+\definecolor{keyword}{RGB}{170,85,0}
+\definecolor{string}{RGB}{0,128,0}
+\definecolor{comment}{RGB}{128,128,128}
+
+\lstdefinestyle{terminal}{
+    backgroundcolor=\color{black},
+    basicstyle=\ttfamily\color{white}\small,
+    breaklines=true
+}
 
 \begin{document}
 
@@ -195,11 +225,7 @@ Finally, an interactive web application is developed to visualize the point clou
 \chapter{Problem Statement} \label{chp:problem}
 %=====================================================================
 
-The technical sections introduce and motivate the proposed solution in the light of the problem, which requires a precise problem statement together with any assumptions and requirements. Therefore, before the technical solutions are presented in detail, a precise definition of the problem to be solved must be given. Where algorithmic or mathematical descriptions are not appropriate, other technical and implementation problems can be stated that are to be solved in this work.
 
-A simple and straight-forward problem or goal could sufficiently be stated already in the introduction. This could include examples such as insufficient performance, that there was no interactive method for doing something, or that there was no real-time rendering of this data possible so far. The problem statement and definition could also be integrated in the section that describes the new proposed and presented solutions, especially if there are multiple different (smaller) problems to be addressed which can be given at the beginning of the main technical paper sections.
-
-Alternatively, in particular if the open problem to be solved is not that simple, it may have to be described in full detail in a dedicated problem section.
 
 \section{Occlusion Level Computation of Mesh} \label{sec:occlusion}
 
@@ -226,29 +252,13 @@ It's essential to evaluate result of segmentation of point cloud so that we can 
 \chapter{Technical Solution} \label{chp:solution}
 %=====================================================================
 
-One or more sections should be directed towards the detailed description of the proposed solution, including technical details about the used data structures, algorithms and mathematical methods. The technical description should allow the resourceful and interested reader to reproduce and verify your work, together with the implementation information given in a later section.
-
-This is the most important part of the report that should answer every little technical question that arises in the reader's mind. Your algorithm might be a puzzle with many pieces which are described in a linear order in the report -- and many such orders may be possible. A good order to describe the different components of your solution is one that allows to clearly explain one component after another based exclusively on what the reader has already seen in any previous sections, thus minimizing any forward references.
-
-This core part of the report should be organized into coherent subsections, giving an overview and introducing formalism first. Following an overview of the necessary steps of the entire method, each step can then be described elaborately in each subsection.
-
-For each subtask or -problem that is solved, a clear definition is needed and it must be explained how it is solved. This needs to be precise, and requires an algorithmic, technical or mathematical rigorous description, e.g. including:
-
-\begin{itemize}
-\item descriptions of algorithms and data structures and how they are used to process the data
-\item descriptions of the output data structure or formats that are generated, including intermediate stages as needed
-\item explaining any data processing or feature extraction step by appropriate mathematical formulas
-\item define data, formats and functions properly
-\item make clear the input and output arguments of functions
-\end{itemize}
-
-Note that implementation details should be avoided as much as possible, and the focus should be on the formal and algorithmic solution; the implementation section is specifically targeted to explain any programming details.
+In this chapter we will introduce our technical solution to the problem stated in \ref{chp:problem}.
 
 \section{Ray Tracing Based Estimation of Visible Area Ratio} \label{sec:ray tracing visible area ratio}
 
 \subsection{Uniform Sampling of Triangles}
 
-We choose random uniform sampling here. Randomly generate arguments to compute barycentric coordinates of sampled points.
+We choose random uniform sampling here. Randomly generate 2 arguments r1 and r2 between 0 and 1,   to compute barycentric coordinates of sampled points.
 
 \subsection{Generate Rays}
 
@@ -380,7 +390,7 @@ A higher precision indicates that a larger percentage of the model's positive pr
 \chapter{Implementation} \label{chp:implementation}
 %=====================================================================
 
-The implementation section focuses on the major programming problems and details such as the overall organization of the source code, major dependencies of different modules etc. In the core of the report this should be kept concise, and should be developed top-down, focusing on anything that is maybe not standard good practice, or that has a non-obvious implementation. An appendix can be used for more details if needed.
+
 \section{PCL Serves as Main Component of Computation} \label{sec:pcl and eigen}
 
 PCL is the main component of our implementation. We use PCL to read point cloud data, segment point cloud, compute occlusion level of point cloud, and visualize point cloud. We also use Eigen to compute some mathematical operations within the whole pipeline.
@@ -396,6 +406,28 @@ Sampling for sphere and triangle. Standard library is used for generating unifor
 \subsection{Mesh Estimation} \label{sec:mesh estimation}
 
 \subsubsection{Region Growing}
+
+\begin{lstlisting}[language=C++, caption=Region Growing]
+pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
+pcl::PointCloud<pcl::Normal>::Ptr normals(new pcl::PointCloud<pcl::Normal>);
+pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
+normal_estimation.setInputCloud(cloud);
+normal_estimation.setSearchMethod(tree);
+normal_estimation.setKSearch(50);
+normal_estimation.compute(*normals);
+
+pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
+reg.setMinClusterSize(min_cluster_size);
+reg.setMaxClusterSize(max_cluster_size);
+reg.setSearchMethod(tree);
+reg.setNumberOfNeighbours(num_neighbours);
+reg.setInputCloud(cloud);
+reg.setInputNormals(normals);
+reg.setSmoothnessThreshold(smoothness_threshold / 180.0 * M_PI);
+reg.setCurvatureThreshold(curvature_threshold);
+
+reg.extract(rg_clusters);
+\end{lstlisting}
 
 \subsubsection{Convex Hull}
 
@@ -417,7 +449,7 @@ To accelerate the computation of ray tracing, we use octree to partition the poi
 
 \subsubsection{Point Cloud}
 
-
+Directly partition point cloud into octree.
 
 \subsubsection{Mesh}
 
@@ -425,64 +457,171 @@ Partition mesh into octree based on center of gravity of each triangle.
 
 \subsection{Other Libraries Serve as Supporting Components} \label{sec:supporting libraries}
 
-\subsubsection{JsonCpp Serves as Parameter Parser} \label{subsec:jsoncpp}
+\subsubsection{JsonCpp - Parameter Parser} \label{subsec:jsoncpp}
 
-\subsubsection{Websocketpp Serves as Communication Channel} \label{subsec:websocketpp}
+\begin{lstlisting}[language=json, caption=Json Configuration File]
+"occlusion": {
+	"mesh": {
+		"path": "../files/conf_m.obj",
+		"pattern": 1,
+		"octree_resolution": 128.0,
+		"enable_acceleration": true,
+		"samples_per_unit_area": 0.001
+	},
 
-\subsubsection{OpenMP Serves as Parallel Computation} \label{subsec:openmp}
+	"point_cloud": {
+		"path": "../files/conf1_80000.pcd",
+		"num_rays_per_vp": 10000, 
+		"num_vp": 9, 
+		"point_radius": 0.025,
+		"polygon_path": "../files/polygon_conf.txt",
+		"octree_resolution": 0.5
+	},
 
-\subsubsection{Three.js Serves as Visualization} \label{subsec:three.js}
+	"rg_mesh": {
+		"seg_config": {
+			"min_cluster_size": 100,
+			"max_cluster_size": 1000000,
+			"num_neighbours": 40,
+			"k_search_neighbours": 80,
+			"smoothness_threshold": 4.0,
+			"curvature_threshold": 1.0
+		},
+		"path": "../files/conf1.pcd",
+		"pattern": 0,
+		"octree_resolution": 1.0,
+		"enable_acceleration": true,
+		"samples_per_unit_area": 2
+	}
+},
+\end{lstlisting}
 
-\todo{Change contents below}
+\subsubsection{Websocketpp - Communication Channel} \label{subsec:websocketpp}
 
-\section{Software Structure} \label{sec:software}
-We present this software in a form of a web application. The backend is written in C++ and the frontend is written in TypeScript. The backend is responsible for the computation of the occlusion detection algorithm and the frontend is responsible for the visualization of the point cloud and the occlusion detection result. The backend and the frontend communicate with each other through a websocket connection. 
+%=====================================================================
+\subsubsection{OpenMP - Parallel Computation} \label{subsec:openmp}
+\begin{lstlisting}[language=C++, caption=Region Growing]
+#pragma omp parallel for
+for(auto& ray : t_rays) {
+	// computing ray triangle intersection
+}
+\end{lstlisting}
+%=====================================================================
 
-\subsection{Backend}
-Our backend is written in C++. We use the following libraries:
-\begin{itemize}
-	\item \textbf{PCL} - Point Cloud Library
-	\item \textbf{Eigen} - C++ template library for linear algebra
-	\item \textbf{JsonCpp} - C++ library for manipulating JSON values
-	\item \textbf{Websocketpp} - C++ websocket client/server library
-\end{itemize}
+%=====================================================================
+\subsubsection{Run Backend Server in Command Line} \label{subsec:backend command line}
 
-\subsubsection{PCL}
-PCL is a large scale, open project for 2D/3D image and point cloud processing. The PCL framework contains numerous state-of-the art algorithms including filtering, feature estimation, surface reconstruction, registration, model fitting and segmentation. These algorithms can be used, for example, to filter outliers from noisy data, stitch 3D point clouds together, segment relevant parts of a scene, extract keypoints and compute descriptors to recognize objects in the world based on their geometric appearance, and create surfaces from point clouds and visualize them -- to name a few.
+Start backend server in command line.
 
-\subsubsection{Eigen}
-Eigen is a C++ template library for linear algebra: matrices, vectors, numerical solvers, and related algorithms. It supports all matrix sizes, from small fixed-size matrices to arbitrarily large dense matrices, and even sparse matrices. It supports all standard numeric types, including std::complex, integers, and is easily extensible to custom numeric types.
+\begin{lstlisting}[style=terminal]
+	make -j8
+	./pcd_pipeline -b
+\end{lstlisting}
+%=====================================================================
 
-\subsubsection{JsonCpp}
-JsonCpp is a C++ library that allows manipulating JSON values, including serialization and deserialization to and from strings. It can also preserve existing comment in unserialization/serialization steps, making it a convenient format to store user input files.
+%=====================================================================
+\section{Web Based User Interface} \label{sec:three.js}
 
-\subsubsection{Websocketpp}
-Websocketpp is a C++ websocket client/server library. It is intended to be used in conjunction with a websocket implementation that provides: a way to connect, a way to send data, and a way to receive data. Websocketpp does not perform any I/O operations itself, instead it delegates these tasks to the user provided I/O type.
+We present this software in a form of a web application. The pcl based backend serves as a computation engine, while the frontend serves as user interface. We have introduced the main components of the backend in \ref{sec:pcl and eigen}. In this section, we will introduce the frontend and the communication between the frontend and the backend. 
 
-\subsection{Frontend}
+The user interface is shown in Figure \ref{fig:web user interface}. 
 
-\subsubsection{Three.js}
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\includegraphics*[width=1.0\textwidth]{figures/ui.png}
+		\caption{Web User Interface }
+		\label{fig:web user interface}
+	\end{figure}
+\end{minipage}
+%=====================================================================
+
+\subsection{Three.js Serves as Visualization Engine}
+
 Three.js is a cross-browser JavaScript library and application programming interface (API) used to create and display animated 3D computer graphics in a web browser. Three.js uses WebGL.
 
-\subsubsection{Web Technical Stack}
-This front-end web interface is built on top of the following web technical stack:
+\subsection{Web Technical Stack}
+
+Since we use three.js as visualization engine, we have to use some web technologies to develop the frontend. The web technical stack we use is as follows: 
+
 \begin{itemize}
 	\item \textbf{TypeScript} - A strict syntactical superset of JavaScript and adds optional static typing to the language.
 	\item \textbf{TailwindCSS} - A utility-first CSS framework for rapidly building custom user interfaces.
 	\item \textbf{Vite} - A build tool that aims to provide a faster and leaner development experience for modern web projects.
 	\item \textbf{Websocket} - A computer communications protocol, providing full-duplex communication channels over a single TCP connection.
-	\item \textbf{Three.js} - A cross-browser JavaScript library and application programming interface (API) used to create and display animated 3D computer graphics in a web browser.
 \end{itemize}
 
-\subsubsection{User Interface}
+\subsection{User Interface Usage}
 
-\subsection{Structure}
+In this part we will introduce our user interface and explain how to use it.
+
+\subsubsection{Stats Panel and GUI}
+
+\begin{itemize}
+	\item \textbf{Stats Panel} - Show three different metrics of the scene in different color.
+		\begin{itemize}
+			\item \textbf{Frame Rate} - Blue, frame rate of the visualization.
+			\item \textbf{Network Latency} - Green, network latency.
+			\item \textbf{Cache Size} - Red, cache size of the point cloud.
+		\end{itemize}
+	\item \textbf{Light Intensity} - Control the intensity of the light source.
+	\item \textbf{Show Cloud} - Show the point cloud.
+	\item \textbf{Use Shader Material} - Use shader material to visualize the point cloud.
+\end {itemize}	
+
+\subsubsection{Buttons}
+
+\begin{itemize}
+	\item \textbf{Original Cloud} - Upload and visualize original point cloud.
+	\item \textbf{Segmented Cloud} - Upload and visualize segmented point cloud.
+\end{itemize}
+
+\subsection{Software Structure}
+
 \subsubsection{Flowchart}
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+		\caption{Flowchart of the Software}
+		\label{fig:flowchart}
+	\end{figure}
+\end{minipage}
+
 \subsubsection{Class Diagram}
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+		\caption{Class Diagram of the Software}
+		\label{fig:class diagram}
+	\end{figure}
+\end{minipage}
+
 \subsubsection{Sequence Diagram}
-\section{Command Line Only Mode}
-\subsection{Usage}
-\subsubsection{Arguments}
+
+\begin{minipage}{\textwidth}
+    \begin{figure}[H]
+        \centering
+        \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+        \caption{Sequence Diagram of the Software}
+        \label{fig:sequence diagram}
+    \end{figure}
+\end{minipage}
+
+\subsection{Command Line Only Mode}
+
+This project is designated to be used in a web application. However, we also provide a command line only mode for users who want to use this project in a command line environment. In this mode, we use a simple command line interface to interact with the backend.
+
+\subsubsection{Arguments and Corresponding Functionality}
+
+\begin{itemize}
+	\item \textbf{-moc} - Mesh Occlusion Computation.
+	\item \textbf{-rgoc} - Region Growing Occlusion Computation.
+	\item \textbf{-poc} - Point Cloud Occlusion Computation.
+\end{itemize}
 
 
 %=====================================================================
@@ -497,10 +636,14 @@ Qualitative results may be reported if clear quantitative measures are not feasi
 
 Essentially, the goal of the experimental results is to convince the reader by numbers, tests and images (and maybe user studies), giving some sort of proof why the proposed solution is good, different and/or better than other solutions.
 
-% \section{Validation}
+\section{Mesh Based Occlusion Level Validation}
+
+\subsection{Ground Truth Mesh}
 
 
-% \section{Evaluation}
+\subsection{Estimated Mesh from Point Cloud}
+
+\section{Segmentation Performance Evaluation of Point Cloud}
 
 %=====================================================================
 \chapter{Conclusion and Discussion} \label{chp:conclusion}
