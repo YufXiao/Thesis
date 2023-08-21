@@ -142,6 +142,7 @@ A clear organization of a report typically encloses the inner main technical par
 \chapter{Introduction and related works} \label{chp:introduction}
 %=====================================================================
 \todo{Describe the input point cloud characteristics and the expected output (oclussion metric)}
+
 \todo{ii) Why is this metric important}
 \todo{ applications where occlusion can be potentially used (semantic segmentation)}
 
@@ -150,14 +151,30 @@ To the best of our knowledge there is not explicit works that compute oclusion l
 Some related works are as follows:
 \todo{ briefly mention related works that use oclusion}
 
-\subsection{Scene Flow Estimation on 3D Point Clouds}
 \todo{ summarize the occlusion part in this papers}
 Occlusion Guided Scene Flow Estimation on 3D Point Clouds
 OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion
 
 \section{Positioning and contributions}
+
+Observations: PRebious work knows the GT oclussion information and computes the oclusion level with a conventional metric F1 score. 
+Defined as classification (formal definition).
+
+We dont know the  GT information in our data. So we devise a metric that is agnostic of the viewpoint location.
+
 \todo{Solution: Our insights and technical contributions are:}
 
+Metric 
+We validate our results by creating a dataset with oclusion.
+
+We are the first one to define oclusion in a scene without viewpoint information.
+How do you define the metric?
+
+Ratio between visible area and total area of the scene.
+
+How do we compute area in a triangular mesh?
+
+How do we extend this to a point cloud scenario?
 
 The introduction is a crucial part of your report and sets the stage as well as motivates the work you have completed. It briefly introduces the problem, emphasizes its importance and shows to the reader what you did in your work. That is, you show the reader that your problem is fundamental and that it needs to be solved as it fills a gap in the known literature and prior work.
 
