@@ -149,7 +149,7 @@ A clear organization of a report typically encloses the inner main technical par
 \section{Previous work}
 To the best of our knowledge there is not explicit works that compute oclusion level for an entire scene.
 Some related works are as follows:
-\todo{ briefly mention related works that use oclusion}
+\todo{ briefly mention related works that use occlusion}
 
 \todo{ summarize the occlusion part in this papers}
 Occlusion Guided Scene Flow Estimation on 3D Point Clouds
@@ -175,24 +175,6 @@ Ratio between visible area and total area of the scene.
 How do we compute area in a triangular mesh?
 
 How do we extend this to a point cloud scenario?
-
-The introduction is a crucial part of your report and sets the stage as well as motivates the work you have completed. It briefly introduces the problem, emphasizes its importance and shows to the reader what you did in your work. That is, you show the reader that your problem is fundamental and that it needs to be solved as it fills a gap in the known literature and prior work.
-
-The introduction sets the stage and it motivates why the work presented is of any interest, it introduces the problem and emphasizes its importance. It makes the reviewer interested and strategizes the presentation -- arguments that lead to the conclusion that the considered problem is important. A practical problem motivates the work and hints at the gaps in the known literature.
-
-Note that the introduction must briefly but clearly state the open problems, goals, or design criteria that previous work did not yet completely solve. However, in the introduction this is done without going into details as the related work section will follow up on this in more detail.
-
-The introduction starts by addressing the problem in general and points the reader in the direction how you want to solve your problem / research question. As a metaphor, John Swales developed a three-stage model for research introductions: 
-
-\begin{description}
-\item[Move 1:] Establish a territory (claim centrality of topic)
-\item[Move 2:] Establish a niche (indicate gap)
-\item[move 3:] Occupy the niche (outline purpose and indicate research structure/methods).
-\end{description}
-
-You may follow that model while writing the introduction. In the first part of the introduction or in a separate section, you are expected to mention and organize supporting literature where you outline the \emph{state of the art} of your research question.
-
-At the end of the introduction you may include a short summary of the structure of the rest of the paper, but this can be omitted for saving space (and avoiding the obvious). The introduction together with the conclusion should give a complete short version of your work and what you have achieved.
 
 %=====================================================================
 \section{Technical background}
@@ -313,12 +295,12 @@ Where \( P \) is the sampled point, and \( V_1 \), \( V_2 \), and \( V_3 \) are 
 
 In computer graphics, especially in the context of ray tracing, generating rays is a fundamental step. These rays simulate the path of light as it interacts with objects in a scene. In our approach, we generate rays from the sampled points on the triangle to a light source. This is crucial for determining how light interacts with the triangle, especially when considering factors like shading and occlusion.
 
-The sampled points serve as the origin of each ray, while the view point (or light source) acts as the destination. The direction of each ray is computed based on the difference between the destination and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
+The sampled points serve as the origin of each ray, while the view point (or light source) acts as the look-at point. The direction of each ray is computed based on the difference between the look-at point and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
 
 The direction of the ray, \( \text{Direction} \), can be computed as:
 
 \begin{equation}
-	\text{Direction} = \frac{\text{Destination} - \text{Origin}}{\|\text{Destination} - \text{Origin}\|}
+	\text{Direction} = \frac{\text{LookAt} - \text{Origin}}{\|\text{LookAt} - \text{Origin}\|}
 \end{equation}
 
 Where:
@@ -400,11 +382,10 @@ A sampling is deemed visible if at least one ray originating from it does not in
 
 This method ensures a precise computation of the visible area, accounting for occlusions and the intricate play of light within the scene.
  
-\section{Region Growing Based Estimation of Mesh} \label{sec:region growing mesh estimation}
+\section{Segmentation Based Estimation of Mesh} \label{sec:region growing mesh estimation}
 
 
-
-\subsection{Point Cloud Segmentation}
+\subsection{Region Growing Segmentation}
 
 In our approach, we utilize the region growing algorithm for segmentation. This algorithm works by iteratively expanding a region by adding neighboring points that are similar based on certain criteria, such as geometric proximity and surface normals. Starting from a seed point, the region grows by incorporating neighboring points that meet the similarity criteria until no more points can be added.
 
@@ -432,12 +413,20 @@ The first step in this process is to compute the convex hull for each cluster. T
 
 \subsubsection{Compute Polygon Centroid}
 
-Once the convex hull is determined, the next step is to compute the centroid of each polygon. The centroid, often referred to as the "center of mass" or "balance point", represents the average position of all the points in the polygon. Mathematically, for a simple polygon with vertices \( (x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n) \), the centroid \( (C_x, C_y) \) is given by:
+Once the convex hull is determined, the next step is to compute the centroid of each polygon. The centroid, often referred to as the "center of mass" or "balance point", represents the average position of all the points in the polygon. For a given polygon with vertices \( (x_i, y_i) \), the centroid \( (C_x, C_y) \) is computed using the following method:
+
+First, the area \( A \) of the polygon is computed using the formula:
+\[ A = \frac{1}{2} \sum_{i=1}^{n} x_i y_{i+1} - x_{i+1} y_i \]
+where \( n \) is the number of vertices in the polygon, and the indices are taken modulo \( n \) to ensure that the last vertex wraps around to the first.
+
+The coordinates of the centroid are then given by:
 \begin{align*}
-C_x &= \frac{1}{n} \sum_{i=1}^{n} x_i \\
-C_y &= \frac{1}{n} \sum_{i=1}^{n} y_i
+C_x &= \frac{1}{6A} \sum_{i=1}^{n} (x_i + x_{i+1}) (x_i y_{i+1} - x_{i+1} y_i) \\
+C_y &= \frac{1}{6A} \sum_{i=1}^{n} (y_i + y_{i+1}) (x_i y_{i+1} - x_{i+1} y_i)
 \end{align*}
+
 With the centroid computed, we then connect the centroid to each of the vertices of the polygon. This results in a series of triangles that fan out from the centroid, providing a triangulated representation of the cluster.
+
 
 \subsubsection{Occlusion Level Estimation}
 
@@ -450,7 +439,7 @@ Ray tracing is a powerful technique that simulates the path of rays as they trav
 
 \subsection{Spherical Light Source}
 
-To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential origin for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
+To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
 
 \subsection{Ray Point Intersection}
 

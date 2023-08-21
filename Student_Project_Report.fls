@@ -409,13 +409,10 @@ INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmro7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmro8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/helvetic/phvb7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
@@ -494,6 +491,9 @@ INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmbi7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmbi7t.tfm
