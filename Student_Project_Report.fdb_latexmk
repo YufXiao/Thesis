@@ -1,21 +1,21 @@
 # Fdb version 4
-["bibtex Student_Project_Report"] 1692489772 "Student_Project_Report.aux" "Student_Project_Report.bbl" "Student_Project_Report" 1692489815 0
+["bibtex Student_Project_Report"] 1692581373 "Student_Project_Report.aux" "Student_Project_Report.bbl" "Student_Project_Report" 1692581377 0
   "./bad_refs.bib" 1689812617 6307 58394cf8cb9fbd93c9ef351275781980 ""
   "./corrected_refs.bib" 1689812617 3695 1c63c9dd132f8c90403528aba8f604c1 ""
   "./references.bib" 1689812617 6703 b00754b77fcf13c6c147e61181d3868f ""
-  "Student_Project_Report.aux" 1692489813 40275 853157a938f6a1d80db5bb0c5ac9e676 "pdflatex"
+  "Student_Project_Report.aux" 1692581376 40921 50801b75a985f5038bdff05314786024 "pdflatex"
   "c:/texlive/2023/texmf-dist/bibtex/bst/base/alpha.bst" 1690289829 23907 a5f93555796fb564b924339521f10a7c ""
   (generated)
   "Student_Project_Report.bbl"
   "Student_Project_Report.blg"
   (rewritten before read)
-["pdflatex"] 1692489811 "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" "Student_Project_Report.pdf" "Student_Project_Report" 1692489815 0
-  "Student_Project_Report.aux" 1692489813 40275 853157a938f6a1d80db5bb0c5ac9e676 "pdflatex"
-  "Student_Project_Report.bbl" 1692489773 6618 0aa07513a3da07e07e7d5271de45043b "bibtex Student_Project_Report"
-  "Student_Project_Report.out" 1692489812 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "Student_Project_Report.tex" 1692489810 57642 ebda82fc1dc49c0dda94da21d1d64c7a ""
-  "Student_Project_Report.toc" 1692489813 7753 c97b066cf0e36d513fc93a15eb717359 "pdflatex"
-  "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" 1692489810 57642 ebda82fc1dc49c0dda94da21d1d64c7a ""
+["pdflatex"] 1692581373 "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" "Student_Project_Report.pdf" "Student_Project_Report" 1692581377 0
+  "Student_Project_Report.aux" 1692581376 40921 50801b75a985f5038bdff05314786024 "pdflatex"
+  "Student_Project_Report.bbl" 1692581373 6618 0aa07513a3da07e07e7d5271de45043b "bibtex Student_Project_Report"
+  "Student_Project_Report.out" 1692581375 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "Student_Project_Report.tex" 1692581368 70273 a611c0915c66a4fb629c4c5175d08968 ""
+  "Student_Project_Report.toc" 1692581376 7778 d7f36da25aef08ab7793dd29e4d31154 "pdflatex"
+  "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" 1692581368 70273 a611c0915c66a4fb629c4c5175d08968 ""
   "c:/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1690290373 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1690290651 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrb7t.tfm" 1690290171 960 4ab65358b8406f30ef5496c8c096d22b ""
@@ -63,7 +63,9 @@
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1690290038 1120 8b7d695260f3cff42e636090a8002094 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm" 1690290038 1116 25a7bf822c58caf309a702ef79f4afbb ""
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1690289554 34811 78b52f49e893bcba91bd7581cdc144c0 ""
+  "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb" 1690289554 30251 6afa5cb1d0204815a708a080681d4674 ""
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb" 1690289554 36299 5f9df58c2139e7edcf37c8fca4bd384d ""
+  "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb" 1690289554 35469 dcf3a5f2fc1862f5952e3ee5eb1d98c4 ""
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb" 1690289554 35752 024fb6c41858982481f6968b5fc26508 ""
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb" 1690289554 32726 39f0f9e62e84beb801509898a605dbd5 ""
   "c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb" 1690289554 32569 5e5ddc8df908dea60932f3c484a54c0d ""
@@ -258,7 +260,9 @@
   "figures/Minkowski Engine.png" 1692047126 421242 87763371baf567d58312e1f2bedb1bdf ""
   "figures/titleimage_yf.png" 1690304714 1142689 d2fed2ff0e5e8677ba4b7f6520187abd ""
   "figures/ui.png" 1692486869 99364 0e5cd68cb9481724896b54255c19cdd7 ""
+  "figures/uniform sample triangle.png" 1692551790 19474 32c1cec7ce468a6b765ddfd5c3469ccd ""
   "figures/uzh_logo.pdf" 1689812617 78134 feb2ffe26bc2dd33220aa71d522e9c59 ""
+  "figures/visible area.png" 1692580099 7966 386e3378faac8b5c298a56c7730659af ""
   "figures/vmml_logo.pdf" 1689812617 275176 488e87c31b65ad5be51ccb4c0ebf327e ""
   "include/codelisting_layout.tex" 1689812617 2182 405ed3723bf4da92b76113a85e3ec76b ""
   "include/math.tex" 1689812617 3872 f2e43e6b04f0f7ea88a6440dd0994434 ""

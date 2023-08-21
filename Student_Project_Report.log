@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  20 AUG 2023 02:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  21 AUG 2023 03:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -922,104 +922,124 @@ chapter 2.
 
 ]
 chapter 3.
+<figures/visible area.png, id=204, 946.53625pt x 122.4575pt>
+File: figures/visible area.png Graphic file (type png)
+<use figures/visible area.png>
+Package pdftex.def Info: figures/visible area.png  used on input line 266.
+(pdftex.def)             Requested size: 493.86879pt x 63.89313pt.
+
+Overfull \hbox (10.95pt too wide) in paragraph at lines 263--271
+[]$[]$ 
+ []
+
+<figures/uniform sample triangle.png, id=206, 284.56313pt x 231.86626pt>
+File: figures/uniform sample triangle.png Graphic file (type png)
+<use figures/uniform sample triangle.png>
+Package pdftex.def Info: figures/uniform sample triangle.png  used on input line 289.
+(pdftex.def)             Requested size: 296.32428pt x 241.47485pt.
+
+Overfull \hbox (10.95pt too wide) in paragraph at lines 286--294
+[]$[]$ 
+ []
+
 [5
 
 
-] [6] [7]
+ <./figures/visible area.png>]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 309.
+ (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
+) [6 <./figures/uniform sample triangle.png>] [7] [8] [9] [10] [11]
 chapter 4.
 (c:/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 410.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 542.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 410--410
+Overfull \hbox (6.0pt too wide) in paragraph at lines 542--542
 [][][][][][][] 
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 410.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 542.
 (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [8
+) [12
 
 
 ]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 462--462
+Overfull \hbox (6.0pt too wide) in paragraph at lines 594--594
 [][][][][][][] 
  []
 
-[9]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 503--503
+[13]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 635--635
 [][][][][][][] 
  []
 
-<figures/ui.png, id=326, 955.06813pt x 453.695pt>
+<figures/ui.png, id=366, 955.06813pt x 453.695pt>
 File: figures/ui.png Graphic file (type png)
 <use figures/ui.png>
-Package pdftex.def Info: figures/ui.png  used on input line 532.
+Package pdftex.def Info: figures/ui.png  used on input line 664.
 (pdftex.def)             Requested size: 493.86879pt x 234.60742pt.
-[10]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 548.
- (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [11 <./figures/ui.png>]
+[14] [15 <./figures/ui.png>]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 586.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 718.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 597.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 729.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [12]
+ [16]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 608.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 740.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [13] [14]
+ [17] [18]
 chapter 5.
-[15
+[19
 
 
 ]
 chapter 6.
-[16
+[20
 
 
 ]
 chapter 7.
-[17
+[21
 
 
-] [18
+] [22
 
 
-] [19]
-Overfull \hbox (48.68903pt too wide) in paragraph at lines 783--785
+] [23]
+Overfull \hbox (48.68903pt too wide) in paragraph at lines 915--917
 []\OT1/ptm/m/n/10.95 Use con-sis-tent sec-tion, equa-tion and fig-ure la-belling [][]\OT1/pcr/m/n/10.95 \label{sec:introduction} []\OT1/ptm/m/n/10.95 as well as \OT1/pcr/m/n/10.95 eq:rendering,
  []
 
-[20] [21]
+[24] [25]
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 860.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 992.
 (pdftex.def)             Requested size: 246.93439pt x 72.15797pt.
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 867.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 999.
 (pdftex.def)             Requested size: 148.16214pt x 43.29478pt.
 File: figures/uzh_logo.pdf Graphic file (type pdf)
 <use figures/uzh_logo.pdf>
-Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 868.
+Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 1000.
 (pdftex.def)             Requested size: 148.16214pt x 46.38263pt.
- (./pseudocode/example_pcode.txt [22]) [23] [24] (./Student_Project_Report.bbl [25
+ (./pseudocode/example_pcode.txt [26]) [27] [28] (./Student_Project_Report.bbl [29
 
 
-] [26
+] [30
 
 
-]) [27] (./Student_Project_Report.aux)
+]) [31] (./Student_Project_Report.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2020/03/25>
@@ -1032,18 +1052,18 @@ Package rerunfilecheck Info: File `Student_Project_Report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 29791 strings out of 475237
- 558095 string characters out of 5768555
+ 29829 strings out of 475237
+ 558978 string characters out of 5768555
  2026238 words of memory out of 5000000
- 50205 multiletter control sequences out of 15000+600000
+ 50227 multiletter control sequences out of 15000+600000
  599279 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,9n,120p,10947b,2193s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Student_Project_Report.pdf (31 pages, 2097411 bytes).
+ 108i,9n,120p,10947b,2195s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Student_Project_Report.pdf (35 pages, 2147775 bytes).
 PDF statistics:
- 834 PDF objects out of 1000 (max. 8388607)
- 736 compressed objects within 8 object streams
- 293 named destinations out of 1000 (max. 500000)
- 502 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 884 PDF objects out of 1000 (max. 8388607)
+ 772 compressed objects within 8 object streams
+ 309 named destinations out of 1000 (max. 500000)
+ 524 words of extra memory for PDF output out of 10000 (max. 10000000)
 

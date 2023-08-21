@@ -17,72 +17,72 @@
 \contentsline {section}{\numberline {2.3}Evaluation of Segmentation Result}{4}{section.2.3}%
 \contentsline {chapter}{\numberline {3}Technical Solution}{5}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Ray Tracing Based Estimation of Visible Area Ratio}{5}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Uniform Sampling of Triangles}{5}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}Generate Rays}{5}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Ray Triangle Intersection}{5}{subsection.3.1.3}%
-\contentsline {subsection}{\numberline {3.1.4}Visible Area Ratio}{5}{subsection.3.1.4}%
-\contentsline {section}{\numberline {3.2}Region Growing Based Estimation of Mesh}{5}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Point Cloud Segmentation}{5}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Build Triangles From Clusters}{5}{subsection.3.2.2}%
-\contentsline {subsubsection}{\nonumberline Convex Hull Estimate Polygons}{5}{subsubsection*.15}%
-\contentsline {subsubsection}{\nonumberline Compute Polygon Cetroid}{5}{subsubsection*.17}%
-\contentsline {subsubsection}{\nonumberline Occlusion Level Estimation}{5}{subsubsection*.19}%
-\contentsline {section}{\numberline {3.3}Ray Tracing Based Point Cloud Scanning}{6}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}Spherical Light Source}{6}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Ray Point Intersection}{6}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Ray Tracing Based Occlusion Computation}{6}{subsection.3.3.3}%
-\contentsline {subsubsection}{\nonumberline Ray Point Cloud Intersection}{6}{subsubsection*.21}%
-\contentsline {subsubsection}{\nonumberline Ray Openings Intersection}{6}{subsubsection*.23}%
-\contentsline {section}{\numberline {3.4}Evaluate Performance with Metrics}{6}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}Semantic Classes}{6}{subsection.3.4.1}%
-\contentsline {subsection}{\numberline {3.4.2}Metrics}{6}{subsection.3.4.2}%
-\contentsline {subsubsection}{\nonumberline IoU}{6}{subsubsection*.25}%
-\contentsline {subsubsection}{\nonumberline F1 Score}{7}{subsubsection*.27}%
-\contentsline {subsubsection}{\nonumberline Accuracy}{7}{subsubsection*.29}%
-\contentsline {subsubsection}{\nonumberline Recall}{7}{subsubsection*.31}%
-\contentsline {subsubsection}{\nonumberline Precision}{7}{subsubsection*.33}%
-\contentsline {chapter}{\numberline {4}Implementation}{8}{chapter.4}%
-\contentsline {section}{\numberline {4.1}PCL Serves as Main Component of Computation}{8}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Uniform Sampling}{8}{subsection.4.1.1}%
-\contentsline {subsubsection}{\nonumberline Spherical Light Source}{8}{subsubsection*.35}%
-\contentsline {subsubsection}{\nonumberline Triangle}{8}{subsubsection*.37}%
-\contentsline {subsection}{\numberline {4.1.2}Mesh Estimation}{8}{subsection.4.1.2}%
-\contentsline {subsubsection}{\nonumberline Region Growing}{8}{subsubsection*.39}%
-\contentsline {subsubsection}{\nonumberline Convex Hull}{9}{subsubsection*.41}%
-\contentsline {subsubsection}{\nonumberline Polygon Centroid}{9}{subsubsection*.43}%
-\contentsline {subsection}{\numberline {4.1.3}Ray Tracing Intersection Computation}{9}{subsection.4.1.3}%
-\contentsline {subsubsection}{\nonumberline Ray Intersect Sphere}{9}{subsubsection*.45}%
-\contentsline {subsubsection}{\nonumberline Ray Intersect Triangle}{9}{subsubsection*.47}%
-\contentsline {subsubsection}{\nonumberline Ray Intersect Polygon}{9}{subsubsection*.49}%
-\contentsline {subsection}{\numberline {4.1.4}Octree Partitioning}{9}{subsection.4.1.4}%
-\contentsline {subsubsection}{\nonumberline Point Cloud}{9}{subsubsection*.51}%
-\contentsline {subsubsection}{\nonumberline Mesh}{9}{subsubsection*.53}%
-\contentsline {subsection}{\numberline {4.1.5}Other Libraries Serve as Supporting Components}{9}{subsection.4.1.5}%
-\contentsline {subsubsection}{\nonumberline JsonCpp - Parameter Parser}{9}{subsubsection*.55}%
-\contentsline {subsubsection}{\nonumberline Websocketpp - Communication Channel}{10}{subsubsection*.57}%
-\contentsline {subsubsection}{\nonumberline OpenMP - Parallel Computation}{10}{subsubsection*.59}%
-\contentsline {subsubsection}{\nonumberline Run Backend Server in Command Line}{10}{subsubsection*.61}%
-\contentsline {section}{\numberline {4.2}Web Based User Interface}{10}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Three.js Serves as Visualization Engine}{11}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Web Technical Stack}{11}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}User Interface Usage}{11}{subsection.4.2.3}%
-\contentsline {subsubsection}{\nonumberline Stats Panel and GUI}{11}{subsubsection*.64}%
-\contentsline {subsubsection}{\nonumberline Buttons}{12}{subsubsection*.66}%
-\contentsline {subsection}{\numberline {4.2.4}Software Structure}{12}{subsection.4.2.4}%
-\contentsline {subsubsection}{\nonumberline Flowchart}{12}{subsubsection*.68}%
-\contentsline {subsubsection}{\nonumberline Class Diagram}{13}{subsubsection*.71}%
-\contentsline {subsubsection}{\nonumberline Sequence Diagram}{13}{subsubsection*.74}%
-\contentsline {subsection}{\numberline {4.2.5}Command Line Only Mode}{14}{subsection.4.2.5}%
-\contentsline {subsubsection}{\nonumberline Arguments and Corresponding Functionality}{14}{subsubsection*.77}%
-\contentsline {chapter}{\numberline {5}Experimental Results}{15}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Mesh Based Occlusion Level Validation}{15}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Ground Truth Mesh}{15}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Estimated Mesh from Point Cloud}{15}{subsection.5.1.2}%
-\contentsline {section}{\numberline {5.2}Segmentation Performance Evaluation of Point Cloud}{15}{section.5.2}%
-\contentsline {chapter}{\numberline {6}Conclusion and Discussion}{16}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Acknowledgements}{17}{chapter.7}%
-\contentsline {paragraph}{\nonumberline Placement}{21}{paragraph*.91}%
-\contentsline {paragraph}{\nonumberline Figures}{22}{paragraph*.93}%
-\contentsline {paragraph}{\nonumberline Screenshots}{22}{paragraph*.95}%
-\contentsline {paragraph}{\nonumberline Graphs}{22}{paragraph*.97}%
+\contentsline {subsection}{\numberline {3.1.1}Uniform Sample Triangles}{5}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Generate Rays}{6}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Ray Triangle Intersection}{6}{subsection.3.1.3}%
+\contentsline {subsection}{\numberline {3.1.4}Visible Area Ratio}{8}{subsection.3.1.4}%
+\contentsline {section}{\numberline {3.2}Region Growing Based Estimation of Mesh}{8}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Point Cloud Segmentation}{8}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Build Triangles From Clusters}{9}{subsection.3.2.2}%
+\contentsline {subsubsection}{\nonumberline Convex Hull Estimate Polygons}{9}{subsubsection*.17}%
+\contentsline {subsubsection}{\nonumberline Compute Polygon Centroid}{9}{subsubsection*.19}%
+\contentsline {subsubsection}{\nonumberline Occlusion Level Estimation}{9}{subsubsection*.21}%
+\contentsline {section}{\numberline {3.3}Ray Tracing Based Point Cloud Scanning}{9}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Spherical Light Source}{9}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Ray Point Intersection}{9}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Ray Tracing Based Occlusion Computation}{10}{subsection.3.3.3}%
+\contentsline {subsubsection}{\nonumberline Ray Point Cloud Intersection}{10}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline Ray Openings Intersection}{10}{subsubsection*.25}%
+\contentsline {section}{\numberline {3.4}Evaluate Performance with Metrics}{10}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Semantic Classes}{10}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Metrics}{10}{subsection.3.4.2}%
+\contentsline {subsubsection}{\nonumberline IoU}{10}{subsubsection*.27}%
+\contentsline {subsubsection}{\nonumberline F1 Score}{11}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline Accuracy}{11}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Recall}{11}{subsubsection*.33}%
+\contentsline {subsubsection}{\nonumberline Precision}{11}{subsubsection*.35}%
+\contentsline {chapter}{\numberline {4}Implementation}{12}{chapter.4}%
+\contentsline {section}{\numberline {4.1}PCL Serves as Main Component of Computation}{12}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Uniform Sampling}{12}{subsection.4.1.1}%
+\contentsline {subsubsection}{\nonumberline Spherical Light Source}{12}{subsubsection*.37}%
+\contentsline {subsubsection}{\nonumberline Triangle}{12}{subsubsection*.39}%
+\contentsline {subsection}{\numberline {4.1.2}Mesh Estimation}{12}{subsection.4.1.2}%
+\contentsline {subsubsection}{\nonumberline Region Growing}{12}{subsubsection*.41}%
+\contentsline {subsubsection}{\nonumberline Convex Hull}{13}{subsubsection*.43}%
+\contentsline {subsubsection}{\nonumberline Polygon Centroid}{13}{subsubsection*.45}%
+\contentsline {subsection}{\numberline {4.1.3}Ray Tracing Intersection Computation}{13}{subsection.4.1.3}%
+\contentsline {subsubsection}{\nonumberline Ray Intersect Sphere}{13}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Ray Intersect Triangle}{13}{subsubsection*.49}%
+\contentsline {subsubsection}{\nonumberline Ray Intersect Polygon}{13}{subsubsection*.51}%
+\contentsline {subsection}{\numberline {4.1.4}Octree Partitioning}{13}{subsection.4.1.4}%
+\contentsline {subsubsection}{\nonumberline Point Cloud}{13}{subsubsection*.53}%
+\contentsline {subsubsection}{\nonumberline Mesh}{13}{subsubsection*.55}%
+\contentsline {subsection}{\numberline {4.1.5}Other Libraries Serve as Supporting Components}{13}{subsection.4.1.5}%
+\contentsline {subsubsection}{\nonumberline JsonCpp - Parameter Parser}{13}{subsubsection*.57}%
+\contentsline {subsubsection}{\nonumberline Websocketpp - Communication Channel}{14}{subsubsection*.59}%
+\contentsline {subsubsection}{\nonumberline OpenMP - Parallel Computation}{14}{subsubsection*.61}%
+\contentsline {subsubsection}{\nonumberline Run Backend Server in Command Line}{14}{subsubsection*.63}%
+\contentsline {section}{\numberline {4.2}Web Based User Interface}{14}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Three.js Serves as Visualization Engine}{15}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Web Technical Stack}{15}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}User Interface Usage}{15}{subsection.4.2.3}%
+\contentsline {subsubsection}{\nonumberline Stats Panel and GUI}{15}{subsubsection*.66}%
+\contentsline {subsubsection}{\nonumberline Buttons}{16}{subsubsection*.68}%
+\contentsline {subsection}{\numberline {4.2.4}Software Structure}{16}{subsection.4.2.4}%
+\contentsline {subsubsection}{\nonumberline Flowchart}{16}{subsubsection*.70}%
+\contentsline {subsubsection}{\nonumberline Class Diagram}{17}{subsubsection*.73}%
+\contentsline {subsubsection}{\nonumberline Sequence Diagram}{17}{subsubsection*.76}%
+\contentsline {subsection}{\numberline {4.2.5}Command Line Only Mode}{18}{subsection.4.2.5}%
+\contentsline {subsubsection}{\nonumberline Arguments and Corresponding Functionality}{18}{subsubsection*.79}%
+\contentsline {chapter}{\numberline {5}Experimental Results}{19}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Mesh Based Occlusion Level Validation}{19}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Ground Truth Mesh}{19}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Estimated Mesh from Point Cloud}{19}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Segmentation Performance Evaluation of Point Cloud}{19}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Conclusion and Discussion}{20}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Acknowledgements}{21}{chapter.7}%
+\contentsline {paragraph}{\nonumberline Placement}{25}{paragraph*.93}%
+\contentsline {paragraph}{\nonumberline Figures}{26}{paragraph*.95}%
+\contentsline {paragraph}{\nonumberline Screenshots}{26}{paragraph*.97}%
+\contentsline {paragraph}{\nonumberline Graphs}{26}{paragraph*.99}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

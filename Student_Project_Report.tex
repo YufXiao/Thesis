@@ -256,73 +256,205 @@ In this chapter we will introduce our technical solution to the problem stated i
 
 \section{Ray Tracing Based Estimation of Visible Area Ratio} \label{sec:ray tracing visible area ratio}
 
-\subsection{Uniform Sampling of Triangles}
+Ray tracing is a powerful technique used in computer graphics to simulate the way light interacts with objects to generate realistic images. In the context of our study, ray tracing plays a pivotal role in estimating the visible area ratio of triangles in a scene. This estimation is crucial for understanding how much of a triangle's surface is directly illuminated by a light source, especially when other objects in the scene might occlude it.
 
-We choose random uniform sampling here. Randomly generate 2 arguments r1 and r2 between 0 and 1,   to compute barycentric coordinates of sampled points.
+A flow chart of the whole pipeline is shown here.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=1.0\textwidth]{figures/visible area.png}
+		\caption{Flow chart of visible area ratio estimation}
+		\label{fig:visible area ratio estimation}
+	\end{figure}
+\end{minipage}
+
+\subsection{Uniform Sample Triangles}
+
+To accurately represent a triangle's area using samplings, it's imperative that these samplings comprehensively cover the triangle. For this purpose, we employ the random uniform sampling method. This method ensures that each point within the triangle has an equal chance of being selected, leading to a fair representation of the triangle's entire area.
+
+The process begins by randomly generating two parameters, \( r_1 \) and \( r_2 \), both of which lie in the interval [0, 1]. These random parameters are then used to compute the barycentric coordinates of the sampled points within the triangle. The barycentric coordinates, denoted as \( \alpha \), \( \beta \), and \( \gamma \), allow us to express any point within the triangle as a linear combination of the triangle's vertices.
+
+To derive the sampled point's coordinates using \( r_1 \) and \( r_2 \), we use the following equations:
+\[ \alpha = 1 - \sqrt{r_1} \]
+\[ \beta = \sqrt{r_1} \times r_2 \]
+\[ \gamma = 1 - \alpha - \beta \]
+\[ P = \alpha V_1 + \beta V_2 + \gamma V_3 \]
+
+Where \( P \) is the sampled point, and \( V_1 \), \( V_2 \), and \( V_3 \) are the triangle's vertices. Below is a visualization of the uniform sampling method.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.6\textwidth]{figures/uniform sample triangle.png}
+		\caption{Uniform Sample Triangle}
+		\label{fig:uniform sample triangle}
+	\end{figure}
+\end{minipage}
 
 \subsection{Generate Rays}
 
-In this step we generate rays from sampled points to light source. We use sampled points as origin of a ray and view point as destination.
+In computer graphics, especially in the context of ray tracing, generating rays is a fundamental step. These rays simulate the path of light as it interacts with objects in a scene. In our approach, we generate rays from the sampled points on the triangle to a light source. This is crucial for determining how light interacts with the triangle, especially when considering factors like shading and occlusion.
+
+The sampled points serve as the origin of each ray, while the view point (or light source) acts as the destination. The direction of each ray is computed based on the difference between the destination and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
+
+The direction of the ray, \( \text{Direction} \), can be computed as:
+
+\begin{equation}
+	\text{Direction} = \frac{\text{Destination} - \text{Origin}}{\|\text{Destination} - \text{Origin}\|}
+\end{equation}
+
+Where:
+\begin{itemize}
+    \item \(\text{Origin}\) is the starting point of the ray, which in our case is the sampled point on the triangle.
+    \item \(\text{Destination}\) is the end point of the ray, typically representing the viewpoint or light source.
+\end{itemize}
+
+By generating rays in this manner, we can accurately simulate the behavior of light as it travels from the triangle to the viewpoint or light source. This is essential for producing realistic renderings and for analyzing the effects of various factors, such as occlusion, on the final image.
+
 
 \subsection{Ray Triangle Intersection}
 
+Ray-triangle intersection is a fundamental operation in computer graphics, especially in the context of ray tracing. Determining whether a ray intersects a triangle and finding the intersection point are crucial for rendering scenes composed of triangular meshes.
 
+One of the most efficient and widely used algorithms for this purpose is the Möller–Trumbore intersection algorithm. This algorithm determines the intersection of a ray and a triangle in a 3D space without any need for pre-computed plane equations.
+
+Given a ray represented by its origin \( O \) and direction \( D \), and a triangle defined by its vertices \( V_1 \), \( V_2 \), and \( V_3 \), the algorithm computes the intersection using barycentric coordinates.
+
+The intersection point \( P \) can be represented as:
+\[ P = (1 - u - v) V_1 + u V_2 + v V_3 \]
+
+Where \( u \) and \( v \) are the barycentric coordinates. The ray intersects the triangle if \( 0 \leq u \leq 1 \), \( 0 \leq v \leq 1 \), and \( u + v \leq 1 \).
+
+The algorithm uses the following equations to compute \( u \), \( v \), and \( t \) (where \( t \) is the distance from the ray origin to the intersection point):
+
+\begin{itemize}
+    \item \textbf{Edge Vectors:} These vectors represent two edges of the triangle.
+	\[ e_1 = V_2 - V_1 \]
+	\[ e_2 = V_3 - V_1 \]
+	
+    \item \textbf{Vector \( h \):} The cross product of the ray direction and \( e_2 \).
+    \[ h = D \times e_2 \]
+    
+    \item \textbf{Determinant \( a \):} It's used to check if the ray is nearly parallel to the triangle.
+    \[ a = e_1 \cdot h \]
+    
+    \item \textbf{Factor \( f \):} Used for subsequent calculations.
+    \[ f = \frac{1}{a} \]
+    
+    \item \textbf{Vector \( s \):} Represents the vector from the ray's origin to one vertex of the triangle.
+    \[ s = O - V_1 \]
+    
+    \item \textbf{Barycentric Coordinate \( u \):} The first computed barycentric coordinate.
+    \[ u = f (s \cdot h) \]
+    
+    \item \textbf{Vector \( q \):} The cross product of vector \( s \) and \( e_1 \).
+    \[ q = s \times e_1 \]
+    
+    \item \textbf{Barycentric Coordinate \( v \):} The second computed barycentric coordinate.
+    \[ v = f (D \cdot q) \]
+    
+    \item \textbf{Distance \( t \) to Intersection:} Represents the distance from the ray's origin to the intersection point.
+    \[ t = f (e_2 \cdot q) \]
+\end{itemize}
+
+The algorithm first checks if \( a \) is close to zero, which means the ray is nearly parallel to the triangle and thus, likely does not intersect it. If \( a \) is not close to zero, the algorithm proceeds to compute \( u \), \( v \), and \( t \) to determine the intersection.
+
+This algorithm is both efficient and robust, making it a popular choice for ray-triangle intersection tests in various graphics applications.
 
 \subsection{Visible Area Ratio}
 
-Compute the visible area ratio based on sampled points.
+In the context of ray tracing and light interaction, understanding the visible area of a triangle is crucial. The visible area ratio provides insight into how much of a triangle's surface is directly illuminated by a light source without being occluded by other objects in the scene.
 
-\section{Region Growing Based Estimation of Mesh}
+From the previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the light source. To determine the visible area, we first need to compute the visibility weight for each sampling. This weight represents the ratio of visible samplings to the total number of samplings on the triangle.
 
-We have to segment the point cloud into different clusters first.
+Mathematically, the visibility weight, \( w \), can be defined as:
+\begin{equation}
+    w = \frac{\text{Number of visible samplings}}{\text{Total number of samplings}}
+\end{equation}
+
+The visible area \( A_{\text{visible}} \) of the triangle can then be computed as:
+\begin{equation}
+    A_{\text{visible}} = w \times A_{\text{total}}
+\end{equation}
+where \( A_{\text{total}} \) is the total area of the triangle.
+
+A sampling is deemed visible if at least one ray originating from it does not intersect any triangle other than the one from which the sampling was generated. To ascertain this, we must examine all intersections related to the ray emanating from the sampling. If no intersection is closer to the sampling than the distance between the sampling and the light source, then the sampling is considered visible.
+
+This method ensures a precise computation of the visible area, accounting for occlusions and the intricate play of light within the scene.
+ 
+\section{Region Growing Based Estimation of Mesh} \label{sec:region growing mesh estimation}
+
+
 
 \subsection{Point Cloud Segmentation}
 
-Gain a number of clusters of point cloud.
+In our approach, we utilize the region growing algorithm for segmentation. This algorithm works by iteratively expanding a region by adding neighboring points that are similar based on certain criteria, such as geometric proximity and surface normals. Starting from a seed point, the region grows by incorporating neighboring points that meet the similarity criteria until no more points can be added.
+
+The region growing algorithm can be summarized in the following steps:
+\begin{enumerate}
+    \item Select a seed point from the point cloud that has not been assigned to any cluster.
+    \item Identify neighboring points of the seed based on a predefined distance threshold.
+    \item Evaluate the similarity of neighboring points based on criteria like curvature or surface normals.
+    \item Add the similar neighbors to the current region and mark them as visited.
+    \item Repeat the process for the newly added points.
+    \item Continue the growth until no more points can be added to the current region.
+    \item Start a new region with another unvisited seed point and repeat the process until all points are assigned to clusters.
+\end{enumerate}
+
+By the end of this process, we obtain a number of clusters that represent distinct structures or objects in the original point cloud. These segmented clusters facilitate further analysis, such as object recognition, surface reconstruction, and other advanced 3D processing tasks.
+
 
 \subsection{Build Triangles From Clusters}
 
-First steo is always to build triangles.
+After segmenting the point cloud into clusters using the region growing algorithm, the next step is to construct a mesh from these clusters. This mesh representation is essential for applying ray tracing techniques, as described in Section \ref{sec:ray tracing visible area ratio}. To achieve this, we need to build triangles from the clusters.
 
 \subsubsection{Convex Hull Estimate Polygons}
 
-Compute convex hull of each cluster to estimate a polygon.
+The first step in this process is to compute the convex hull for each cluster. The convex hull can be thought of as the "tightest" polygon that encloses all the points in a cluster. It provides a simplified representation of the cluster's shape, eliminating any concavities. Various algorithms, such as the Graham's scan or the QuickHull algorithm, can be employed to compute the convex hull efficiently.
 
-\subsubsection{Compute Polygon Cetroid}
+\subsubsection{Compute Polygon Centroid}
 
-Compute cetroid of each polygon. And connect cetroid with vertices of polygon to form triangles.
+Once the convex hull is determined, the next step is to compute the centroid of each polygon. The centroid, often referred to as the "center of mass" or "balance point", represents the average position of all the points in the polygon. Mathematically, for a simple polygon with vertices \( (x_1, y_1), (x_2, y_2), \ldots, (x_n, y_n) \), the centroid \( (C_x, C_y) \) is given by:
+\begin{align*}
+C_x &= \frac{1}{n} \sum_{i=1}^{n} x_i \\
+C_y &= \frac{1}{n} \sum_{i=1}^{n} y_i
+\end{align*}
+With the centroid computed, we then connect the centroid to each of the vertices of the polygon. This results in a series of triangles that fan out from the centroid, providing a triangulated representation of the cluster.
 
 \subsubsection{Occlusion Level Estimation}
 
-We apply the same method as in \ref{sec:ray tracing visible area ratio} to compute occlusion level of mesh.
+With the triangles constructed, we can now estimate the occlusion level of the mesh. By applying the ray tracing method described in Section \ref{sec:ray tracing visible area ratio}, we can determine how much of each triangle is visible from a given viewpoint. This information is invaluable for various applications, including rendering, simulation, and analysis, as it provides insights into the visibility and shading characteristics of the mesh in a scene.
+
 
 \section{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
 
-We use ray tracing based method to scan the ground truth point cloud, then we can get a point cloud with occlusion.
+Ray tracing is a powerful technique that simulates the path of rays as they traverse through a scene. In the context of point cloud data, ray tracing can be employed to identify visible and occluded regions within the cloud. By scanning the ground truth point cloud using a ray tracing based method, we can derive a modified point cloud where the retained points represent the visible areas, while the removed points indicate occluded regions.
 
 \subsection{Spherical Light Source}
 
-Uniformly sample points on a sphere to simulate light source. Number of rays is given.
+To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential origin for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
 
 \subsection{Ray Point Intersection}
 
-Each point in the point cloud is a sphere with a certain radius.
+In our model, each point within the point cloud is represented as a small sphere with a defined radius. This simplifies the ray-point intersection check, as we can treat each point as a volumetric entity rather than a singular coordinate in space.
 
 \subsection{Ray Tracing Based Occlusion Computation}
 
-Generate rays from multiple light sources. 
+To determine occlusion within the point cloud, rays are generated from multiple points on the spherical light source. The occlusion level for each point in the cloud is computed based on the number of rays that do not intersect any point in the cloud or any openings in the scene.
 
-We propose occlusion rays here.
+In this context, we introduce the concept of "occlusion rays". These are rays that, after being cast from the light source, do not intersect with any point in the point cloud or any defined openings in the scene.
 
 \subsubsection{Ray Point Cloud Intersection}
 
-If intersect, not an occlusion ray.
+For a ray to be classified as an occlusion ray, it must first be determined that it does not intersect with any point in the point cloud. If an intersection is detected, the ray is immediately disqualified from being an occlusion ray.
 
 \subsubsection{Ray Openings Intersection}
 
-Openings in the scene should not be identified as occlusion. If not intersect with point cloud, but intersect with openings, it's also not an occlusion ray. When both conditions are not satisfied, it's an occlusion ray.
+Openings or gaps in the scene, such as windows or doorways, should not contribute to occlusion. Therefore, if a ray does not intersect with the point cloud but does intersect with an opening, it is also not considered an occlusion ray. Only when a ray satisfies both these conditions – not intersecting with the point cloud and not intersecting with any openings – is it classified as an occlusion ray.
 
-We compute occlusion ray ratio to estimate occlusion level of the point cloud.
+To quantify the occlusion within the point cloud, we compute the ratio of occlusion rays to the total number of rays cast. This "occlusion ray ratio" provides a measure of the occlusion level within the point cloud, with higher ratios indicating greater levels of occlusion.
+
 
 \section{Evaluate Performance with Metrics}
 
