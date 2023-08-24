@@ -230,6 +230,26 @@ Finally, an interactive web application is developed to visualize the point clou
 
 We have to validate here that more viewpoints lead to lower occlusion level of the interior scene.
 
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.8\textwidth]{figures/1 vp.png}
+		\caption{Scene with 1 Light Source}
+		\label{fig:scene with 1 light source}
+	\end{figure}
+\end{minipage}
+
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.8\textwidth]{figures/2 vp.png}
+		\caption{Scene with 2 Light Sources}
+		\label{fig:scene with 2 light sources}
+	\end{figure}
+\end{minipage}
+
 \subsection{Ground Truth Mesh} \label{subsec:occlusion}
 
 We should compute the occlusion level of ground truth mesh.
@@ -387,7 +407,7 @@ This method ensures a precise computation of the visible area, accounting for oc
 
 \subsection{Region Growing Segmentation}
 
-In our approach, we utilize the region growing algorithm for segmentation. This algorithm works by iteratively expanding a region by adding neighboring points that are similar based on certain criteria, such as geometric proximity and surface normals. Starting from a seed point, the region grows by incorporating neighboring points that meet the similarity criteria until no more points can be added.
+In our approach, we utilize the region growing [pcl region growing] algorithm for segmentation. This algorithm works by iteratively expanding a region by adding neighboring points that are similar based on certain criteria, such as geometric proximity and surface normals. Starting from a seed point, the region grows by incorporating neighboring points that meet the similarity criteria until no more points can be added.
 
 The region growing algorithm can be summarized in the following steps:
 \begin{enumerate}
@@ -441,25 +461,110 @@ Ray tracing is a powerful technique that simulates the path of rays as they trav
 
 To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
 
+The uniform sampling on the sphere is achieved using random sampling in the azimuthal angle \( \theta \) and the polar angle \( \phi \). The azimuthal angle \( \theta \) is uniformly sampled in the range \([0, 2\pi]\), while the polar angle \( \phi \) is sampled such that its cosine is uniformly distributed in the range \([-1, 1]\). This ensures a uniform distribution of points over the sphere's surface.
+
+Given a center point of the sphere and a predefined radius \( r \), the coordinates \( (x, y, z) \) of a sampled point on the sphere are computed as:
+\begin{align*}
+x &= x_{\text{center}} + r \sin(\phi) \cos(\theta) \\
+y &= y_{\text{center}} + r \sin(\phi) \sin(\theta) \\
+z &= z_{\text{center}} + r \cos(\phi)
+\end{align*}
+
+This process is repeated for the desired number of samples, resulting in a set of points uniformly distributed on the surface of the sphere. These points can then be used as origins for rays to simulate light emission in all directions.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.6\textwidth]{figures/uniform sample triangle.png}
+		\caption{Uniform Sample Sphere}
+		\label{fig:uniform sample sphere}
+	\end{figure}
+\end{minipage}
+
 \subsection{Ray Point Intersection}
 
 In our model, each point within the point cloud is represented as a small sphere with a defined radius. This simplifies the ray-point intersection check, as we can treat each point as a volumetric entity rather than a singular coordinate in space.
 
-\subsection{Ray Tracing Based Occlusion Computation}
+To determine if a ray intersects with a sphere, we first normalize the direction vector of the ray. Then, we compute the vector \( \mathbf{L} \) from the ray's origin to the center of the sphere. If the squared magnitude of \( \mathbf{L} \) is less than the squared radius of the sphere, it indicates that the ray's origin is inside the sphere, and thus, an intersection exists.
 
-To determine occlusion within the point cloud, rays are generated from multiple points on the spherical light source. The occlusion level for each point in the cloud is computed based on the number of rays that do not intersect any point in the cloud or any openings in the scene.
+Next, we compute the projection \( t_{ca} \) of \( \mathbf{L} \) onto the ray's direction. If \( t_{ca} \) is negative, it means the sphere is behind the ray's origin, and no intersection occurs.
 
-In this context, we introduce the concept of "occlusion rays". These are rays that, after being cast from the light source, do not intersect with any point in the point cloud or any defined openings in the scene.
+We then compute the squared perpendicular distance \( d^2 \) from the center of the sphere to the ray. If \( d^2 \) exceeds the squared radius of the sphere, the ray does not intersect the sphere.
 
-\subsubsection{Ray Point Cloud Intersection}
+Mathematically, the steps can be summarized as:
+\begin{align*}
+	\mathbf{L} &= \text{center of sphere} - \text{ray origin} \\
+	\text{originDistance}^2 &= \mathbf{L} \cdot \mathbf{L} \\
+	t_{ca} &= \mathbf{L} \cdot \text{normalized ray direction} \\
+	d^2 &= \text{originDistance}^2 - t_{ca}^2
+\end{align*}
 
-For a ray to be classified as an occlusion ray, it must first be determined that it does not intersect with any point in the point cloud. If an intersection is detected, the ray is immediately disqualified from being an occlusion ray.
+If the ray's origin is not inside the sphere, \( t_{ca} \) is positive, and \( d^2 \) is less than the squared radius of the sphere, then the ray intersects the sphere.
 
-\subsubsection{Ray Openings Intersection}
+\subsection{Ray Openings Intersection}
 
-Openings or gaps in the scene, such as windows or doorways, should not contribute to occlusion. Therefore, if a ray does not intersect with the point cloud but does intersect with an opening, it is also not considered an occlusion ray. Only when a ray satisfies both these conditions – not intersecting with the point cloud and not intersecting with any openings – is it classified as an occlusion ray.
+Openings or gaps in the scene, such as windows or doorways, should not contribute to occlusion. To account for these openings, we need an efficient method to determine if a ray intersects with any of the openings in the scene.
 
-To quantify the occlusion within the point cloud, we compute the ratio of occlusion rays to the total number of rays cast. This "occlusion ray ratio" provides a measure of the occlusion level within the point cloud, with higher ratios indicating greater levels of occlusion.
+Given the typically limited number of openings in a scene, it's feasible to manually select a few points that represent the boundary of each opening. Using these points, we can construct a polygonal representation of the opening. The ray-openings intersection check can then be performed by testing if the ray intersects with any of these polygons.
+
+For a set of points \( P = \{p_1, p_2, ..., p_n\} \) that define a polygon, we first estimate a plane \( \mathbf{N} \) that best fits these points. Once the plane is determined, all points are projected onto this plane to ensure they lie within the same plane. The next step involves calculating the intersection of the ray with this plane. If an intersection exists, we need to determine if this intersection point lies inside the polygon.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=1.0\textwidth]{figures/detect openings.png}
+		\caption{Estimate Polygon from Points}
+		\label{fig:estimate polygon from points}
+	\end{figure}
+\end{minipage}
+
+To check the position of the intersection point relative to the polygon, we construct vectors between the intersection point and each vertex of the polygon. For every pair of neighboring vectors, we compute their cross product. If all resulting cross products point in the same direction (i.e., they have the same sign), then the intersection point is inside the polygon. Otherwise, the intersection point lies outside the polygon.
+
+Mathematically, given two vectors \( \mathbf{v_1} \) and \( \mathbf{v_2} \), their cross product is given by:
+\[
+\mathbf{v_1} \times \mathbf{v_2} = \begin{vmatrix}
+\mathbf{i} & \mathbf{j} & \mathbf{k} \\
+v_{1x} & v_{1y} & v_{1z} \\
+v_{2x} & v_{2y} & v_{2z} \\
+\end{vmatrix}
+\]
+Where \( \mathbf{i}, \mathbf{j}, \) and \( \mathbf{k} \) are the unit vectors in the x, y, and z directions, respectively.
+
+By iterating over all the vertices of the polygon and computing these cross products, we can determine the position of the intersection point with respect to the polygon.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
+		\caption{Ray Intersect Polygon}
+		\label{fig:ray intersect polygon}
+	\end{figure}
+\end{minipage}
+
+
+\subsection{Ray Tracing Based Occlusion Computation} \label{sec:ray tracing occlusion computation}
+
+To assess occlusion within the point cloud, we employ a ray tracing method where rays emanate from various points on a spherical light source. The degree of occlusion for each point in the cloud is deduced from the count of rays that neither intersect any point in the cloud nor any predefined openings in the scene.
+
+Within this framework, we introduce the notion of "occlusion rays". These rays, once cast from the light source, bypass any intersections with the point cloud or the designated scene openings.
+
+To provide a quantitative measure of occlusion, we calculate the ratio of occlusion rays to the overall number of rays cast. This metric, termed the "occlusion ray ratio", offers an insight into the occlusion level within the point cloud. A higher ratio signifies a pronounced occlusion presence.
+
+\subsection{Exterior Structure Based Occlusion Computation} \label{sec:exterior structure occlusion computation}
+
+Exterior structures, such as walls, ceilings, and floors, frequently experience occlusion, primarily due to obstructions posed by interior objects. We operate under the assumption that a scene with a higher density of interior objects will result in increased occlusion of exterior structures. While interior objects themselves can be occluded, pinpointing such occlusions is challenging. Consequently, we use the occlusion level of exterior structures as a proxy for the scene's overall occlusion level. Our aim is to discern a correlation between the occlusion level and the ratio of interior to exterior objects, enhancing the reliability of our results.
+
+\subsubsection{Exterior Structure Extraction}
+
+We directly extract exterior structures from the ground truth point cloud. In our scenario, this involves isolating walls, ceilings, and floors.
+
+\subsubsection{Ratio Computation}
+
+The next step involves computing the ratio of interior points relative to exterior points.
+
+\subsubsection{Ray Tracing Based Occlusion Computation}
+
+Echoing the methodology delineated in Section \ref{sec:ray tracing occlusion computation}, rays are generated from various points on the spherical light source. The occlusion level for each point is then determined based on the number of rays that avoid intersections with any point on the exterior structure.
 
 
 \section{Evaluate Performance with Metrics}
@@ -468,7 +573,34 @@ In the realm of semantic segmentation, evaluating the performance of a model is 
 
 \subsection{Semantic Classes}
 
-Due to the difference of the dataset and the pre-trained model, we consider the following classes in our semantic segmentation task:
+Semantic segmentation requires a clear definition of the classes that are to be identified within the dataset. Due to discrepancies between the ground truth point cloud dataset, denoted as [S3dis], and the dataset used for the pre-trained model, we have defined the following semantic classes for our segmentation task:
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Semantic Class} & \textbf{Class ID} \\
+        \hline
+        Wall & 0 \\
+        Floor & 1 \\
+        Ceiling & 1 \\
+        Chair & 4 \\
+        Sofa & 5 \\
+        Table & 6 \\
+        Door & 7 \\
+        Window & 8 \\
+        Bookcase & 9 \\
+        Beam & 20 \\
+        Board & 21 \\
+        Clutter & 25 \\
+        Column & 26 \\
+        \hline
+    \end{tabular}
+    \caption{Mapping of semantic classes to their respective class IDs.}
+    \label{tab:semantic_classes}
+\end{table}
+
+It's worth noting that certain classes, such as the ceiling, have been mapped to the same class ID as other classes (in this case, the floor). This decision was made based on the similarities between the datasets and to ensure a more streamlined segmentation process.
 
 \subsection{Metrics}
 
@@ -566,6 +698,15 @@ reg.setCurvatureThreshold(curvature_threshold);
 
 reg.extract(rg_clusters);
 \end{lstlisting}
+
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\includegraphics*[width=1.0\textwidth]{figures/rg.png}
+		\caption{Region Growing Segmented Interior Scene}
+		\label{fig:region growing segmented interior scene}
+	\end{figure}
+\end{minipage}
 
 \subsubsection{Convex Hull}
 

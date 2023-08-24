@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  21 AUG 2023 14:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  24 AUG 2023 04:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -906,136 +906,184 @@ LaTeX Warning: Marginpar on page 1 moved.
 
 
 ]
-<figures/Minkowski Engine.png, id=177, 596.2275pt x 334.24875pt>
+<figures/Minkowski Engine.png, id=181, 596.2275pt x 334.24875pt>
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
 Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 203.
 (pdftex.def)             Requested size: 296.32428pt x 166.11922pt.
  [2 <./figures/Minkowski Engine.png>] [3]
 chapter 2.
+<figures/1 vp.png, id=199, 1927.2pt x 1084.05pt>
+File: figures/1 vp.png Graphic file (type png)
+<use figures/1 vp.png>
+Package pdftex.def Info: figures/1 vp.png  used on input line 237.
+(pdftex.def)             Requested size: 395.09653pt x 222.23169pt.
+<figures/2 vp.png, id=201, 1927.2pt x 1084.05pt>
+File: figures/2 vp.png Graphic file (type png)
+<use figures/2 vp.png>
+Package pdftex.def Info: figures/2 vp.png  used on input line 247.
+(pdftex.def)             Requested size: 395.09653pt x 222.23169pt.
 [4
 
 
-]
+ <./figures/1 vp.png> <./figures/2 vp.png>] [5]
 chapter 3.
-<figures/visible area.png, id=201, 946.53625pt x 122.4575pt>
+<figures/visible area.png, id=219, 946.53625pt x 122.4575pt>
 File: figures/visible area.png Graphic file (type png)
 <use figures/visible area.png>
-Package pdftex.def Info: figures/visible area.png  used on input line 265.
+Package pdftex.def Info: figures/visible area.png  used on input line 285.
 (pdftex.def)             Requested size: 493.86879pt x 63.89313pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 262--270
+Overfull \hbox (10.95pt too wide) in paragraph at lines 282--290
 []$[]$ 
  []
 
-<figures/uniform sample triangle.png, id=203, 284.56313pt x 231.86626pt>
+<figures/uniform sample triangle.png, id=221, 284.56313pt x 231.86626pt>
 File: figures/uniform sample triangle.png Graphic file (type png)
 <use figures/uniform sample triangle.png>
-Package pdftex.def Info: figures/uniform sample triangle.png  used on input line 288.
+Package pdftex.def Info: figures/uniform sample triangle.png  used on input line 308.
 (pdftex.def)             Requested size: 296.32428pt x 241.47485pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 285--293
+Overfull \hbox (10.95pt too wide) in paragraph at lines 305--313
 []$[]$ 
  []
 
-[5
+[6
 
 
  <./figures/visible area.png>]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 308.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 328.
  (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [6 <./figures/uniform sample triangle.png>] [7] [8] [9] [10] [11]
+) [7 <./figures/uniform sample triangle.png>] [8] [9] [10]
+File: figures/uniform sample triangle.png Graphic file (type png)
+<use figures/uniform sample triangle.png>
+Package pdftex.def Info: figures/uniform sample triangle.png  used on input line 478.
+(pdftex.def)             Requested size: 296.32428pt x 241.47485pt.
+
+Overfull \hbox (10.95pt too wide) in paragraph at lines 475--483
+[]$[]$ 
+ []
+
+[11]
+<figures/detect openings.png, id=283, 663.22781pt x 99.37125pt>
+File: figures/detect openings.png Graphic file (type png)
+<use figures/detect openings.png>
+Package pdftex.def Info: figures/detect openings.png  used on input line 515.
+(pdftex.def)             Requested size: 493.86879pt x 73.99603pt.
+
+Overfull \hbox (10.95pt too wide) in paragraph at lines 512--520
+[]$[]$ 
+ []
+
+<figures/intersect polygon.png, id=285, 170.88844pt x 170.88844pt>
+File: figures/intersect polygon.png Graphic file (type png)
+<use figures/intersect polygon.png>
+Package pdftex.def Info: figures/intersect polygon.png  used on input line 538.
+(pdftex.def)             Requested size: 123.4672pt x 123.46982pt.
+
+Overfull \hbox (10.95pt too wide) in paragraph at lines 535--543
+[]$[]$ 
+ []
+
+[12 <./figures/detect openings.png>] [13 <./figures/intersect polygon.png>] [14] [15]
 chapter 4.
 (c:/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 548.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 680.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 548--548
+Overfull \hbox (6.0pt too wide) in paragraph at lines 680--680
 [][][][][][][] 
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 548.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 680.
 (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [12
+)
+<figures/rg.png, id=335, 683.55376pt x 444.66125pt>
+File: figures/rg.png Graphic file (type png)
+<use figures/rg.png>
+Package pdftex.def Info: figures/rg.png  used on input line 705.
+(pdftex.def)             Requested size: 493.86879pt x 321.27538pt.
+ [16
 
 
-]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 600--600
+] [17 <./figures/rg.png>]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 741--741
 [][][][][][][] 
  []
 
-[13]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 641--641
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 782--782
 [][][][][][][] 
  []
 
-<figures/ui.png, id=363, 955.06813pt x 453.695pt>
+[18]
+<figures/ui.png, id=443, 955.06813pt x 453.695pt>
 File: figures/ui.png Graphic file (type png)
 <use figures/ui.png>
-Package pdftex.def Info: figures/ui.png  used on input line 670.
+Package pdftex.def Info: figures/ui.png  used on input line 811.
 (pdftex.def)             Requested size: 493.86879pt x 234.60742pt.
-[14] [15 <./figures/ui.png>]
+ [19 <./figures/ui.png>]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 724.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 865.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 735.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 876.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [16]
+ [20]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 746.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 887.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [17] [18]
+ [21] [22]
 chapter 5.
-[19
+[23
 
 
 ]
 chapter 6.
-[20
+[24
 
 
 ]
 chapter 7.
-[21
+[25
 
 
-] [22
+] [26
 
 
-] [23]
-Overfull \hbox (48.68903pt too wide) in paragraph at lines 921--923
+] [27]
+Overfull \hbox (48.68903pt too wide) in paragraph at lines 1062--1064
 []\OT1/ptm/m/n/10.95 Use con-sis-tent sec-tion, equa-tion and fig-ure la-belling [][]\OT1/pcr/m/n/10.95 \label{sec:introduction} []\OT1/ptm/m/n/10.95 as well as \OT1/pcr/m/n/10.95 eq:rendering,
  []
 
-[24] [25]
+[28] [29]
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 998.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1139.
 (pdftex.def)             Requested size: 246.93439pt x 72.15797pt.
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1005.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1146.
 (pdftex.def)             Requested size: 148.16214pt x 43.29478pt.
 File: figures/uzh_logo.pdf Graphic file (type pdf)
 <use figures/uzh_logo.pdf>
-Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 1006.
+Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 1147.
 (pdftex.def)             Requested size: 148.16214pt x 46.38263pt.
- (./pseudocode/example_pcode.txt [26]) [27] [28] (./Student_Project_Report.bbl [29
+ (./pseudocode/example_pcode.txt [30]) [31] [32] (./Student_Project_Report.bbl [33
 
 
-] [30
+] [34
 
 
-]) [31] (./Student_Project_Report.aux)
+]) [35] (./Student_Project_Report.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2020/03/25>
@@ -1048,18 +1096,18 @@ Package rerunfilecheck Info: File `Student_Project_Report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 29827 strings out of 475237
- 558956 string characters out of 5768555
- 2026238 words of memory out of 5000000
- 50226 multiletter control sequences out of 15000+600000
- 599279 words of font info for 116 fonts, out of 8000000 for 9000
+ 29900 strings out of 475237
+ 560690 string characters out of 5768555
+ 2062238 words of memory out of 5000000
+ 50282 multiletter control sequences out of 15000+600000
+ 599896 words of font info for 118 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,9n,120p,10947b,2195s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Student_Project_Report.pdf (35 pages, 2146963 bytes).
+ 108i,11n,120p,10947b,2195s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Student_Project_Report.pdf (39 pages, 5952211 bytes).
 PDF statistics:
- 879 PDF objects out of 1000 (max. 8388607)
- 767 compressed objects within 8 object streams
- 308 named destinations out of 1000 (max. 500000)
- 516 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 948 PDF objects out of 1000 (max. 8388607)
+ 813 compressed objects within 9 object streams
+ 323 named destinations out of 1000 (max. 500000)
+ 593 words of extra memory for PDF output out of 10000 (max. 10000000)
 
