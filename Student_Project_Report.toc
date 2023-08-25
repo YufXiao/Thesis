@@ -44,47 +44,49 @@
 \contentsline {subsubsection}{\nonumberline Recall}{15}{subsubsection*.41}%
 \contentsline {subsubsection}{\nonumberline Precision}{15}{subsubsection*.43}%
 \contentsline {chapter}{\numberline {4}Implementation}{16}{chapter.4}%
-\contentsline {section}{\numberline {4.1}PCL Serves as Main Component of Computation}{16}{section.4.1}%
+\contentsline {section}{\numberline {4.1}PCL Serves as Main Component in Computational Pipeline}{16}{section.4.1}%
 \contentsline {subsection}{\numberline {4.1.1}Uniform Sampling}{16}{subsection.4.1.1}%
 \contentsline {subsubsection}{\nonumberline Spherical Light Source}{16}{subsubsection*.45}%
-\contentsline {subsubsection}{\nonumberline Triangle}{16}{subsubsection*.47}%
-\contentsline {subsection}{\numberline {4.1.2}Mesh Estimation}{16}{subsection.4.1.2}%
-\contentsline {subsubsection}{\nonumberline Region Growing}{16}{subsubsection*.49}%
-\contentsline {subsubsection}{\nonumberline Convex Hull}{17}{subsubsection*.52}%
-\contentsline {subsubsection}{\nonumberline Polygon Centroid}{17}{subsubsection*.54}%
-\contentsline {subsection}{\numberline {4.1.3}Ray Tracing Intersection Computation}{17}{subsection.4.1.3}%
-\contentsline {subsubsection}{\nonumberline Ray Intersect Sphere}{17}{subsubsection*.56}%
-\contentsline {subsubsection}{\nonumberline Ray Intersect Triangle}{17}{subsubsection*.58}%
-\contentsline {subsubsection}{\nonumberline Ray Intersect Polygon}{17}{subsubsection*.60}%
-\contentsline {subsection}{\numberline {4.1.4}Octree Partitioning}{17}{subsection.4.1.4}%
-\contentsline {subsubsection}{\nonumberline Point Cloud}{17}{subsubsection*.62}%
-\contentsline {subsubsection}{\nonumberline Mesh}{17}{subsubsection*.64}%
-\contentsline {subsection}{\numberline {4.1.5}Other Libraries Serve as Supporting Components}{18}{subsection.4.1.5}%
-\contentsline {subsubsection}{\nonumberline JsonCpp - Parameter Parser}{18}{subsubsection*.66}%
-\contentsline {subsubsection}{\nonumberline Websocketpp - Communication Channel}{18}{subsubsection*.68}%
-\contentsline {subsubsection}{\nonumberline OpenMP - Parallel Computation}{18}{subsubsection*.70}%
-\contentsline {subsubsection}{\nonumberline Run Backend Server in Command Line}{19}{subsubsection*.72}%
-\contentsline {section}{\numberline {4.2}Web Based User Interface}{19}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Three.js Serves as Visualization Engine}{19}{subsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.2.2}Web Technical Stack}{19}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}User Interface Usage}{20}{subsection.4.2.3}%
-\contentsline {subsubsection}{\nonumberline Stats Panel and GUI}{20}{subsubsection*.75}%
-\contentsline {subsubsection}{\nonumberline Buttons}{20}{subsubsection*.77}%
-\contentsline {subsection}{\numberline {4.2.4}Software Structure}{20}{subsection.4.2.4}%
-\contentsline {subsubsection}{\nonumberline Flowchart}{20}{subsubsection*.79}%
-\contentsline {subsubsection}{\nonumberline Class Diagram}{21}{subsubsection*.82}%
-\contentsline {subsubsection}{\nonumberline Sequence Diagram}{21}{subsubsection*.85}%
-\contentsline {subsection}{\numberline {4.2.5}Command Line Only Mode}{22}{subsection.4.2.5}%
-\contentsline {subsubsection}{\nonumberline Arguments and Corresponding Functionality}{22}{subsubsection*.88}%
-\contentsline {chapter}{\numberline {5}Experimental Results}{23}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Mesh Based Occlusion Level Validation}{23}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Ground Truth Mesh}{23}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Estimated Mesh from Point Cloud}{23}{subsection.5.1.2}%
-\contentsline {section}{\numberline {5.2}Segmentation Performance Evaluation of Point Cloud}{23}{section.5.2}%
-\contentsline {chapter}{\numberline {6}Conclusion and Discussion}{24}{chapter.6}%
-\contentsline {chapter}{\numberline {7}Acknowledgements}{25}{chapter.7}%
-\contentsline {paragraph}{\nonumberline Placement}{29}{paragraph*.102}%
-\contentsline {paragraph}{\nonumberline Figures}{30}{paragraph*.104}%
-\contentsline {paragraph}{\nonumberline Screenshots}{30}{paragraph*.106}%
-\contentsline {paragraph}{\nonumberline Graphs}{30}{paragraph*.108}%
+\contentsline {subsubsection}{\nonumberline Triangle}{17}{subsubsection*.47}%
+\contentsline {subsection}{\numberline {4.1.2}Mesh Estimation}{17}{subsection.4.1.2}%
+\contentsline {subsubsection}{\nonumberline Region Growing}{17}{subsubsection*.49}%
+\contentsline {subsubsection}{\nonumberline Generate Triangles from Clusters}{19}{subsubsection*.52}%
+\contentsline {paragraph}{\nonumberline Plane Estimation:}{19}{paragraph*.54}%
+\contentsline {paragraph}{\nonumberline Projection onto Plane:}{19}{paragraph*.56}%
+\contentsline {paragraph}{\nonumberline Convex Hull Computation:}{19}{paragraph*.58}%
+\contentsline {paragraph}{\nonumberline Triangle Generation:}{19}{paragraph*.60}%
+\contentsline {subsection}{\numberline {4.1.3}Ray Tracing Intersection Computation}{19}{subsection.4.1.3}%
+\contentsline {subsubsection}{\nonumberline Ray Intersect Sphere}{20}{subsubsection*.62}%
+\contentsline {subsubsection}{\nonumberline Ray Intersect Triangle}{20}{subsubsection*.64}%
+\contentsline {subsubsection}{\nonumberline Ray Intersect Polygon}{20}{subsubsection*.66}%
+\contentsline {subsubsection}{\nonumberline Ray Intersect Bounding Box}{20}{subsubsection*.68}%
+\contentsline {subsection}{\numberline {4.1.4}Octree Partitioning}{20}{subsection.4.1.4}%
+\contentsline {subsubsection}{\nonumberline Point Cloud}{20}{subsubsection*.70}%
+\contentsline {subsubsection}{\nonumberline Mesh}{20}{subsubsection*.72}%
+\contentsline {subsection}{\numberline {4.1.5}Other Libraries Serve as Supporting Components}{20}{subsection.4.1.5}%
+\contentsline {subsubsection}{\nonumberline JsonCpp - Parameter Parser}{20}{subsubsection*.74}%
+\contentsline {subsubsection}{\nonumberline Websocketpp - Communication Channel}{21}{subsubsection*.76}%
+\contentsline {section}{\numberline {4.2}Web Based User Interface}{21}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Three.js Serves as Visualization Engine}{22}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Web Technical Stack}{22}{subsection.4.2.2}%
+\contentsline {subsection}{\numberline {4.2.3}User Interface Usage}{22}{subsection.4.2.3}%
+\contentsline {subsubsection}{\nonumberline Stats Panel and GUI}{22}{subsubsection*.79}%
+\contentsline {subsubsection}{\nonumberline Buttons}{23}{subsubsection*.81}%
+\contentsline {subsection}{\numberline {4.2.4}Software Structure}{23}{subsection.4.2.4}%
+\contentsline {subsubsection}{\nonumberline Flowchart}{23}{subsubsection*.83}%
+\contentsline {subsubsection}{\nonumberline Class Diagram}{24}{subsubsection*.86}%
+\contentsline {subsubsection}{\nonumberline Sequence Diagram}{24}{subsubsection*.89}%
+\contentsline {subsection}{\numberline {4.2.5}Command Line Only Mode}{25}{subsection.4.2.5}%
+\contentsline {subsubsection}{\nonumberline Arguments and Corresponding Functionality}{25}{subsubsection*.92}%
+\contentsline {chapter}{\numberline {5}Experimental Results}{26}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Mesh Based Occlusion Level Validation}{26}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Ground Truth Mesh}{26}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Estimated Mesh from Point Cloud}{26}{subsection.5.1.2}%
+\contentsline {section}{\numberline {5.2}Segmentation Performance Evaluation of Point Cloud}{26}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Conclusion and Discussion}{27}{chapter.6}%
+\contentsline {chapter}{\numberline {7}Acknowledgements}{28}{chapter.7}%
+\contentsline {paragraph}{\nonumberline Placement}{32}{paragraph*.106}%
+\contentsline {paragraph}{\nonumberline Figures}{33}{paragraph*.108}%
+\contentsline {paragraph}{\nonumberline Screenshots}{33}{paragraph*.110}%
+\contentsline {paragraph}{\nonumberline Graphs}{33}{paragraph*.112}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

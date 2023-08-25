@@ -490,29 +490,25 @@ INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrb7t.tfm
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrb7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrb8r.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
+INPUT ./figures/rg.png
+INPUT ./figures/rg.png
+INPUT ./figures/rg.png
+INPUT ./figures/rg.png
+INPUT ./figures/rg.png
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT ./figures/ui.png
 INPUT ./figures/ui.png
 INPUT ./figures/ui.png
 INPUT ./figures/ui.png
 INPUT ./figures/ui.png
-INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png

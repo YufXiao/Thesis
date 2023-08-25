@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  24 AUG 2023 04:26
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  25 AUG 2023 04:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -993,97 +993,140 @@ File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 680.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 681.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 680--680
+Overfull \hbox (6.0pt too wide) in paragraph at lines 681--681
 [][][][][][][] 
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 680.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 681.
 (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-<figures/rg.png, id=335, 683.55376pt x 444.66125pt>
+Overfull \hbox (6.0pt too wide) in paragraph at lines 688--688
+[][][][][][][] 
+ []
+
+[16
+
+
+]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 708--708
+[][][][][][][] 
+ []
+
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 716--716
+[][][][][][][] 
+ []
+
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 726--726
+[][][][][][][] 
+ []
+
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 756--756
+[][][][][][][] 
+ []
+
+[17]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 768--768
+[][][][][][][] 
+ []
+
+<figures/rg.png, id=392, 686.565pt x 398.99063pt>
 File: figures/rg.png Graphic file (type png)
 <use figures/rg.png>
-Package pdftex.def Info: figures/rg.png  used on input line 705.
-(pdftex.def)             Requested size: 493.86879pt x 321.27538pt.
- [16
-
-
-] [17 <./figures/rg.png>]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 741--741
+Package pdftex.def Info: figures/rg.png  used on input line 787.
+(pdftex.def)             Requested size: 493.86879pt x 287.00516pt.
+[18 <./figures/rg.png>]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 799--799
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 782--782
+Overfull \hbox (6.0pt too wide) in paragraph at lines 807--807
 [][][][][][][] 
  []
 
-[18]
-<figures/ui.png, id=443, 955.06813pt x 453.695pt>
+
+Overfull \hbox (6.0pt too wide) in paragraph at lines 817--817
+[][][][][][][] 
+ []
+
+[19]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 862--862
+[][][][][][][] 
+ []
+
+[20]
+Overfull \hbox (6.0pt too wide) in paragraph at lines 885--885
+[][][][][][][] 
+ []
+
+<figures/ui.png, id=479, 955.06813pt x 453.695pt>
 File: figures/ui.png Graphic file (type png)
 <use figures/ui.png>
-Package pdftex.def Info: figures/ui.png  used on input line 811.
+Package pdftex.def Info: figures/ui.png  used on input line 925.
 (pdftex.def)             Requested size: 493.86879pt x 234.60742pt.
- [19 <./figures/ui.png>]
+[21] [22 <./figures/ui.png>]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 865.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 979.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 876.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 990.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [20]
+ [23]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 887.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 1001.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [21] [22]
+ [24] [25]
 chapter 5.
-[23
+[26
 
 
 ]
 chapter 6.
-[24
+[27
 
 
 ]
 chapter 7.
-[25
+[28
 
 
-] [26
+] [29
 
 
-] [27]
-Overfull \hbox (48.68903pt too wide) in paragraph at lines 1062--1064
+] [30]
+Overfull \hbox (48.68903pt too wide) in paragraph at lines 1176--1178
 []\OT1/ptm/m/n/10.95 Use con-sis-tent sec-tion, equa-tion and fig-ure la-belling [][]\OT1/pcr/m/n/10.95 \label{sec:introduction} []\OT1/ptm/m/n/10.95 as well as \OT1/pcr/m/n/10.95 eq:rendering,
  []
 
-[28] [29]
+[31] [32]
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1139.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1253.
 (pdftex.def)             Requested size: 246.93439pt x 72.15797pt.
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1146.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1260.
 (pdftex.def)             Requested size: 148.16214pt x 43.29478pt.
 File: figures/uzh_logo.pdf Graphic file (type pdf)
 <use figures/uzh_logo.pdf>
-Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 1147.
+Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 1261.
 (pdftex.def)             Requested size: 148.16214pt x 46.38263pt.
- (./pseudocode/example_pcode.txt [30]) [31] [32] (./Student_Project_Report.bbl [33
+ (./pseudocode/example_pcode.txt [33]) [34] [35] (./Student_Project_Report.bbl [36
 
 
-] [34
+] [37
 
 
-]) [35] (./Student_Project_Report.aux)
+]) [38] (./Student_Project_Report.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2020/03/25>
@@ -1096,18 +1139,18 @@ Package rerunfilecheck Info: File `Student_Project_Report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 29900 strings out of 475237
- 560690 string characters out of 5768555
- 2062238 words of memory out of 5000000
- 50282 multiletter control sequences out of 15000+600000
- 599896 words of font info for 118 fonts, out of 8000000 for 9000
+ 30089 strings out of 475237
+ 563249 string characters out of 5768555
+ 2070238 words of memory out of 5000000
+ 50416 multiletter control sequences out of 15000+600000
+ 598874 words of font info for 115 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 108i,11n,120p,10947b,2195s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 108i,11n,120p,10947b,2191s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Student_Project_Report.pdf (39 pages, 5952211 bytes).
+Output written on Student_Project_Report.pdf (42 pages, 5967082 bytes).
 PDF statistics:
- 948 PDF objects out of 1000 (max. 8388607)
- 813 compressed objects within 9 object streams
- 323 named destinations out of 1000 (max. 500000)
+ 1026 PDF objects out of 1200 (max. 8388607)
+ 888 compressed objects within 9 object streams
+ 379 named destinations out of 1000 (max. 500000)
  593 words of extra memory for PDF output out of 10000 (max. 10000000)
 
