@@ -825,39 +825,182 @@ Collectively, this workflow ensures a methodical transformation of raw clusters 
 
 \subsection{Ray Tracing Intersection Computation} \label{sec:ray tracing}
 
-Ray tracing based methods are pivotal to our computational pipeline. We use ray to check if it intersects with any basic element in the scene, such as point, triangle, polygon, bounding box, etc. 
+Ray tracing based methods are pivotal to our computational pipeline. We use ray to check if it intersects with any basic element in the scene, such as point, triangle, polygon, bounding box, etc.
 
-\subsubsection{Ray Intersect Sphere}
+To compute and record all intersections between all rays and all elements in the scene, we build different structure for each type of element. Their interactions are also recorded, which makes the system looks like a database. We can query the database to get all the information we need.  
 
-\subsubsection{Ray Intersect Triangle}
+\subsubsection{Database-like Structure}
 
-\subsubsection{Ray Intersect Polygon}
+\begin{lstlisting} [language=C++, caption=Data Structures]
+struct Intersection {
+    size_t index;
+    size_t triangle_index;
+    size_t ray_index;
+    Eigen::Vector3d point;
+    double distance_to_look_at_point;
+    double distance_to_origin;
+    bool is_first_hit;
+};
+struct Ray { 
+    size_t index;
+    size_t source_triangle_index;
+    size_t source_sample_index;
+    size_t first_hit_intersection_idx;
+    Eigen::Vector3d origin;
+    Eigen::Vector3d look_at_point;
+    Eigen::Vector3d direction;
+    std::vector<size_t> intersection_idx;
+    std::vector<size_t> triangle_idx;
+};
+struct Sample {
+    size_t index;
+    size_t triangle_index;
+    Eigen::Vector3d point;
+    bool is_visible = false;
+    std::vector<size_t> ray_idx;
+};
+struct Triangle {
+    size_t index;
+    Eigen::Vector3d v1;
+    Eigen::Vector3d v2;
+    Eigen::Vector3d v3;
+    Eigen::Vector3d center;
+    double area;
+    std::vector<size_t> sample_idx;
+    std::vector<size_t> intersection_idx;
+    std::vector<size_t> ray_idx;
+};
 
-\subsubsection{Ray Intersect Bounding Box}
-
-Ray intersect with bounding box.
+\end{lstlisting}
 
 \subsection{Octree Partitioning}
 
-In our pipeline, the input data is usually large. We might have millions of points and thousands of rays to compute intetrsections. If we iterate through all the points and rays, the computation will be very slow. Therefore, it's necessary to partition the data into smaller pieces, octree is one of the best options.
+In the context of our pipeline, the sheer magnitude of input data can be quite overwhelming. It's not uncommon for us to deal with data sets comprising millions of points and thousands of intersecting rays. A naive approach, iterating through each data point and ray, would be computationally taxing. Recognizing this challenge, it becomes imperative to partition our data into more manageable chunks. Commonly, data structures such as BVH, kdTree, and octree are used for this purpose. Leveraging the existing octree implementation in PCL, we employ it for partitioning our data.
 
+The outcome of octree partitioning is a structured tree. Within this tree, there are three distinct types of nodes: leaf nodes, branch nodes, and the root node. Leaf nodes serve as storage units for data, branch nodes encapsulate the bounding box for their respective child nodes, and the root node safeguards the bounding box encompassing the entire tree. Navigating this structure, if a ray originates inside the root node, we examine its intersection with the root's child nodes. Typically, if our tree depth surpasses two, this should return a branch node. The procedure recursively continues until we pinpoint a leaf node, at which point we verify the ray's intersection with the data housed in the leaf. If there's a data intersection, the intersection point is duly returned.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+		\caption{Flowchart of the Octree Partitioning Process}
+		\label{fig:flowchart of the octree partitioning process}
+	\end{figure}
+\end{minipage}
+
+\subsubsection{Octree Data Structure}
+
+The underlying node structure for our octree is captured succinctly in the following code representation:
+
+\begin{lstlisting} [language=C++, caption=Node Structure]
+struct OctreeNode {
+    size_t index;
+    size_t parent_index = -1;
+    size_t prev = -1;
+    size_t next = -1;
+    int depth;
+    std::vector<size_t> children;
+    std::vector<size_t> triangle_idx;
+    int diagonal_distance;
+    Eigen::Vector3d min_pt;
+    Eigen::Vector3d max_pt;
+    Eigen::Vector3d min_pt_triangle;
+    Eigen::Vector3d max_pt_triangle;
+    bool is_leaf = false;
+    bool is_branch = false;
+    bool is_root = false;
+};
+\end{lstlisting}
+
+\subsubsection{Mesh} \label{subsec:mesh octree}
+
+Harnessing PCL's octree class, we facilitate mesh partitioning. However, this requires a preliminary step: the extraction of a point which epitomizes the triangle. To achieve this, we use the triangle's center of gravity as its representative point. By gathering these representative points, an octree can be constructed.
+
+PCL offers versatility with traversal methods – we have the liberty to opt for either a depth-first or breadth-first approach. Our actual implementation favors the depth-first traversal. The ensuing steps outline our tree-building process:
+
+\paragraph{Build Depth Map:} Recognizing that nodes at the same depth exhibit identical bounding box sizes, a traversal of the tree allows us to construct a size-depth map. Here, the bounding box's size (denoted by the distance between \( min\_pt \) and \( max\_pt \)) acts as the key, while the node's depth is the associated value. Post traversal, the map elucidates which sizes correlate to specific depths.
+
+\paragraph{Build Depth Node Map:} For individual nodes, a quick reference to the size-depth map reveals their respective depth. We then proceed to compile a map to document nodes within each depth level. Here, the depth is the key, and a vector, comprising node indices at that depth, forms the value. The order of these nodes in the vector mirrors the depth-first traversal sequence.
+
+\paragraph{Build Connections Between Nodes:} Establishing connections between parent and child nodes is paramount. This phase involves a traversal of the depth-node map, starting from the root and working through to the penultimate leaf node level. Certain nuances are worth highlighting:
+
+\begin{itemize}
+	\item The root node stands alone without a parent, but nodes at level 1 unanimously share the root as their parent.
+	\item For branch nodes, the traversal of their child nodes occurs post the traversal of the left sibling's children but prior to the right sibling's children. This traversal pattern aids in effectively mapping the parent-child relationships.
+\end{itemize}
+
+Following is a simplistic example with a tree depth of three. Though an octree typically has eight children for every node, for the sake of clarity, we've reduced its size in this explanation. 
+
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=1.0\textwidth]{figures/octree.png}
+		\caption{Octree Structure}
+		\label{fig:octree structure}
+	\end{figure}
+\end{minipage}
+
+The node index, placed at the upper left corner of each box, equates to its traversal order in a depth-first pattern. Using node 1 as a reference, all its children indices are lesser than 5. Such observations facilitate the accurate linkage of children to their parent nodes.
+
+\paragraph{Compute Bounding Box:}  With the connections established, we can now compute the bounding box for each node from leaf level. Although the bounding box for points of a leaf node is readily available, here we have to consider triangles. Each point is stored in form of $pcl::PointXYZI$, where $I$ represent its intensity field. In our case we use this field to store the index of triangle. If we iterate over all points, we can iterate over all triangles. The $min_pt$ and $max_pt$ can be obtained from the minimal and maximal vertex of all triangles. Once we have built bounding box for each leaf node, we can traverse upwards to compute bounding box for each branch node and root node. 
 
 \subsubsection{Point Cloud}
 
-We can directly use PCL's octree class to partition point cloud. Points are stored in leaf nodes with smaller bounding boxes. However, PCL's octree class do not offer any method to show the connections between nodes in different level. We have to build a complete tree with all needed information stored in each node.
+For partitioning the point cloud, most steps are the same as mentioned in Section \ref{subsec:mesh octree}. The only difference is that we don't need to compute bounding box based on triangle for each node, bounding box offered by PCL should be enough for this part.
 
-Luckily, PCL provides methods to traverse octree either depth first or breadth first. We can use these methods to traverse the tree and get all the information we need step by step. 
+\subsubsection{Ray Intersecting with Bounding Box}
 
+To determine whether a ray intersects with a bounding box, there are two primary conditions to be considered:
 
-\subsubsection{Mesh}
+\begin{itemize}
+    \item If the ray's origin lies inside the bounding box, then it is evident that the ray intersects.
+    \item If the ray's origin is outside the bounding box, a specialized algorithm is employed to check for the intersection.
+\end{itemize}
 
-We still use PCL's octree class to partition mesh. But before that, we have to extract a point which can represent the triangle. We use the center of gravity of each triangle as the representative point.
+The underlying principle is to inspect how the ray interacts with the bounding box by calculating potential intersection points for each dimension (i.e., x, y, and z). This method of computation involves the Slab technique, which calculates the intersection of the ray with the planes that define the bounding box.
+
+The method is materialized in the `rayIntersectOctreeNode` function. The procedure commences by verifying if the ray's origin is nestled within the bounding box by leveraging the `min\_pt\_triangle` and `max\_pt\_triangle` attributes of the octree node. If the origin is confirmed to be within the bounds, the function instantly returns true.
+
+Nevertheless, if the origin is exterior, the function gauges potential intersection points (or \( t \)-values) for each of the x, y, and z axes. It inspects the intersection of the ray with the 'slabs' (or bounding faces) of the bounding box. The terminal phase ensures that these intersection points lie within a consistent range across all three dimensions, thereby validating the intersection of the ray with the bounding box.
+
+A distilled representation of the function is provided below:
+
+\begin{lstlisting}[language=C++, caption=Simplified Ray Intersect Bounding Box]
+bool Occlusion::rayIntersectOctreeNode(Ray& ray, OctreeNode& node) {
+    ...
+    // Check if ray's origin is within bounding box
+    if (...) return true;
+    
+    // Compute intersection points (t-values) for x, y, and z dimensions
+    double tmin, tmax, tymin, tymax, tzmin, tzmax;
+    ...
+    // Check intersection with x slabs
+    ...
+    // Check intersection with y slabs
+    ...
+    // Check intersection with z slabs
+    ...
+
+    // Ensure intersection points are within a valid range for all dimensions
+    if ((tmin > tzmax) || (tzmin > tmax)) return false;
+    
+    return true;
+}
+\end{lstlisting}
+
+It is pivotal to highlight the adoption of a threshold value (in this context, \(1e-8\)) to ascertain numerical stability. When the ray's directional component for a distinct axis approaches zero, the ray becomes nearly parallel to the planes of the bounding box on that specific axis. This peculiarity is addressed by the function by attributing `t-values` to positive or negative infinity as required.
+
+This algorithm is optimized for efficiency and enables swift determinations of ray-bounding box intersections, a property that's indispensable for maintaining high performance in graphical applications.
+
 
 \subsection{Other Libraries Serve as Supporting Components} \label{sec:supporting libraries}
 
 Several auxiliary libraries play a pivotal role in our system, furnishing it with additional functionalities and capabilities. We briefly discuss these libraries and their respective roles in our pipeline.
 
 \subsubsection{JsonCpp - Parameter Parser} \label{subsec:jsoncpp}
+
+JsonCpp is a C++ library that allows for the parsing of JSON files. In our system, we use it to parse the configuration file, which contains all the parameters required for our pipeline. The following snippet illustrates the configuration file's structure:
 
 \begin{lstlisting}[language=json, caption=Json Configuration File]
 "occlusion": {
@@ -882,23 +1025,20 @@ Several auxiliary libraries play a pivotal role in our system, furnishing it wit
 
 \subsubsection{Websocketpp - Communication Channel} \label{subsec:websocketpp}
 
+Websocketpp is a C++ library that facilitates the establishment of a communication channel between the backend and frontend. It is a critical component of our system, enabling the seamless exchange of data between the two components. The following snippet illustrates the communication channel's initialization:
+
 \begin{lstlisting}[language=C++, caption=Websocket Server]
 typedef websocketpp::server<websocketpp::config::asio> server;
-
 void on_message(server& s, websocketpp::connection_hdl hdl, server::message_ptr msg, DataHolder& data_holder) {
-
 	try {
 		s.send(hdl, msg->get_payload(), msg->get_opcode());
-
 		std::string payload = msg->get_payload();
-
 		if (payload.substr(0, 3) == "-i=") {
 			data_holder.setFileName(payload.substr(3, payload.length()));
 			data_holder.setInputPath("../files/" + payload.substr(3, payload.length()));
 		}
 		...
 	}
-
 int main{
 	print_server.set_message_handler([&print_server, &data_holder](websocketpp::connection_hdl hdl, server::message_ptr msg) {
             on_message(print_server, hdl, msg, data_holder);
@@ -913,60 +1053,72 @@ int main{
 
 
 %=====================================================================
-\section{Web Based User Interface} \label{sec:three.js}
+\section{Web-Based User Interface} \label{sec:three.js}
 
-We present this software in a form of a web application. The pcl based backend serves as a computation engine, while the frontend serves as user interface. We have introduced the main components of the backend in \ref{sec:pcl and eigen}. In this section, we will introduce the frontend and the communication between the frontend and the backend. 
+Our software is elegantly encapsulated within the framework of a web application. The PCL-based backend is the computational powerhouse, whereas the frontend enhances user interaction. Detailed structures of the backend were previously introduced in Section \ref{sec:pcl and eigen}. In this section, our focus shifts to the frontend components and how they seamlessly communicate with the backend.
 
-The user interface is shown in Figure \ref{fig:web user interface}. 
+The user interface's visual representation is captured in Figure \ref{fig:web user interface}.
 
-\noindent
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\includegraphics*[width=1.0\textwidth]{figures/ui.png}
-		\caption{Web User Interface }
-		\label{fig:web user interface}
-	\end{figure}
-\end{minipage}
-%=====================================================================
+\begin{figure}[H]
+	\centering
+	\includegraphics*[width=1.0\textwidth]{figures/ui.png}
+	\caption{Web-Based User Interface}
+	\label{fig:web user interface}
+\end{figure}
 
-\subsection{Three.js Serves as Visualization Engine}
+\subsection{Role of Three.js in Visualization}
 
-Three.js is a cross-browser JavaScript library and application programming interface (API) used to create and display animated 3D computer graphics in a web browser. Three.js uses WebGL.
+Three.js emerges as a versatile, cross-browser JavaScript library, complemented with an API designed to craft and exhibit animated 3D computer graphics directly in a web browser. This dynamic library provides the interactive visualization pivotal for our application.
 
-\subsection{Web Technical Stack}
+\subsection{Chosen Web Technology Stack}
 
-Since we use three.js as visualization engine, we have to use some web technologies to develop the frontend. The web technical stack we use is as follows: 
+Given our choice of three.js for visualization, an ensemble of complementary web technologies is integrated to shape our frontend. The roster for our web tech stack is as follows:
 
 \begin{itemize}
-	\item \textbf{TypeScript} - A strict syntactical superset of JavaScript and adds optional static typing to the language.
-	\item \textbf{TailwindCSS} - A utility-first CSS framework for rapidly building custom user interfaces.
-	\item \textbf{Vite} - A build tool that aims to provide a faster and leaner development experience for modern web projects.
-	\item \textbf{Websocket} - A computer communications protocol, providing full-duplex communication channels over a single TCP connection.
+	\item \textbf{TypeScript} - An enhanced version of JavaScript, TypeScript introduces a stricter syntax and the convenience of optional static typing, fortifying code robustness and clarity.
+	
+	\item \textbf{TailwindCSS} - A utility-first CSS framework, it grants developers the tools to rapidly carve custom user interfaces without the redundancy of routine styling.
+	
+	\item \textbf{Vite} - Tailored for modern web projects, Vite is a forward-thinking build tool that streamlines the development process.
+	
+	\item \textbf{Websocket} - Elevating communication protocols to the next level, Websocket delivers full-duplex communication channels over a single TCP connection, encouraging instantaneous data exchange.
 \end{itemize}
+
+Collectively, these technologies synergize to produce a sleek, responsive, and visually captivating frontend, ensuring users are treated to an intuitive and immersive browsing experience.
 
 \subsection{User Interface Usage}
 
-In this part we will introduce our user interface and explain how to use it.
+In this part we will briefly introduce our user interface and explain how to use it.
 
-\subsubsection{Stats Panel and GUI}
+\subsubsection{Stats Panel}
+
+Stats panel is located at the top left corner of the user interface. It shows three different metrics of the scene in different color.
 
 \begin{itemize}
-	\item \textbf{Stats Panel} - Show three different metrics of the scene in different color.
-		\begin{itemize}
-			\item \textbf{Frame Rate} - Blue, frame rate of the visualization.
-			\item \textbf{Network Latency} - Green, network latency.
-			\item \textbf{Cache Size} - Red, cache size of the point cloud.
-		\end{itemize}
+	\item \textbf{Frame Rate} - Blue, frame rate of the visualization.
+	\item \textbf{Network Latency} - Green, network latency.
+	\item \textbf{Cache Size} - Red, cache size of the point cloud.
+\end{itemize}
+
+\subsubsection{GUI}
+\begin{itemize}
 	\item \textbf{Light Intensity} - Control the intensity of the light source.
 	\item \textbf{Show Cloud} - Show the point cloud.
-	\item \textbf{Use Shader Material} - Use shader material to visualize the point cloud.
-\end {itemize}	
+	\item \textbf{Use Shader Material} - Use shader material to visualize the sphere generated by point picker in a different way. Here it's bliking between white and black.
+	\item \textbf{Center} - Center viewpoint.
+	\item \textbf{Viewpoint Max} - Max viewpoint.
+	\item \textbf{Viewpoint Min} - Min viewpoint.
+	\item \textbf{All lights} - Show all light sources in the scene.
+	\item \textbf{Picker Size} - Size of the point picker.
+\end{itemize}
 
 \subsubsection{Buttons}
 
 \begin{itemize}
 	\item \textbf{Original Cloud} - Upload and visualize original point cloud.
 	\item \textbf{Segmented Cloud} - Upload and visualize segmented point cloud.
+	\item \textbf{Semantic Cloud} - Upload and visualize semantic point cloud.
+	\item \textbf{Mesh} - Upload and visualize mesh.
 \end{itemize}
 
 \subsection{Software Structure}
@@ -1021,22 +1173,34 @@ This project is designated to be used in a web application. However, we also pro
 \chapter{Experimental Results} \label{chp:experiments}
 %=====================================================================
 
-The evaluation discusses the proposed and competing solutions in the light of the initially stated problem requirements and limitations. This typically involves some sort of experimental evaluation which leads to some type of qualitative or quantitative results.
-
-Quantitative results include observed numbers indicating performance timings (speed) or accuracy measures of the given implementation and test datasets. If possible, statistical tests and analysis should be given, or where applicable formal proofs. Meaningful and informative numerical results must be complete and unambiguous. Explain in detail how the evaluation has been designed, as well as the experimental setup and test cases. This includes accurate description of the test data (type, properties, size etc.) as well as the test setup (e.g. view settings, screen resolution etc.), the values of parameters and the measured variables (frame rate, throughput, accuracy etc.).
-
-Qualitative results may be reported if clear quantitative measures are not feasible or applicable. Qualitative results clearly show the features and functionality of the completed work, indicating if and how they are novel or different from prior work. Qualitative results are especially suitable if something \emph{new} has been achieved that no-one has done before in the same way.
-
-Essentially, the goal of the experimental results is to convince the reader by numbers, tests and images (and maybe user studies), giving some sort of proof why the proposed solution is good, different and/or better than other solutions.
 
 \section{Mesh Based Occlusion Level Validation}
 
 \subsection{Ground Truth Mesh}
 
+\subsubsection{Setup}
+
+\subsubsection{Results}
 
 \subsection{Estimated Mesh from Point Cloud}
 
+\subsubsection{Setup}
+
+\subsubsection{Results}
+
 \section{Segmentation Performance Evaluation of Point Cloud}
+
+\subsection{Level of Occlusion}
+
+\subsubsection{Setup}
+
+\subsubsection{Results}
+
+\subsection{Evaluation}
+
+\subsubsection{Setup}
+
+\subsubsection{Results}
 
 %=====================================================================
 \chapter{Conclusion and Discussion} \label{chp:conclusion}
@@ -1045,6 +1209,12 @@ Essentially, the goal of the experimental results is to convince the reader by n
 The last section puts the results in perspective, discussing it in relationship to other related work in one or maximum two pages. Indicate possible (side-)effects and eventual limitations due to the evaluation, but try to keep yourself short and clear. Give a short discussion about your results where you focus on what your findings mean. E.g., show how your results and interpretations agree with the original problem question and with other published work or if there are any other practical applications for your work.
 
 State the \emph{take home message} of the paper that the reader should remember and provide an outlook on possible future work that extends the given solution or fixes specific limitations. Close with a brief description (that is different from the Abstract) of the proposed solution.
+
+\section{Conclusion}
+
+\section{Limitation}
+
+\section{Future Work}
 
 %-------------------------------------------------------------------------------------------------------------------------
 \chapter{Acknowledgements} \label{chp:acknowledgements}
