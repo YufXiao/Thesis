@@ -423,11 +423,14 @@ INPUT ./figures/1 vp.png
 INPUT ./figures/1 vp.png
 INPUT ./figures/1 vp.png
 INPUT ./figures/1 vp.png
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT ./figures/2 vp.png
 INPUT ./figures/2 vp.png
 INPUT ./figures/2 vp.png
 INPUT ./figures/2 vp.png
 INPUT ./figures/2 vp.png
+INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT ./figures/visible area.png
 INPUT ./figures/visible area.png
 INPUT ./figures/visible area.png
@@ -444,11 +447,20 @@ INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
 INPUT ./figures/uniform sample triangle.png
 INPUT ./figures/uniform sample triangle.png
 INPUT ./figures/uniform sample triangle.png
@@ -456,12 +468,15 @@ INPUT ./figures/uniform sample triangle.png
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
-INPUT ./figures/detect openings.png
-INPUT ./figures/detect openings.png
-INPUT ./figures/detect openings.png
-INPUT ./figures/detect openings.png
-INPUT ./figures/detect openings.png
 INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/intersect polygon.png
+INPUT ./figures/detect openings.png
+INPUT ./figures/detect openings.png
+INPUT ./figures/detect openings.png
+INPUT ./figures/detect openings.png
+INPUT ./figures/detect openings.png
 INPUT ./figures/intersect polygon.png
 INPUT ./figures/intersect polygon.png
 INPUT ./figures/intersect polygon.png
@@ -484,7 +499,6 @@ INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
 INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
@@ -518,6 +532,16 @@ INPUT ./figures/ui.png
 INPUT ./figures/ui.png
 INPUT ./figures/ui.png
 INPUT ./figures/ui.png
+INPUT ./figures/stats panel.png
+INPUT ./figures/stats panel.png
+INPUT ./figures/stats panel.png
+INPUT ./figures/stats panel.png
+INPUT ./figures/stats panel.png
+INPUT ./figures/GUI.png
+INPUT ./figures/GUI.png
+INPUT ./figures/GUI.png
+INPUT ./figures/GUI.png
+INPUT ./figures/GUI.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
@@ -530,6 +554,16 @@ INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
 INPUT ./figures/Minkowski Engine.png
+INPUT ./figures/mesh with vps.png
+INPUT ./figures/mesh with vps.png
+INPUT ./figures/mesh with vps.png
+INPUT ./figures/mesh with vps.png
+INPUT ./figures/mesh with vps.png
+INPUT ./figures/experiment mesh.png
+INPUT ./figures/experiment mesh.png
+INPUT ./figures/experiment mesh.png
+INPUT ./figures/experiment mesh.png
+INPUT ./figures/experiment mesh.png
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
@@ -552,8 +586,6 @@ INPUT ./figures/uzh_logo.pdf
 INPUT ./pseudocode/example_pcode.txt
 INPUT ./pseudocode/example_pcode.txt
 INPUT pseudocode/example_pcode.txt
-INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT ./Student_Project_Report.bbl
 INPUT ./Student_Project_Report.bbl
 INPUT Student_Project_Report.bbl

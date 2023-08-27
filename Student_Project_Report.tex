@@ -129,19 +129,21 @@
 \chapter{Abstract} \label{chp:abstract}
 %=====================================================================
 
-The abstract heading is similar to any main section heading but without numbering and is similar to the main body text format. Avoid referencing any bibliography in the abstract text.
-
-A clear organization of a report typically encloses the inner main technical part(s) by an introduction and related work section at the beginning, as well as a discussion and/or conclusion section at the end. The inner technical parts must include the precise problem statement(s), a detailed description of the technical solution (e.g. mathematical models, data structures and algorithms), implementation details if applicable, and experimental results.
-
+This work aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there's a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation softwares like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene is inversely proportional to the quality of semantic segmentation. This finding is crucial for advancing the state of the art in semantic segmentation and for paving the way for more robust applications in autonomous driving, robotics, and 3D scene analysis.
 
 \tableofcontents
 
 \mainmatter
 
 %=====================================================================
-\chapter{Introduction and related works} \label{chp:introduction}
+\chapter{Introduction and Related Works} \label{chp:introduction}
 %=====================================================================
-\todo{Describe the input point cloud characteristics and the expected output (oclussion metric)}
+
+
+AI has received significant attention in recent research. Fields such as natural language processing, image generation, and autonomous driving have benefited from considerable investments, and some related applications have been successfully implemented. Currently, the practical implementation of autonomous driving is still challenging due to the high demands for model performance and safety. To achieve its goals, AI needs to precisely understand its surrounding environment. Hence, semantic segmentation of scenes has become an essential topic. In this thesis, as opposed to focusing on outdoor scenes commonly associated with autonomous driving, we are more interested in understanding indoor environments. The correct classification and comprehension of indoor objects can assist in various aspects of human life, such as creating intelligent robots to help humans with a series of tasks. To understand scenes accurately, we need to provide AI with high-precision data, typically point clouds, obtained from laser scanners or multi-view reconstructions. However, when collecting this type of data, objects are often obstructed due to the viewpoint of the scanner, leading to occlusions in the data. Therefore, we aim to explore how occlusion affects AI's understanding of a scene.
+
+
+\todo{Describe the input point cloud characteristics and the expected output (occlussion metric)}
 
 \todo{ii) Why is this metric important}
 \todo{ applications where occlusion can be potentially used (semantic segmentation)}
@@ -157,7 +159,7 @@ OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion
 
 \section{Positioning and contributions}
 
-Observations: PRebious work knows the GT oclussion information and computes the oclusion level with a conventional metric F1 score. 
+Observations: Previous work knows the GT oclussion information and computes the oclusion level with a conventional metric F1 score. 
 Defined as classification (formal definition).
 
 We dont know the  GT information in our data. So we devise a metric that is agnostic of the viewpoint location.
@@ -165,7 +167,7 @@ We dont know the  GT information in our data. So we devise a metric that is agno
 \todo{Solution: Our insights and technical contributions are:}
 
 Metric 
-We validate our results by creating a dataset with oclusion.
+We validate our results by creating a dataset with occlusion.
 
 We are the first one to define oclusion in a scene without viewpoint information.
 How do you define the metric?
@@ -230,25 +232,15 @@ Finally, an interactive web application is developed to visualize the point clou
 
 We have to validate here that more viewpoints lead to lower occlusion level of the interior scene.
 
-\noindent
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.8\textwidth]{figures/1 vp.png}
-		\caption{Scene with 1 Light Source}
-		\label{fig:scene with 1 light source}
-	\end{figure}
-\end{minipage}
 
-\noindent
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.8\textwidth]{figures/2 vp.png}
-		\caption{Scene with 2 Light Sources}
-		\label{fig:scene with 2 light sources}
-	\end{figure}
-\end{minipage}
+\begin{figure}[htp]
+	\centering
+	\subfigure[1 viewpoint]{\includegraphics[width=0.5\textwidth]{figures/1 vp.png} \label{fig:1 vp}} \hfill
+	\subfigure[2 viewpoints]{\includegraphics[width=0.5\textwidth]{figures/2 vp.png} \label{fig:2 vp}}
+	\caption{Scene with Light Sources}
+	\label{fig:scene with light sources}
+\end{figure}
+
 
 \subsection{Ground Truth Mesh} \label{subsec:occlusion}
 
@@ -345,6 +337,15 @@ The intersection point \( P \) can be represented as:
 
 Where \( u \) and \( v \) are the barycentric coordinates. The ray intersects the triangle if \( 0 \leq u \leq 1 \), \( 0 \leq v \leq 1 \), and \( u + v \leq 1 \).
 
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
+		\caption{Ray Intersect Triangle}
+		\label{fig:ray intersect triangle}
+	\end{figure}
+\end{minipage}
+
 The algorithm uses the following equations to compute \( u \), \( v \), and \( t \) (where \( t \) is the distance from the ray origin to the intersection point):
 
 \begin{itemize}
@@ -431,6 +432,15 @@ After segmenting the point cloud into clusters using the region growing algorith
 
 The first step in this process is to compute the convex hull for each cluster. The convex hull can be thought of as the "tightest" polygon that encloses all the points in a cluster. It provides a simplified representation of the cluster's shape, eliminating any concavities. Various algorithms, such as the Graham's scan or the QuickHull algorithm, can be employed to compute the convex hull efficiently.
 
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
+		\caption{Convex Hull}
+		\label{fig:convex hull}
+	\end{figure}
+\end{minipage}
+
 \subsubsection{Compute Polygon Centroid}
 
 Once the convex hull is determined, the next step is to compute the centroid of each polygon. The centroid, often referred to as the "center of mass" or "balance point", represents the average position of all the points in the polygon. For a given polygon with vertices \( (x_i, y_i) \), the centroid \( (C_x, C_y) \) is computed using the following method:
@@ -500,6 +510,15 @@ Mathematically, the steps can be summarized as:
 \end{align*}
 
 If the ray's origin is not inside the sphere, \( t_{ca} \) is positive, and \( d^2 \) is less than the squared radius of the sphere, then the ray intersects the sphere.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
+		\caption{Ray Intersect Point}
+		\label{fig:ray intersect point}
+	\end{figure}
+\end{minipage}
 
 \subsection{Ray Openings Intersection}
 
@@ -1100,7 +1119,30 @@ Stats panel is located at the top left corner of the user interface. It shows th
 	\item \textbf{Cache Size} - Red, cache size of the point cloud.
 \end{itemize}
 
+
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+        \centering
+        \includegraphics*[width=0.75\textwidth]{figures/stats panel.png}
+        \caption{Stats Panel}
+        \label{fig:stats panel}
+    \end{figure}
+\end{minipage}
+
 \subsubsection{GUI}
+
+GUI is located at the top right corner of the user interface. It shows different parameters of the scene.
+
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.35\textwidth]{figures/GUI.png}
+		\caption{GUI}
+		\label{fig:gui}
+	\end{figure}
+\end{minipage}
+
 \begin{itemize}
 	\item \textbf{Light Intensity} - Control the intensity of the light source.
 	\item \textbf{Show Cloud} - Show the point cloud.
@@ -1114,11 +1156,16 @@ Stats panel is located at the top left corner of the user interface. It shows th
 
 \subsubsection{Buttons}
 
+Below are the buttons on the user interface.
+
 \begin{itemize}
 	\item \textbf{Original Cloud} - Upload and visualize original point cloud.
 	\item \textbf{Segmented Cloud} - Upload and visualize segmented point cloud.
 	\item \textbf{Semantic Cloud} - Upload and visualize semantic point cloud.
 	\item \textbf{Mesh} - Upload and visualize mesh.
+	\item \textbf{Compute Occlusion} - Compute occlusion of the scene.
+	\item \textbf{Extract Polygons} - Extract polygons from the scene.
+	\item \textbf{Evaluate} - Evaluate the performance of segmentation.
 \end{itemize}
 
 \subsection{Software Structure}
@@ -1166,6 +1213,9 @@ This project is designated to be used in a web application. However, we also pro
 	\item \textbf{-moc} - Mesh Occlusion Computation.
 	\item \textbf{-rgoc} - Region Growing Occlusion Computation.
 	\item \textbf{-poc} - Point Cloud Occlusion Computation.
+	\item \textbf{-fscan} - Scan cloud with fixed viewpoint.
+	\item \textbf{-recon} - Reconstruct point cloud from .txt file.
+	\item \textbf{-eval} - Evaluate performance of segmentation.
 \end{itemize}
 
 
@@ -1174,33 +1224,71 @@ This project is designated to be used in a web application. However, we also pro
 %=====================================================================
 
 
-\section{Mesh Based Occlusion Level Validation}
+\section{Mesh Based Occlusion Level}
 
 \subsection{Ground Truth Mesh}
 
-\subsubsection{Setup}
+\paragraph{Setup}
 
-\subsubsection{Results}
+We prepare a ground truth mesh which shows a conference room[McGuire Archives] as our input. We have 3 viewpoints in this scene, their positions are center of the scene, midpoint between center and maximal point and midpoint between center and minimal point. The mesh scene is shown in Figure \ref{fig:mesh with viewpoints} where all viewpoints are marked with red box. 
+
+\noindent
+\begin{minipage}{\textwidth}
+    \begin{figure}[H]
+        \centering
+        \includegraphics*[width=1.0\textwidth]{figures/mesh with vps.png}
+        \caption{Mesh with Viewpoints}
+        \label{fig:mesh with viewpoints}
+    \end{figure}
+\end{minipage}
+\hfill
+
+We will conduct this experiment on different pattern of viewpoints as shown in Figure~\ref{fig:pattern of viewpoints}. Each time we will apply different pattern of viewpoints on the same mesh scene. There are 124277 triangles in this scene, to simplify the computation, we set sample per unit area to be 0.01, which result in 125752 samples as well as rays in total.
+\noindent
+\begin{minipage}{\textwidth}
+	\begin{figure}[H]
+		\centering
+		\includegraphics*[width=0.35\textwidth]{figures/experiment mesh.png}
+		\caption{Pattern of Viewpoints}
+		\label{fig:pattern of viewpoints}
+	\end{figure}
+\end{minipage} 
+
+\paragraph{Results}
+
+Our results are shown in Table \ref{tab:result of each experiment}. We can see that the occlusion level decreases as the number of viewpoints increases. This is because more viewpoints can cover more area of the scene, which results in less occlusion.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Experiment No.} & \textbf{Occlusion Level} \\
+        \hline
+        1st & 0.493 \\
+        2nd & ----- \\
+		3rd & ----- \\
+		4th & 0.376 \\
+		5th & ----- \\
+		6th & ----- \\
+		7th & 0.287 \\
+        \hline
+    \end{tabular}
+    \caption{Result of Each Experiment}
+    \label{tab:result of each experiment}
+\end{table}
 
 \subsection{Estimated Mesh from Point Cloud}
 
-\subsubsection{Setup}
+\paragraph{Setup}
 
-\subsubsection{Results}
+\paragraph{Results}
 
 \section{Segmentation Performance Evaluation of Point Cloud}
 
-\subsection{Level of Occlusion}
+\paragraph{Setup}
 
-\subsubsection{Setup}
+\paragraph{Results}
 
-\subsubsection{Results}
-
-\subsection{Evaluation}
-
-\subsubsection{Setup}
-
-\subsubsection{Results}
 
 %=====================================================================
 \chapter{Conclusion and Discussion} \label{chp:conclusion}
@@ -1210,11 +1298,17 @@ The last section puts the results in perspective, discussing it in relationship 
 
 State the \emph{take home message} of the paper that the reader should remember and provide an outlook on possible future work that extends the given solution or fixes specific limitations. Close with a brief description (that is different from the Abstract) of the proposed solution.
 
-\section{Conclusion}
+\paragraph{Conclusion}
 
-\section{Limitation}
+From the results we get from last section, we ca nfind correlation bewtween level of occlusion and segmentation performance.
 
-\section{Future Work}
+\paragraph{Limitation}
+
+However, there're also many limitations on our work. We cannot assess the occlusion level of a scene very accurately.
+
+\paragraph{Future Work}
+
+Some future work can be done to improve our work.
 
 %-------------------------------------------------------------------------------------------------------------------------
 \chapter{Acknowledgements} \label{chp:acknowledgements}
