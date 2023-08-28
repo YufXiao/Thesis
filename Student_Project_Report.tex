@@ -140,86 +140,98 @@ This work aims to analyze the impact of occlusion on the quality of semantic seg
 %=====================================================================
 
 
-AI has received significant attention in recent research. Fields such as natural language processing, image generation, and autonomous driving have benefited from considerable investments, and some related applications have been successfully implemented. Currently, the practical implementation of autonomous driving is still challenging due to the high demands for model performance and safety. To achieve its goals, AI needs to precisely understand its surrounding environment. Hence, semantic segmentation of scenes has become an essential topic. In this thesis, as opposed to focusing on outdoor scenes commonly associated with autonomous driving, we are more interested in understanding indoor environments. The correct classification and comprehension of indoor objects can assist in various aspects of human life, such as creating intelligent robots to help humans with a series of tasks. To understand scenes accurately, we need to provide AI with high-precision data, typically point clouds, obtained from laser scanners or multi-view reconstructions. However, when collecting this type of data, objects are often obstructed due to the viewpoint of the scanner, leading to occlusions in the data. Therefore, we aim to explore how occlusion affects AI's understanding of a scene.
+Artificial intelligence has received significant attention in recent research. Fields such as natural language processing, image generation, and autonomous driving have benefited from considerable investments, and some related applications have been successfully implemented. Currently, the practical implementation of autonomous driving is still challenging due to the high demands for model performance and safety. To achieve its goals, AI needs to precisely understand its surrounding environment. Hence, semantic segmentation of scenes has become an essential topic. In this thesis, as opposed to focusing on outdoor scenes commonly associated with autonomous driving, we are more interested in understanding indoor environments. The correct classification and comprehension of indoor objects can assist in various aspects of human life, such as creating intelligent robots to help humans with a series of tasks. To understand scenes accurately, we need to provide AI with high-precision data, typically point clouds, which are a collection of data points defined in a three-dimensional coordinate system, represent the external surface of an object. These data points can capture the shape, and sometimes color, of the physical entities in a scanned environment. They are usually obtained from laser scanners or multi-view reconstructions. However, when collecting this type of data, objects are often obstructed due to the viewpoint of the scanner, leading to occlusions in the data, as shown in Figure \ref{fig:occlusion in a scene} [S3dis], where part of occlusions in a scene are marked with red box. Therefore, we aim to explore how occlusion affects AI's understanding of a scene. More specifically, we want to propose a metric to reflect the occlusion level of a scene and analyze how this characteristic influences the performance of semantic segmentation methods.
 
-
-\todo{Describe the input point cloud characteristics and the expected output (occlussion metric)}
-
-\todo{ii) Why is this metric important}
-\todo{ applications where occlusion can be potentially used (semantic segmentation)}
-
-\section{Previous work}
-To the best of our knowledge there is not explicit works that compute oclusion level for an entire scene.
-Some related works are as follows:
-\todo{ briefly mention related works that use occlusion}
-
-\todo{ summarize the occlusion part in this papers}
-Occlusion Guided Scene Flow Estimation on 3D Point Clouds
-OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion
-
-\section{Positioning and contributions}
-
-Observations: Previous work knows the GT oclussion information and computes the oclusion level with a conventional metric F1 score. 
-Defined as classification (formal definition).
-
-We dont know the  GT information in our data. So we devise a metric that is agnostic of the viewpoint location.
-
-\todo{Solution: Our insights and technical contributions are:}
-
-Metric 
-We validate our results by creating a dataset with occlusion.
-
-We are the first one to define oclusion in a scene without viewpoint information.
-How do you define the metric?
-
-Ratio between visible area and total area of the scene.
-
-How do we compute area in a triangular mesh?
-
-How do we extend this to a point cloud scenario?
-
-%=====================================================================
-\section{Technical background}
-%=====================================================================
-\subsection{Point Cloud Data}
-
-A point cloud is a collection of data points situated in a three-dimensional coordinate system. Each point in this system is represented by a set of three numbers, denoting its position in space. This representation is fundamental for capturing the intricate details of 3D environments, be it the bustling streets of a city or the serene interiors of a room. Point clouds are often derived from 3D sensors or scanning mechanisms, and their rich information content makes them the primary input format for semantic segmentation tasks.
-
-Given the complexity of point cloud data and the challenges posed by occlusions, the Minkowski Engine's focus on sparse tensors offers a promising avenue for advancing the state of the art in semantic segmentation. By leveraging its capabilities, researchers and practitioners can hope to achieve more accurate and robust segmentation results, even in challenging environments.
-
-\subsection{Semantic Segmentation}
-Semantic segmentation for point cloud data has rapidly ascended as a pivotal research domain, given its profound implications in a myriad of applications. From the intricate pathways navigated by autonomous vehicles to the precise movements of robotics and the detailed analysis of 3D scenes, the ability to accurately segment and categorize each data point in a 3D environment is paramount.
-
-At the heart of this research lies the challenge of dealing with occlusions. In real-world scenarios, objects within a scene often overlap or obstruct each other, leading to partial or even complete occlusions. Such occlusions can significantly distort the spatial distribution of data points, making it challenging to discern the true structure and category of the obstructed objects. For instance, in an urban driving scenario, a pedestrian might be partially hidden behind a parked car, or in an indoor setting, a chair might be obscured by a table. These occlusions can lead to misclassifications, reducing the overall accuracy of the segmentation process.
-
-This project proposal is rooted in the quest to unravel the intricacies of occlusion within point cloud data. Specifically, we aim to delve deep into understanding how varying levels of occlusion in a scene impact the performance and quality of semantic segmentation methods. By systematically analyzing the effects of occlusion, we aspire to shed light on potential strategies to enhance segmentation accuracy, even in highly occluded environments.
-
-Through this investigation, we hope to not only advance the state of the art in point cloud data segmentation but also pave the way for more robust applications in autonomous driving, robotics, and 3D scene analysis.
-
-\subsubsection{Minkowski Engine}
-
-The Minkowski Engine stands out as a state-of-the-art tool in this domain. It is an auto-differentiation library specifically designed for sparse tensors. In the realm of deep learning, where dense tensors are commonly used, the Minkowski Engine brings a fresh perspective by focusing on sparse tensors. This is particularly beneficial for 3D data, which often exhibits spatial sparsity. The engine supports all standard neural network layers, including convolution, pooling, unpooling, and broadcasting operations, but tailored for sparse tensors. Such capabilities make it an ideal choice for semantic segmentation tasks, especially when dealing with point cloud data.
+% \todo{Describe the input point cloud characteristics and the expected output (occlussion metric)}
+% \todo{ii) Why is this metric important}
+% \todo{ applications where occlusion can be potentially used (semantic segmentation)}
 
 \begin{figure}[h]
     \centering
-    \includegraphics*[width=0.6\textwidth]{figures/Minkowski Engine.png}
+    \includegraphics*[width=0.8\textwidth]{figures/occlusion in conf2.png}
+    \caption{Occlusion in a scene}
+    \label{fig:occlusion in a scene}
+\end{figure}
+
+\section{Previous work}
+To the best of our knowledge currently there is not explicit works that compute occlusion level for an entire indoor scene. There are some related works handling occlusion of point cloud. In this section, we will briefly introduce these works, especially the ones that are related to occlusion.  
+
+% \todo{ briefly mention related works that use occlusion}
+% \todo{ summarize the occlusion part in this papers}
+
+\paragraph{Occlusion Guided Scene Flow Estimation on 3D Point Clouds.}
+
+This paper presents the OGSF-Net, a novel architecture designed to address the challenges of occlusions in 3D scene flow estimation. Occlusions, where certain regions in one frame are hidden in another, can hinder accurate flow estimation. The OGSF-Net uniquely integrates the learning of flow and occlusions, using an occlusion handling mechanism in its Cost Volume layer to measure frame correlations. This approach aims to enhance both flow accuracy and the understanding of occluded regions, marking a pioneering effort in 3D scene flow estimation on point clouds. To make this method robust, it's important to make an accurate occlusion prediction. Therefore, they evaluate the performance of occlusion estimation on dataset FlyingThings3D, which provides the ground truth occlusion mask of point cloud. For evaluation, they use accuracy and F1 score as metrics. This inspires us to apply similar metrics to evaluate the result of semantic segmentation.
+
+\paragraph{OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion.} \label{par:occlusion completion}
+
+In this work, the authors proposed ${Occlusion Completion}$, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weighths for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
+
+\section{Positioning and Contributions}
+
+Previous work has shown that occluison of a point cloud can be estimated based on ground truth occlusion information. However, in our work we have to estimate occlusion level of a scene without knowing such information. To achieve this, we decide to create occlusion in the scene by placing viewpoints in different locations. With the dataset we created, we can propose a metric to quantify the occlusion level of a scene. If we think about occlusion level of a scene in real world, our intuition is that the more viewpoints we use to look at a scene, the more area of the scene we can see. Therefore, we propose a metric that is based on the ratio between visible area and total area of the scene. Since there's no surface area information in a point cloud, we would first validate our metric on mesh. To extend the concept ${Visible Area Ratio}$ to point cloud, we would use ${Occlusion Ray}$, which means the ray hit occlusion in the scene, to estimate occlusion level.
+
+% Observations: Previous work knows the GT occlussion information and computes the oclusion level with a conventional metric F1 score. 
+% Defined as classification (formal definition).
+
+% \todo{Solution: Our insights and technical contributions are:}
+% Metric 
+% We validate our results by creating a dataset with occlusion.
+% We are the first one to define oclusion in a scene without viewpoint information.
+% How do you define the metric?
+% Ratio between visible area and total area of the scene.
+% How do we compute area in a triangular mesh?
+% How do we extend this to a point cloud scenario?
+
+%=====================================================================
+\section{Technical Background}
+%=====================================================================
+
+Based on the introduction in previous sections, we would elaborate on some key concepts in the technical background of this work.
+
+\subsection{Point Cloud Data}
+
+A point cloud is a discrete set of data points in space. The points may represent a 3D shape or object. Each point position has its set of Cartesian coordinates (X, Y, Z), in some cases it can also include color(RGB) or intensity information. Point clouds are generally produced by 3D scanners or by photogrammetry software, which measure many points on the external surfaces of objects around them.[wiki] 
+
+\vspace{10pt}
+
+Point cloud can be used in different areas. One usage is for rendering and modeling. Typically 3D objects are modeled using polygon meshes, and  polygons are the rendering primitives in the graphics pipeline. However, representing all objects with point sampling allows easy mixing of objects in a scene without specialized algorithms for different geometry types. Other applications include depth sensing, perception, scientific computing etc.
+
+\subsection{Semantic Segmentation}
+
+Semantic segmentation for point cloud data has rapidly ascended as a pivotal research domain, given its profound implications in a myriad of applications. From the intricate pathways navigated by autonomous vehicles to the precise movements of robotics and the detailed analysis of 3D scenes, the ability to accurately segment and categorize each data point in a 3D environment is important.
+
+\vspace{10pt}
+
+At the heart of this research lies the challenge of dealing with occlusions. In real-world scenarios, objects within a scene often overlap or obstruct each other, leading to partial or even complete occlusions. Such occlusions can significantly distort the spatial distribution of data points, making it challenging to discern the true structure and category of the obstructed objects. For instance, in an urban driving scenario, a pedestrian might be partially hidden behind a parked car, or in an indoor setting, a chair might be obscured by a table. These occlusions can lead to misclassifications, reducing the overall accuracy of the segmentation process.
+
+\vspace{10pt}
+
+This project proposal is rooted in the quest to unravel the intricacies of occlusion within point cloud data. Specifically, we aim to delve deep into understanding how varying levels of occlusion in a scene impact the performance and quality of semantic segmentation methods. By systematically analyzing the effects of occlusion, we aspire to shed light on potential strategies to enhance segmentation accuracy, even in highly occluded environments.
+
+\paragraph{Minkowski Engine.}
+
+The Minkowski Engine stands out as a state-of-the-art tool in this domain. It is an auto-differentiation library specifically designed for sparse tensors. In the area of deep learning, where dense tensors are commonly used, the Minkowski Engine brings a fresh perspective by focusing on sparse tensors. This is particularly beneficial for 3D data, which often exhibits spatial sparsity. The engine supports all standard neural network layers, including convolution, pooling, unpooling, and broadcasting operations, but tailored for sparse tensors. Such capabilities make it an ideal choice for semantic segmentation tasks, especially when dealing with point cloud data.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics*[width=0.8\textwidth]{figures/Minkowski Engine.png}
     \caption{Minkowski Engine Indoor Scene Segmentation}
     \label{fig:minkowski}
 \end{figure}
-
 
 
 \section{Motivation} \label{sec:motivation}
 
 Among the myriad factors influencing the semantic segmentation of point cloud data, the level of occlusion stands as a paramount challenge. Occlusions, a prevalent phenomenon in 3D scenes, can significantly compromise the quality and integrity of data. When objects are partially or entirely obscured by others, conventional semantic segmentation approaches might falter, leading to inaccuracies in segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation remains fragmented. Specifically, there's a palpable gap in understanding how to quantify occlusion levels and how these levels influence the performance of advanced tools like the Minkowski Engine. 
 
+\vspace{10pt}
+
 Thus, the primary motivation behind this research is to systematically evaluate occlusion levels and delve deep into their implications on point cloud data semantic segmentation. Through this investigation, we aim to offer more precise semantic segmentation methodologies, especially in environments with high levels of occlusion. In essence, our objective is to forge a nexus between occlusion levels and the efficacy of semantic segmentation, providing invaluable insights for future research and applications.
 
 \section{Outline} \label{sec:outline}
 
-In this work we use ray-tracing based methods to scan ground truth cloud and compute occlusion level for the scanned cloud. Before we doing this, we aplly similar methods to estimate occlusion level of mesh to validate that ray-based methods are reliable.
-
-Finally, an interactive web application is developed to visualize the point cloud together with a backend is developed to compute the occlusion level of the point cloud.
+In this work we use ray-tracing based methods to scan ground truth cloud and compute occlusion level for the scanned cloud. Before we doing this, we apply similar methods to estimate occlusion level of mesh to validate that ray-based methods are reliable. Finally, an interactive web application is developed to visualize the point cloud together with a backend is developed to compute the occlusion level of the point cloud.
 
 
 %=====================================================================
@@ -232,11 +244,10 @@ Finally, an interactive web application is developed to visualize the point clou
 
 We have to validate here that more viewpoints lead to lower occlusion level of the interior scene.
 
-
 \begin{figure}[htp]
 	\centering
-	\subfigure[1 viewpoint]{\includegraphics[width=0.5\textwidth]{figures/1 vp.png} \label{fig:1 vp}} \hfill
-	\subfigure[2 viewpoints]{\includegraphics[width=0.5\textwidth]{figures/2 vp.png} \label{fig:2 vp}}
+	\subfigure[1 viewpoint]{\includegraphics[width=0.45\textwidth]{figures/1 vp.png} \label{fig:1 vp}} \hfill
+	\subfigure[2 viewpoints]{\includegraphics[width=0.45\textwidth]{figures/2 vp.png} \label{fig:2 vp}}
 	\caption{Scene with Light Sources}
 	\label{fig:scene with light sources}
 \end{figure}
@@ -269,6 +280,8 @@ In this chapter we will introduce our technical solution to the problem stated i
 
 Ray tracing is a powerful technique used in computer graphics to simulate the way light interacts with objects to generate realistic images. In the context of our study, ray tracing plays a pivotal role in estimating the visible area ratio of triangles in a scene. This estimation is crucial for understanding how much of a triangle's surface is directly illuminated by a light source, especially when other objects in the scene might occlude it.
 
+\vspace{10pt}
+
 A flow chart of the whole pipeline is shown here.
 
 \begin{minipage}{\textwidth}
@@ -284,7 +297,11 @@ A flow chart of the whole pipeline is shown here.
 
 To accurately represent a triangle's area using samplings, it's imperative that these samplings comprehensively cover the triangle. For this purpose, we employ the random uniform sampling method. This method ensures that each point within the triangle has an equal chance of being selected, leading to a fair representation of the triangle's entire area.
 
+\vspace{10pt}
+
 The process begins by randomly generating two parameters, \( r_1 \) and \( r_2 \), both of which lie in the interval [0, 1]. These random parameters are then used to compute the barycentric coordinates of the sampled points within the triangle. The barycentric coordinates, denoted as \( \alpha \), \( \beta \), and \( \gamma \), allow us to express any point within the triangle as a linear combination of the triangle's vertices.
+
+\vspace{10pt}
 
 To derive the sampled point's coordinates using \( r_1 \) and \( r_2 \), we use the following equations:
 \[ \alpha = 1 - \sqrt{r_1} \]
@@ -307,7 +324,11 @@ Where \( P \) is the sampled point, and \( V_1 \), \( V_2 \), and \( V_3 \) are 
 
 In computer graphics, especially in the context of ray tracing, generating rays is a fundamental step. These rays simulate the path of light as it interacts with objects in a scene. In our approach, we generate rays from the sampled points on the triangle to a light source. This is crucial for determining how light interacts with the triangle, especially when considering factors like shading and occlusion.
 
+\vspace{10pt}
+
 The sampled points serve as the origin of each ray, while the view point (or light source) acts as the look-at point. The direction of each ray is computed based on the difference between the look-at point and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
+
+\vspace{10pt}
 
 The direction of the ray, \( \text{Direction} \), can be computed as:
 
@@ -328,9 +349,15 @@ By generating rays in this manner, we can accurately simulate the behavior of li
 
 Ray-triangle intersection is a fundamental operation in computer graphics, especially in the context of ray tracing. Determining whether a ray intersects a triangle and finding the intersection point are crucial for rendering scenes composed of triangular meshes.
 
+\vspace{10pt}
+
 One of the most efficient and widely used algorithms for this purpose is the Möller–Trumbore intersection algorithm. This algorithm determines the intersection of a ray and a triangle in a 3D space without any need for pre-computed plane equations.
 
+\vspace{10pt}
+
 Given a ray represented by its origin \( O \) and direction \( D \), and a triangle defined by its vertices \( V_1 \), \( V_2 \), and \( V_3 \), the algorithm computes the intersection using barycentric coordinates.
+
+\vspace{10pt}
 
 The intersection point \( P \) can be represented as:
 \[ P = (1 - u - v) V_1 + u V_2 + v V_3 \]
@@ -386,7 +413,11 @@ This algorithm is both efficient and robust, making it a popular choice for ray-
 
 In the context of ray tracing and light interaction, understanding the visible area of a triangle is crucial. The visible area ratio provides insight into how much of a triangle's surface is directly illuminated by a light source without being occluded by other objects in the scene.
 
+\vspace{10pt}
+
 From the previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the light source. To determine the visible area, we first need to compute the visibility weight for each sampling. This weight represents the ratio of visible samplings to the total number of samplings on the triangle.
+
+\vspace{10pt}
 
 Mathematically, the visibility weight, \( w \), can be defined as:
 \begin{equation}
@@ -401,6 +432,8 @@ where \( A_{\text{total}} \) is the total area of the triangle.
 
 A sampling is deemed visible if at least one ray originating from it does not intersect any triangle other than the one from which the sampling was generated. To ascertain this, we must examine all intersections related to the ray emanating from the sampling. If no intersection is closer to the sampling than the distance between the sampling and the light source, then the sampling is considered visible.
 
+\vspace{10pt}
+
 This method ensures a precise computation of the visible area, accounting for occlusions and the intricate play of light within the scene.
  
 \section{Segmentation Based Estimation of Mesh} \label{sec:region growing mesh estimation}
@@ -409,6 +442,8 @@ This method ensures a precise computation of the visible area, accounting for oc
 \subsection{Region Growing Segmentation}
 
 In our approach, we utilize the region growing [pcl region growing] algorithm for segmentation. This algorithm works by iteratively expanding a region by adding neighboring points that are similar based on certain criteria, such as geometric proximity and surface normals. Starting from a seed point, the region grows by incorporating neighboring points that meet the similarity criteria until no more points can be added.
+
+\vspace{10pt}
 
 The region growing algorithm can be summarized in the following steps:
 \begin{enumerate}
@@ -445,9 +480,13 @@ The first step in this process is to compute the convex hull for each cluster. T
 
 Once the convex hull is determined, the next step is to compute the centroid of each polygon. The centroid, often referred to as the "center of mass" or "balance point", represents the average position of all the points in the polygon. For a given polygon with vertices \( (x_i, y_i) \), the centroid \( (C_x, C_y) \) is computed using the following method:
 
+\vspace{10pt}
+
 First, the area \( A \) of the polygon is computed using the formula:
 \[ A = \frac{1}{2} \sum_{i=1}^{n} x_i y_{i+1} - x_{i+1} y_i \]
 where \( n \) is the number of vertices in the polygon, and the indices are taken modulo \( n \) to ensure that the last vertex wraps around to the first.
+
+\vspace{10pt}
 
 The coordinates of the centroid are then given by:
 \begin{align*}
@@ -471,7 +510,11 @@ Ray tracing is a powerful technique that simulates the path of rays as they trav
 
 To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
 
+\vspace{10pt}
+
 The uniform sampling on the sphere is achieved using random sampling in the azimuthal angle \( \theta \) and the polar angle \( \phi \). The azimuthal angle \( \theta \) is uniformly sampled in the range \([0, 2\pi]\), while the polar angle \( \phi \) is sampled such that its cosine is uniformly distributed in the range \([-1, 1]\). This ensures a uniform distribution of points over the sphere's surface.
+
+\vspace{10pt}
 
 Given a center point of the sphere and a predefined radius \( r \), the coordinates \( (x, y, z) \) of a sampled point on the sphere are computed as:
 \begin{align*}
@@ -495,11 +538,19 @@ This process is repeated for the desired number of samples, resulting in a set o
 
 In our model, each point within the point cloud is represented as a small sphere with a defined radius. This simplifies the ray-point intersection check, as we can treat each point as a volumetric entity rather than a singular coordinate in space.
 
+\vspace{10pt}
+
 To determine if a ray intersects with a sphere, we first normalize the direction vector of the ray. Then, we compute the vector \( \mathbf{L} \) from the ray's origin to the center of the sphere. If the squared magnitude of \( \mathbf{L} \) is less than the squared radius of the sphere, it indicates that the ray's origin is inside the sphere, and thus, an intersection exists.
+
+\vspace{10pt}
 
 Next, we compute the projection \( t_{ca} \) of \( \mathbf{L} \) onto the ray's direction. If \( t_{ca} \) is negative, it means the sphere is behind the ray's origin, and no intersection occurs.
 
+\vspace{10pt}
+
 We then compute the squared perpendicular distance \( d^2 \) from the center of the sphere to the ray. If \( d^2 \) exceeds the squared radius of the sphere, the ray does not intersect the sphere.
+
+\vspace{10pt}
 
 Mathematically, the steps can be summarized as:
 \begin{align*}
@@ -524,7 +575,11 @@ If the ray's origin is not inside the sphere, \( t_{ca} \) is positive, and \( d
 
 Openings or gaps in the scene, such as windows or doorways, should not contribute to occlusion. To account for these openings, we need an efficient method to determine if a ray intersects with any of the openings in the scene.
 
+\vspace{10pt}
+
 Given the typically limited number of openings in a scene, it's feasible to manually select a few points that represent the boundary of each opening. Using these points, we can construct a polygonal representation of the opening. The ray-openings intersection check can then be performed by testing if the ray intersects with any of these polygons.
+
+\vspace{10pt}
 
 For a set of points \( P = \{p_1, p_2, ..., p_n\} \) that define a polygon, we first estimate a plane \( \mathbf{N} \) that best fits these points. Once the plane is determined, all points are projected onto this plane to ensure they lie within the same plane. The next step involves calculating the intersection of the ray with this plane. If an intersection exists, we need to determine if this intersection point lies inside the polygon.
 
@@ -538,6 +593,8 @@ For a set of points \( P = \{p_1, p_2, ..., p_n\} \) that define a polygon, we f
 \end{minipage}
 
 To check the position of the intersection point relative to the polygon, we construct vectors between the intersection point and each vertex of the polygon. For every pair of neighboring vectors, we compute their cross product. If all resulting cross products point in the same direction (i.e., they have the same sign), then the intersection point is inside the polygon. Otherwise, the intersection point lies outside the polygon.
+
+\vspace{10pt}
 
 Mathematically, given two vectors \( \mathbf{v_1} \) and \( \mathbf{v_2} \), their cross product is given by:
 \[
@@ -565,7 +622,11 @@ By iterating over all the vertices of the polygon and computing these cross prod
 
 To assess occlusion within the point cloud, we employ a ray tracing method where rays emanate from various points on a spherical light source. The degree of occlusion for each point in the cloud is deduced from the count of rays that neither intersect any point in the cloud nor any predefined openings in the scene.
 
+\vspace{10pt}
+
 Within this framework, we introduce the notion of "occlusion rays". These rays, once cast from the light source, bypass any intersections with the point cloud or the designated scene openings.
+
+\vspace{10pt}
 
 To provide a quantitative measure of occlusion, we calculate the ratio of occlusion rays to the overall number of rays cast. This metric, termed the "occlusion ray ratio", offers an insight into the occlusion level within the point cloud. A higher ratio signifies a pronounced occlusion presence.
 

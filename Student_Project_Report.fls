@@ -407,10 +407,12 @@ OUTPUT Student_Project_Report.toc
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmro7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmro7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmro8r.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+INPUT ./figures/occlusion in conf2.png
+INPUT ./figures/occlusion in conf2.png
+INPUT ./figures/occlusion in conf2.png
+INPUT ./figures/occlusion in conf2.png
+INPUT ./figures/occlusion in conf2.png
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/helvetic/phvb7t.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/helvetic/phvb7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/helvetic/phvb8r.tfm
 INPUT ./figures/Minkowski Engine.png
@@ -429,6 +431,9 @@ INPUT ./figures/2 vp.png
 INPUT ./figures/2 vp.png
 INPUT ./figures/2 vp.png
 INPUT ./figures/2 vp.png
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr7t.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT ./figures/visible area.png

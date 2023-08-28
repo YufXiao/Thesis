@@ -1,21 +1,21 @@
 # Fdb version 4
-["bibtex Student_Project_Report"] 1693107061 "Student_Project_Report.aux" "Student_Project_Report.bbl" "Student_Project_Report" 1693107068 0
+["bibtex Student_Project_Report"] 1693191144 "Student_Project_Report.aux" "Student_Project_Report.bbl" "Student_Project_Report" 1693191151 0
   "./bad_refs.bib" 1689812617 6307 58394cf8cb9fbd93c9ef351275781980 ""
   "./corrected_refs.bib" 1689812617 3695 1c63c9dd132f8c90403528aba8f604c1 ""
   "./references.bib" 1689812617 6703 b00754b77fcf13c6c147e61181d3868f ""
-  "Student_Project_Report.aux" 1693107066 50218 1f5f7b98b7c4f3847409e2c314d455db "pdflatex"
+  "Student_Project_Report.aux" 1693191149 48972 c65d89b284b7ebb438f6322cb574e3f8 "pdflatex"
   "c:/texlive/2023/texmf-dist/bibtex/bst/base/alpha.bst" 1690289829 23907 a5f93555796fb564b924339521f10a7c ""
   (generated)
   "Student_Project_Report.bbl"
   "Student_Project_Report.blg"
   (rewritten before read)
-["pdflatex"] 1693107061 "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" "Student_Project_Report.pdf" "Student_Project_Report" 1693107068 0
-  "Student_Project_Report.aux" 1693107066 50218 1f5f7b98b7c4f3847409e2c314d455db "pdflatex"
-  "Student_Project_Report.bbl" 1693107061 6618 0aa07513a3da07e07e7d5271de45043b "bibtex Student_Project_Report"
-  "Student_Project_Report.out" 1693107063 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "Student_Project_Report.tex" 1693107053 100792 1e88d6b063bdcb5f025f5aadd0ce9e0f ""
-  "Student_Project_Report.toc" 1693107066 9115 ec0186763e61bc56cb973f8b2b42ce6d "pdflatex"
-  "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" 1693107053 100792 1e88d6b063bdcb5f025f5aadd0ce9e0f ""
+["pdflatex"] 1693191144 "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" "Student_Project_Report.pdf" "Student_Project_Report" 1693191151 0
+  "Student_Project_Report.aux" 1693191149 48972 c65d89b284b7ebb438f6322cb574e3f8 "pdflatex"
+  "Student_Project_Report.bbl" 1693191144 6618 0aa07513a3da07e07e7d5271de45043b "bibtex Student_Project_Report"
+  "Student_Project_Report.out" 1693191146 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "Student_Project_Report.tex" 1693191136 104631 ba3b5023173ab332dad62ec84583400f ""
+  "Student_Project_Report.toc" 1693191149 9354 19281e41250bc09ec75a12664b52c45b "pdflatex"
+  "c:/Users/51932/Desktop/Thesis/Student_Project_Report.tex" 1693191136 104631 ba3b5023173ab332dad62ec84583400f ""
   "c:/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1690290373 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1690290651 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrb7t.tfm" 1690290171 960 4ab65358b8406f30ef5496c8c096d22b ""
@@ -268,6 +268,7 @@
   "figures/experiment mesh.png" 1693092240 91612 21f9e534cce92f975f73f040ff4947e7 ""
   "figures/intersect polygon.png" 1692837003 2594 f9afdde4fe38631713771bb0761484d0 ""
   "figures/mesh with vps.png" 1693096136 200785 55052690e66935fbac30f50077b4c4d3 ""
+  "figures/occlusion in conf2.png" 1693173555 1242148 fe3515c2e459acde08c7e5f782a4e44d ""
   "figures/octree.png" 1693004676 135568 f4ac783cbf9fcf047daf327d51b68a95 ""
   "figures/rg.png" 1692879241 230360 d4db48b8d70576da62a6cf1d732396f9 ""
   "figures/stats panel.png" 1693081937 24182 734b488324baaf896ba3af12da0df5c9 ""
