@@ -168,7 +168,7 @@ This paper presents the OGSF-Net, a novel architecture designed to address the c
 In this work, the authors proposed ${Occlusion Completion}$, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weighths for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
 
 \section{Positioning and Contributions}
-
+\FIXME{We will define occlusion in a similar way to the Art gallery problem. The number of viewpoints needed to cover the whole scene}
 Previous work has shown that occluison of a point cloud can be estimated based on ground truth occlusion information. However, in our work we have to estimate occlusion level of a scene without knowing such information. To achieve this, we decide to create occlusion in the scene by placing viewpoints in different locations. With the dataset we created, we can propose a metric to quantify the occlusion level of a scene. If we think about occlusion level of a scene in real world, our intuition is that the more viewpoints we use to look at a scene, the more area of the scene we can see. Therefore, we propose a metric that is based on the ratio between visible area and total area of the scene. Since there's no surface area information in a point cloud, we would first validate our metric on mesh. To extend the concept ${Visible Area Ratio}$ to point cloud, we would use ${Occlusion Ray}$, which means the ray hit occlusion in the scene, to estimate occlusion level.
 
 % Observations: Previous work knows the GT occlussion information and computes the oclusion level with a conventional metric F1 score. 
@@ -211,7 +211,7 @@ This project proposal is rooted in the quest to unravel the intricacies of occlu
 
 \paragraph{Minkowski Engine.}
 
-The Minkowski Engine stands out as a state-of-the-art tool in this domain. It is an auto-differentiation library specifically designed for sparse tensors. In the area of deep learning, where dense tensors are commonly used, the Minkowski Engine brings a fresh perspective by focusing on sparse tensors. This is particularly beneficial for 3D data, which often exhibits spatial sparsity. The engine supports all standard neural network layers, including convolution, pooling, unpooling, and broadcasting operations, but tailored for sparse tensors. Such capabilities make it an ideal choice for semantic segmentation tasks, especially when dealing with point cloud data.
+The Minkowski Engine stands out as a state-of-the-art tool in this domain\FIXME{it is no longer a start}. It is an auto-differentiation library specifically designed for sparse tensors. In the area of deep learning, where dense tensors are commonly used, the Minkowski Engine brings a fresh perspective by focusing on sparse tensors. This is particularly beneficial for 3D data, which often exhibits spatial sparsity. The engine supports all standard neural network layers, including convolution, pooling, unpooling, and broadcasting operations, but tailored for sparse tensors. Such capabilities make it an ideal choice for semantic segmentation tasks, especially when dealing with point cloud data.
 
 \begin{figure}[h]
     \centering
@@ -276,6 +276,7 @@ It's essential to evaluate result of segmentation of point cloud so that we can 
 
 In this chapter we will introduce our technical solution to the problem stated in \ref{chp:problem}.
 
+
 \section{Ray Tracing Based Estimation of Visible Area Ratio} \label{sec:ray tracing visible area ratio}
 
 Ray tracing is a powerful technique used in computer graphics to simulate the way light interacts with objects to generate realistic images. In the context of our study, ray tracing plays a pivotal role in estimating the visible area ratio of triangles in a scene. This estimation is crucial for understanding how much of a triangle's surface is directly illuminated by a light source, especially when other objects in the scene might occlude it.
@@ -325,7 +326,7 @@ Where \( P \) is the sampled point, and \( V_1 \), \( V_2 \), and \( V_3 \) are 
 In computer graphics, especially in the context of ray tracing, generating rays is a fundamental step. These rays simulate the path of light as it interacts with objects in a scene. In our approach, we generate rays from the sampled points on the triangle to a light source. This is crucial for determining how light interacts with the triangle, especially when considering factors like shading and occlusion.
 
 \vspace{10pt}
-
+\FIXME{maybe change look-at by viewpoint}
 The sampled points serve as the origin of each ray, while the view point (or light source) acts as the look-at point. The direction of each ray is computed based on the difference between the look-at point and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
 
 \vspace{10pt}
@@ -765,7 +766,7 @@ static std::uniform_real_distribution<double> distribution(0.0, 1.0);
 
 With the random number generator established, azimuthal and polar angles are computed for each sample. These angles are then transformed into Cartesian coordinates, centered around a provided point:
 
-\begin{lstlisting}[language=C++, caption=Sampling on a Sphere]
+\begin{lstlisting} [language=C++, caption=Sampling on a Sphere]
 for (size_t i = 0; i < num_samples; ++i) {
 	double theta = 2 * M_PI * distribution(generator);  // Azimuthal angle
 	double phi = acos(2 * distribution(generator) - 1); // Polar angle
