@@ -462,10 +462,6 @@ INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
-INPUT ./figures/intersect polygon.png
-INPUT ./figures/intersect polygon.png
-INPUT ./figures/intersect polygon.png
-INPUT ./figures/intersect polygon.png
 INPUT ./figures/uniform sample triangle.png
 INPUT ./figures/uniform sample triangle.png
 INPUT ./figures/uniform sample triangle.png
@@ -493,16 +489,16 @@ INPUT c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmr9.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi9.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex9.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
-INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx9.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx7.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam10.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam7.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msam5.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm
+INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm
 INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 INPUT c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
@@ -515,11 +511,6 @@ INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrb7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrb8r.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
-INPUT ./figures/rg.png
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
 INPUT c:/texlive/2023/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
 INPUT c:/texlive/2023/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm

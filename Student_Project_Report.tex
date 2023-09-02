@@ -440,67 +440,6 @@ This method ensures a precise computation of the visible area, accounting for oc
 \section{Segmentation Based Estimation of Mesh} \label{sec:region growing mesh estimation}
 
 
-\subsection{Region Growing Segmentation}
-
-In our approach, we utilize the region growing [pcl region growing] algorithm for segmentation. This algorithm works by iteratively expanding a region by adding neighboring points that are similar based on certain criteria, such as geometric proximity and surface normals. Starting from a seed point, the region grows by incorporating neighboring points that meet the similarity criteria until no more points can be added.
-
-\vspace{10pt}
-
-The region growing algorithm can be summarized in the following steps:
-\begin{enumerate}
-    \item Select a seed point from the point cloud that has not been assigned to any cluster.
-    \item Identify neighboring points of the seed based on a predefined distance threshold.
-    \item Evaluate the similarity of neighboring points based on criteria like curvature or surface normals.
-    \item Add the similar neighbors to the current region and mark them as visited.
-    \item Repeat the process for the newly added points.
-    \item Continue the growth until no more points can be added to the current region.
-    \item Start a new region with another unvisited seed point and repeat the process until all points are assigned to clusters.
-\end{enumerate}
-
-By the end of this process, we obtain a number of clusters that represent distinct structures or objects in the original point cloud. These segmented clusters facilitate further analysis, such as object recognition, surface reconstruction, and other advanced 3D processing tasks.
-
-
-\subsection{Build Triangles From Clusters}
-
-After segmenting the point cloud into clusters using the region growing algorithm, the next step is to construct a mesh from these clusters. This mesh representation is essential for applying ray tracing techniques, as described in Section \ref{sec:ray tracing visible area ratio}. To achieve this, we need to build triangles from the clusters.
-
-\subsubsection{Convex Hull Estimate Polygons}
-
-The first step in this process is to compute the convex hull for each cluster. The convex hull can be thought of as the "tightest" polygon that encloses all the points in a cluster. It provides a simplified representation of the cluster's shape, eliminating any concavities. Various algorithms, such as the Graham's scan or the QuickHull algorithm, can be employed to compute the convex hull efficiently.
-
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
-		\caption{Convex Hull}
-		\label{fig:convex hull}
-	\end{figure}
-\end{minipage}
-
-\subsubsection{Compute Polygon Centroid}
-
-Once the convex hull is determined, the next step is to compute the centroid of each polygon. The centroid, often referred to as the "center of mass" or "balance point", represents the average position of all the points in the polygon. For a given polygon with vertices \( (x_i, y_i) \), the centroid \( (C_x, C_y) \) is computed using the following method:
-
-\vspace{10pt}
-
-First, the area \( A \) of the polygon is computed using the formula:
-\[ A = \frac{1}{2} \sum_{i=1}^{n} x_i y_{i+1} - x_{i+1} y_i \]
-where \( n \) is the number of vertices in the polygon, and the indices are taken modulo \( n \) to ensure that the last vertex wraps around to the first.
-
-\vspace{10pt}
-
-The coordinates of the centroid are then given by:
-\begin{align*}
-C_x &= \frac{1}{6A} \sum_{i=1}^{n} (x_i + x_{i+1}) (x_i y_{i+1} - x_{i+1} y_i) \\
-C_y &= \frac{1}{6A} \sum_{i=1}^{n} (y_i + y_{i+1}) (x_i y_{i+1} - x_{i+1} y_i)
-\end{align*}
-
-With the centroid computed, we then connect the centroid to each of the vertices of the polygon. This results in a series of triangles that fan out from the centroid, providing a triangulated representation of the cluster.
-
-
-\subsubsection{Occlusion Level Estimation}
-
-With the triangles constructed, we can now estimate the occlusion level of the mesh. By applying the ray tracing method described in Section \ref{sec:ray tracing visible area ratio}, we can determine how much of each triangle is visible from a given viewpoint. This information is invaluable for various applications, including rendering, simulation, and analysis, as it provides insights into the visibility and shading characteristics of the mesh in a scene.
 
 
 \section{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
@@ -738,18 +677,18 @@ Precision measures the proportion of positive identifications that were actually
 A higher precision indicates that a larger percentage of the model's positive predictions were correct.
 
 %=====================================================================
-\chapter{Implementation} \label{chp:implementation}
+\chapter{Implementation}\label{chp:implementation}
 %=====================================================================
 
-In this chapter, we delve deeper into the nuts and bolts of our solution as presented in Chapter \ref{chp:solution}, shedding light on the tools and methodologies employed and highlighting their critical roles in our system.
+In this chapter, we delve deeper into the nuts and bolts of our solution as presented in Chapter\ref{chp:solution}, shedding light on the tools and methodologies employed and highlighting their critical roles in our system.
 
-\section{PCL Serves as Main Component in Computational Pipeline} \label{sec:pcl and eigen}
+\section{PCL Serves as Main Component in Computational Pipeline}\label{sec:pcl and eigen}
 
 The Point Cloud Library (PCL) stands as the cornerstone of our implementation. We predominantly rely on PCL for an array of vital tasks, ranging from reading and segmenting point cloud data to evaluating its occlusion levels.
 
 Parallel to PCL, the Eigen library emerges as an invaluable asset. It is our preferred choice for handling intricate mathematical operations that are indispensable to our pipeline. To ensure a comprehensive and cohesive system, we also incorporate auxiliary libraries, such as JsonCpp and Websocketpp, which furnish our framework with supplemental functionalities.
 
-\subsection{Uniform Sampling} \label{subsec:uniform sampling}
+\subsection{Uniform Sampling}\label{subsec:uniform sampling}
 
 In many computer graphics and simulation applications, it's often necessary to sample points uniformly from geometric shapes like spheres or triangles. To achieve this, we often use random number generators to create random points that fall within the shape.
 
@@ -824,56 +763,10 @@ for (size_t i = 0; i < num_samples; ++i) {
 This method ensures that the samples are uniformly distributed across the surface of the triangle, which can be especially crucial for graphics, simulations, or light transport calculations.
 
 
-\subsection{Mesh Estimation} \label{sec:mesh estimation}
+\subsection{Mesh Estimation}\label{sec:mesh estimation}
 
 Estimating the mesh necessitates an initial handling of point cloud data. As such, leveraging the Point Cloud Library (PCL) becomes an intuitive decision, and we seamlessly integrate it into the core of our computational pipeline.
 
-\subsubsection{Region Growing}
-
-To segment the point cloud into discernable clusters, we employ PCL's normal estimation and region-growing algorithm. Achieving an accurate segmentation hinges upon meticulous parameter tuning. 
-
-The first step in this process involves setting up a k-d tree, which allows for efficient neighbor searches when estimating normals for the point cloud:
-
-\begin{lstlisting}[language=C++, caption=Setting up k-d tree and Normals Estimation]
-pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>());
-pcl::PointCloud<pcl::Normal>::Ptr normals(new pcl::PointCloud<pcl::Normal>);
-pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normal_estimation;
-normal_estimation.setInputCloud(cloud);
-normal_estimation.setSearchMethod(tree);
-normal_estimation.setKSearch(50);
-normal_estimation.compute(*normals);
-\end{lstlisting}
-
-Subsequently, we proceed with region growing, which is contingent on the previously computed normals. Key parameters like the minimum and maximum cluster sizes, number of neighbors, and thresholds for smoothness and curvature play pivotal roles in determining the quality and granularity of segmentation:
-
-\begin{lstlisting}[language=C++, caption=Region Growing Parameters Setting and Execution]
-pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
-reg.setMinClusterSize(100);
-reg.setMaxClusterSize(100000);
-reg.setSearchMethod(tree);
-reg.setNumberOfNeighbours(40);
-reg.setInputCloud(cloud);
-reg.setInputNormals(normals);
-reg.setSmoothnessThreshold(4.0 / 180.0 * M_PI);
-reg.setCurvatureThreshold(1.0);
-
-reg.extract(rg_clusters);
-\end{lstlisting}
-
-Through this approach, the point cloud data is effectively fragmented into coherent clusters, forming a solid foundation for subsequent mesh estimation and reconstruction steps.
-
-\noindent
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\includegraphics*[width=1.0\textwidth]{figures/rg.png}
-		\caption{Region Growing Segmented Interior Scene}
-		\label{fig:region growing segmented interior scene}
-	\end{figure}
-\end{minipage}
-
-\subsubsection{Generate Triangles from Clusters} \label{subsec:generate triangles from clusters}
-
-The generation of triangles from clusters is a nuanced process that harnesses the capabilities of PCL. We navigate through this process in stages: fitting clusters to planes, projecting points, and computing the convex hull of each cluster.
 
 \paragraph{Plane Estimation:} The initial step revolves around fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. The function \texttt{computePlaneCoefficients} captures this essence:
 

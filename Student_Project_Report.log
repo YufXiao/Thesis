@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  28 AUG 2023 04:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2023.7.25)  1 SEP 2023 04:35
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -885,7 +885,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
  [4]
 chapter 1.
-<figures/occlusion in conf2.png, id=172, 750.55406pt x 422.32782pt>
+<figures/occlusion in conf2.png, id=168, 750.55406pt x 422.32782pt>
 File: figures/occlusion in conf2.png Graphic file (type png)
 <use figures/occlusion in conf2.png>
 Package pdftex.def Info: figures/occlusion in conf2.png  used on input line 151.
@@ -895,19 +895,19 @@ Package pdftex.def Info: figures/occlusion in conf2.png  used on input line 151.
 
 
  <./figures/occlusion in conf2.png>] [2]
-<figures/Minkowski Engine.png, id=192, 596.2275pt x 334.24875pt>
+<figures/Minkowski Engine.png, id=188, 596.2275pt x 334.24875pt>
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
 Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 218.
 (pdftex.def)             Requested size: 395.09653pt x 221.49228pt.
  [3 <./figures/Minkowski Engine.png>] [4]
 chapter 2.
-<figures/1 vp.png, id=208, 1927.2pt x 1084.05pt>
+<figures/1 vp.png, id=204, 1927.2pt x 1084.05pt>
 File: figures/1 vp.png Graphic file (type png)
 <use figures/1 vp.png>
 Package pdftex.def Info: figures/1 vp.png  used on input line 249.
 (pdftex.def)             Requested size: 222.23944pt x 125.00221pt.
-<figures/2 vp.png, id=209, 1927.2pt x 1084.05pt>
+<figures/2 vp.png, id=205, 1927.2pt x 1084.05pt>
 File: figures/2 vp.png Graphic file (type png)
 <use figures/2 vp.png>
 Package pdftex.def Info: figures/2 vp.png  used on input line 250.
@@ -918,7 +918,7 @@ Package hyperref Info: bookmark level for unknown todo defaults to 0 on input li
 
  <./figures/1 vp.png> <./figures/2 vp.png>]
 chapter 3.
-<figures/visible area.png, id=221, 946.53625pt x 122.4575pt>
+<figures/visible area.png, id=217, 946.53625pt x 122.4575pt>
 File: figures/visible area.png Graphic file (type png)
 <use figures/visible area.png>
 Package pdftex.def Info: figures/visible area.png  used on input line 290.
@@ -928,7 +928,7 @@ Overfull \hbox (10.95pt too wide) in paragraph at lines 287--295
 []$[]$ 
  []
 
-<figures/uniform sample triangle.png, id=223, 284.56313pt x 231.86626pt>
+<figures/uniform sample triangle.png, id=219, 284.56313pt x 231.86626pt>
 File: figures/uniform sample triangle.png Graphic file (type png)
 <use figures/uniform sample triangle.png>
 Package pdftex.def Info: figures/uniform sample triangle.png  used on input line 317.
@@ -946,7 +946,7 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 34
  (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [7 <./figures/uniform sample triangle.png>]
-<figures/intersect polygon.png, id=243, 170.88844pt x 170.88844pt>
+<figures/intersect polygon.png, id=239, 170.88844pt x 170.88844pt>
 File: figures/intersect polygon.png Graphic file (type png)
 <use figures/intersect polygon.png>
 Package pdftex.def Info: figures/intersect polygon.png  used on input line 370.
@@ -957,268 +957,244 @@ Overfull \hbox (10.95pt too wide) in paragraph at lines 367--375
  []
 
 [8 <./figures/intersect polygon.png>] [9]
-File: figures/intersect polygon.png Graphic file (type png)
-<use figures/intersect polygon.png>
-Package pdftex.def Info: figures/intersect polygon.png  used on input line 473.
-(pdftex.def)             Requested size: 123.4672pt x 123.46982pt.
+File: figures/uniform sample triangle.png Graphic file (type png)
+<use figures/uniform sample triangle.png>
+Package pdftex.def Info: figures/uniform sample triangle.png  used on input line 470.
+(pdftex.def)             Requested size: 296.32428pt x 241.47485pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 470--478
+Overfull \hbox (10.95pt too wide) in paragraph at lines 467--475
 []$[]$ 
  []
 
 [10]
-File: figures/uniform sample triangle.png Graphic file (type png)
-<use figures/uniform sample triangle.png>
-Package pdftex.def Info: figures/uniform sample triangle.png  used on input line 531.
-(pdftex.def)             Requested size: 296.32428pt x 241.47485pt.
-
-Overfull \hbox (10.95pt too wide) in paragraph at lines 528--536
-[]$[]$ 
- []
-
-[11]
 File: figures/intersect polygon.png Graphic file (type png)
 <use figures/intersect polygon.png>
-Package pdftex.def Info: figures/intersect polygon.png  used on input line 568.
+Package pdftex.def Info: figures/intersect polygon.png  used on input line 507.
 (pdftex.def)             Requested size: 123.4672pt x 123.46982pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 565--573
+Overfull \hbox (10.95pt too wide) in paragraph at lines 504--512
 []$[]$ 
  []
 
-[12]
-<figures/detect openings.png, id=297, 663.22781pt x 99.37125pt>
+<figures/detect openings.png, id=265, 663.22781pt x 99.37125pt>
 File: figures/detect openings.png Graphic file (type png)
 <use figures/detect openings.png>
-Package pdftex.def Info: figures/detect openings.png  used on input line 589.
+Package pdftex.def Info: figures/detect openings.png  used on input line 528.
 (pdftex.def)             Requested size: 493.86879pt x 73.99603pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 586--594
+Overfull \hbox (10.95pt too wide) in paragraph at lines 525--533
 []$[]$ 
  []
 
+[11 <./figures/detect openings.png>]
 File: figures/intersect polygon.png Graphic file (type png)
 <use figures/intersect polygon.png>
-Package pdftex.def Info: figures/intersect polygon.png  used on input line 614.
+Package pdftex.def Info: figures/intersect polygon.png  used on input line 553.
 (pdftex.def)             Requested size: 123.4672pt x 123.46982pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 611--619
+Overfull \hbox (10.95pt too wide) in paragraph at lines 550--558
 []$[]$ 
  []
 
-[13 <./figures/detect openings.png>] [14] [15] [16]
+[12] [13] [14]
 chapter 4.
 (c:/texlive/2023/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
 ) (c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 761.
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 700.
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 761--761
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 700--700
 [][][][][][][] 
  []
 
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 761.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 700.
 (c:/texlive/2023/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Overfull \hbox (6.0pt too wide) in paragraph at lines 768--768
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 707--707
 [][][][][][][] 
  []
 
-[17
+[15
 
 
 ]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 788--788
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 727--727
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 796--796
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 735--735
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 806--806
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 745--745
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 836--836
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 772--772
 [][][][][][][] 
  []
 
-[18]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 848--848
-[][][][][][][] 
- []
-
-<figures/rg.png, id=406, 686.565pt x 398.99063pt>
-File: figures/rg.png Graphic file (type png)
-<use figures/rg.png>
-Package pdftex.def Info: figures/rg.png  used on input line 867.
-(pdftex.def)             Requested size: 493.86879pt x 287.00516pt.
-[19 <./figures/rg.png>]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 879--879
+[16]
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 780--780
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 887--887
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 790--790
 [][][][][][][] 
  []
 
 
-Overfull \hbox (6.0pt too wide) in paragraph at lines 897--897
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 807--807
 [][][][][][][] 
  []
 
-[20]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 914--914
-[][][][][][][] 
- []
-
+[17]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 965.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 858.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 962--970
+Overfull \hbox (10.95pt too wide) in paragraph at lines 855--863
 []$[]$ 
  []
 
+[18]
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 868--868
+[][][][][][][] 
+ []
+
+[19]
+Overfull \hbox (6.94629pt too wide) in paragraph at lines 898--899
+[] []\OT1/phv/b/n/10.95 Build Con-nec-tions Be-tween Nodes:[][] \OT1/ptm/m/n/10.95 Es-tab-lish-ing con-nec-tions be-tween par-ent and child nodes is paramount.
+ []
+
+<figures/octree.png, id=467, 1848.9075pt x 905.3825pt>
+File: figures/octree.png Graphic file (type png)
+<use figures/octree.png>
+Package pdftex.def Info: figures/octree.png  used on input line 911.
+(pdftex.def)             Requested size: 493.86879pt x 241.8317pt.
+[20 <./figures/octree.png>]
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 942--942
+[][][][][][][] 
+ []
+
 [21]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 975--975
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 978--978
+[][][][][][][] 
+ []
+
+
+Overfull \hbox (4.76411pt too wide) in paragraph at lines 1003--1003
 [][][][][][][] 
  []
 
 [22]
-Overfull \hbox (6.94629pt too wide) in paragraph at lines 1005--1006
-[] []\OT1/phv/b/n/10.95 Build Con-nec-tions Be-tween Nodes:[][] \OT1/ptm/m/n/10.95 Es-tab-lish-ing con-nec-tions be-tween par-ent and child nodes is paramount.
- []
-
-<figures/octree.png, id=532, 1848.9075pt x 905.3825pt>
-File: figures/octree.png Graphic file (type png)
-<use figures/octree.png>
-Package pdftex.def Info: figures/octree.png  used on input line 1018.
-(pdftex.def)             Requested size: 493.86879pt x 241.8317pt.
-[23 <./figures/octree.png>]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 1049--1049
-[][][][][][][] 
- []
-
-[24]
-Overfull \hbox (6.0pt too wide) in paragraph at lines 1085--1085
-[][][][][][][] 
- []
-
-
-Overfull \hbox (6.0pt too wide) in paragraph at lines 1110--1110
-[][][][][][][] 
- []
-
-[25]
-<figures/ui.png, id=615, 955.06813pt x 453.695pt>
+<figures/ui.png, id=552, 955.06813pt x 453.695pt>
 File: figures/ui.png Graphic file (type png)
 <use figures/ui.png>
-Package pdftex.def Info: figures/ui.png  used on input line 1144.
+Package pdftex.def Info: figures/ui.png  used on input line 1037.
 (pdftex.def)             Requested size: 493.86879pt x 234.60742pt.
- [26 <./figures/ui.png>]
-<figures/stats panel.png, id=640, 194.253pt x 23.214pt>
+ [23 <./figures/ui.png>]
+<figures/stats panel.png, id=576, 194.253pt x 23.214pt>
 File: figures/stats panel.png Graphic file (type png)
 <use figures/stats panel.png>
-Package pdftex.def Info: figures/stats panel.png  used on input line 1188.
+Package pdftex.def Info: figures/stats panel.png  used on input line 1081.
 (pdftex.def)             Requested size: 370.40158pt x 44.26465pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 1185--1193
+Overfull \hbox (10.95pt too wide) in paragraph at lines 1078--1086
 []$[]$ 
  []
 
-<figures/GUI.png, id=642, 123.96312pt x 139.01938pt>
+<figures/GUI.png, id=578, 123.96312pt x 139.01938pt>
 File: figures/GUI.png Graphic file (type png)
 <use figures/GUI.png>
-Package pdftex.def Info: figures/GUI.png  used on input line 1201.
+Package pdftex.def Info: figures/GUI.png  used on input line 1094.
 (pdftex.def)             Requested size: 172.85709pt x 193.86636pt.
 
-Overfull \hbox (10.95pt too wide) in paragraph at lines 1198--1206
+Overfull \hbox (10.95pt too wide) in paragraph at lines 1091--1099
 []$[]$ 
  []
 
-[27 <./figures/stats panel.png>]
+[24 <./figures/stats panel.png>]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 1239.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 1132.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [28 <./figures/GUI.png>]
+ [25 <./figures/GUI.png>]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 1250.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 1143.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [29]
+ [26]
 File: figures/Minkowski Engine.png Graphic file (type png)
 <use figures/Minkowski Engine.png>
-Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 1261.
+Package pdftex.def Info: figures/Minkowski Engine.png  used on input line 1154.
 (pdftex.def)             Requested size: 493.86879pt x 276.86536pt.
- [30] [31]
+ [27] [28]
 chapter 5.
-<figures/mesh with vps.png, id=695, 833.36343pt x 290.58563pt>
+<figures/mesh with vps.png, id=631, 833.36343pt x 290.58563pt>
 File: figures/mesh with vps.png Graphic file (type png)
 <use figures/mesh with vps.png>
-Package pdftex.def Info: figures/mesh with vps.png  used on input line 1300.
+Package pdftex.def Info: figures/mesh with vps.png  used on input line 1193.
 (pdftex.def)             Requested size: 493.86879pt x 172.20667pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1296--1306
+Underfull \hbox (badness 10000) in paragraph at lines 1189--1199
 
  []
 
-<figures/experiment mesh.png, id=698, 380.92313pt x 465.23813pt>
+<figures/experiment mesh.png, id=634, 380.92313pt x 465.23813pt>
 File: figures/experiment mesh.png Graphic file (type png)
 <use figures/experiment mesh.png>
-Package pdftex.def Info: figures/experiment mesh.png  used on input line 1312.
+Package pdftex.def Info: figures/experiment mesh.png  used on input line 1205.
 (pdftex.def)             Requested size: 172.85709pt x 211.11575pt.
-[32
+[29
 
 
- <./figures/mesh with vps.png> <./figures/experiment mesh.png>] [33]
+ <./figures/mesh with vps.png> <./figures/experiment mesh.png>] [30]
 chapter 6.
-[34
+[31
 
 
 ]
 chapter 7.
-[35
+[32
 
 
-] [36
+] [33
 
 
-] [37]
-Overfull \hbox (48.68903pt too wide) in paragraph at lines 1501--1503
+] [34]
+Overfull \hbox (48.68903pt too wide) in paragraph at lines 1394--1396
 []\OT1/ptm/m/n/10.95 Use con-sis-tent sec-tion, equa-tion and fig-ure la-belling [][]\OT1/pcr/m/n/10.95 \label{sec:introduction} []\OT1/ptm/m/n/10.95 as well as \OT1/pcr/m/n/10.95 eq:rendering,
  []
 
-[38] [39]
+[35] [36]
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1578.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1471.
 (pdftex.def)             Requested size: 246.93439pt x 72.15797pt.
 File: figures/vmml_logo.pdf Graphic file (type pdf)
 <use figures/vmml_logo.pdf>
-Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1585.
+Package pdftex.def Info: figures/vmml_logo.pdf  used on input line 1478.
 (pdftex.def)             Requested size: 148.16214pt x 43.29478pt.
 File: figures/uzh_logo.pdf Graphic file (type pdf)
 <use figures/uzh_logo.pdf>
-Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 1586.
+Package pdftex.def Info: figures/uzh_logo.pdf  used on input line 1479.
 (pdftex.def)             Requested size: 148.16214pt x 46.38263pt.
- (./pseudocode/example_pcode.txt [40]) [41] [42] (./Student_Project_Report.bbl [43
+ (./pseudocode/example_pcode.txt [37]) [38] [39] (./Student_Project_Report.bbl [40
 
 
-] [44
+] [41
 
 
-]) [45] (./Student_Project_Report.aux)
+]) [42] (./Student_Project_Report.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2020/03/25>
@@ -1231,18 +1207,18 @@ Package rerunfilecheck Info: File `Student_Project_Report.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 30302 strings out of 475237
- 566779 string characters out of 5768555
- 2063238 words of memory out of 5000000
- 50513 multiletter control sequences out of 15000+600000
- 598874 words of font info for 115 fonts, out of 8000000 for 9000
+ 30196 strings out of 475237
+ 565077 string characters out of 5768555
+ 2059238 words of memory out of 5000000
+ 50455 multiletter control sequences out of 15000+600000
+ 598693 words of font info for 115 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  108i,11n,120p,10947b,2191s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Student_Project_Report.pdf (49 pages, 7508252 bytes).
+Output written on Student_Project_Report.pdf (46 pages, 7368610 bytes).
 PDF statistics:
- 1223 PDF objects out of 1440 (max. 8388607)
- 1056 compressed objects within 11 object streams
- 495 named destinations out of 1000 (max. 500000)
- 671 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1144 PDF objects out of 1200 (max. 8388607)
+ 985 compressed objects within 10 object streams
+ 451 named destinations out of 1000 (max. 500000)
+ 638 words of extra memory for PDF output out of 10000 (max. 10000000)
 
