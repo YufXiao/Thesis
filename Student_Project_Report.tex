@@ -4,7 +4,8 @@
 \usepackage{a4wide}
 \usepackage{times}
 \usepackage{helvet}   % sets sans serif font
-
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{svg}
 \usepackage{graphicx}
@@ -145,7 +146,7 @@ Artificial intelligence has received significant attention in recent research. F
 
 \begin{figure}[h]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/occlusion in conf2.png}
+    \includegraphics*[width=0.75\textwidth]{figures/occlusion in conf2.png}
     \caption{Occlusion in a scene}
     \label{fig:occlusion in a scene}
 \end{figure}
@@ -165,11 +166,11 @@ In this work, the authors proposed ${Occlusion Completion}$, an unsupervised pre
 \section{Positioning and Contributions}
 
 Previous work has shown that occlusion of a point cloud can be estimated based on ground truth occlusion information. However, in our work we have to estimate occlusion level of a scene without knowing such information. To achieve this, we will define 
-occlusion in a similar way to the Art gallery problem, in which we want to know the minimal number of viewpoints are needed to cover the whole scene. If we don't have enough viewpoints, then there's occlusion in the scene, which is the part that cannot be seen by any viewpoints. To estimate occlusion we defined, we propose the metric ${InvisibleAreaRatio}$ to represent occlusion level in the scene which is represented by a triangulated mesh. 
+occlusion in a similar way to the Art gallery problem, in which we want to know the minimal number of viewpoints are needed to cover the whole scene. If we don't have enough viewpoints, then there's occlusion in the scene, which is the part that cannot be seen by any viewpoints. To estimate occlusion we defined, we propose the metric \textit{Non-visible area ratio} to represent occlusion level in the scene which is represented by a triangulated mesh. 
 
 \vspace{10pt}
 
-This work is focusing on the data set of point cloud. Since there's no property can quantify area in point cloud we cannot directly extend the metric ${InvisibleAreaRatio}$ to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose ${BoundaryRayRatio}$ which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
+This work is focusing on the data set of point cloud. Since there's no property can quantify area in point cloud we cannot directly extend the metric \textit{Non-visible area ratio} to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose \textit{Boundary ray ratio} which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
 
 %=====================================================================
 \section{Technical Background}
@@ -200,7 +201,7 @@ The Minkowski Engine is an auto-differentiation library specifically designed fo
 
 \begin{figure}[h]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+    \includegraphics*[width=0.75\textwidth]{figures/Minkowski Engine.png}
     \caption{Minkowski Engine Indoor Scene Segmentation}
     \label{fig:minkowski}
 \end{figure}
@@ -209,11 +210,7 @@ The Minkowski Engine is an auto-differentiation library specifically designed fo
 \section{Motivation} \label{sec:motivation}
 
 Among the many factors influencing the semantic segmentation of point cloud data, the level of occlusion stands as one of the major 
-challenges. Occlusions, a prevalent phenomenon in 3D scenes, can significantly compromise the quality and integrity of data. When objects are partially or entirely obscured by others, semantic segmentation might lead to inaccuracies in segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation remains fragmented. Specifically, there's a palpable gap in understanding how to quantify occlusion levels and how these levels influence the performance of advanced tools like the Minkowski Engine. 
-
-\vspace{10pt}
-
-Thus, the primary motivation behind this research is to systematically evaluate level of occlusion and delve deep into their impact on point cloud data semantic segmentation. Through this work, we aim to provide researchers with insights for optimizing semantic segmentation in future research and applications.
+challenges. Occlusions, a prevalent phenomenon in 3D scenes, can significantly compromise the quality and integrity of data. When objects are partially or entirely obscured by others, semantic segmentation might lead to inaccuracies in segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation remains fragmented. Specifically, there's a palpable gap in understanding how to quantify occlusion levels and how these levels influence the performance of advanced tools like the Minkowski Engine. Thus, the primary motivation behind this research is to systematically evaluate level of occlusion and delve deep into their impact on point cloud data semantic segmentation. Through this work,
 
 \section{Outline} \label{sec:outline}
 
@@ -228,134 +225,201 @@ For this thesis it's crucial to present our experimental results in a meaningful
 \chapter{Problem Statement} \label{chp:problem}
 %=====================================================================
 
-In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that ${InvisibleAreaRatio}$ can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its invisible area ratio. From the computation of invisibility we should be able to generate a new cloud from visible area. With this point cloud we can apply the metric ${BoundaryRayRatio}$ to estimate level of occlusion. To validate ${BoundaryRayRatio}$ is a reliable metric in estimation, its value should be close to the value of ${InvisibleAreaRatio}$. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
+In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that \textit{Non-visible area ratio} can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its Non-visible area ratio. From the computation of invisibility we should be able to generate a new cloud from visible area. With this point cloud we can apply the metric \textit{Boundary ray ratio} to estimate level of occlusion. To validate \textit{Boundary ray ratio} is a reliable metric in estimation, its value should be close to the value of \textit{Non-visible area ratio}. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
 
 \vspace{10pt}
 
 These problems are addressed in following points. Each of them will be provided with more detailed explanation in the next chapter where our technical solutions are given.
 
 \begin{itemize}
-    \item Compute invisible area ratio of mesh.
+    \item Compute \textit{Non-visible area ratio} of mesh.
     \item Estimate a mesh from the given point cloud.
-    \item Compute the invisible area ratio for the estimated mesh and generate a new point cloud from the visible area of the mesh.
-    \item Apply the ${BoundaryRayRatio}$ metric to the new point cloud to estimate the level of occlusion, and validate the reliability of the ${BoundaryRayRatio}$ metric by comparing its value with the ${InvisibleAreaRatio}$
-    \item Compute the occlusion level and the performance of semantic segmentation of the point cloud.
-    \item Compare the performance of semantic segmentation on point clouds with different occlusion levels to determine the correlation between occlusion level and segmentation performance.
+    \item Compute the \textit{Non-visible area ratio} for the estimated mesh and generate a new point cloud from the visible area of the mesh.
+    \item Apply the \textit{Boundary ray ratio} metric to the new point cloud to estimate the level of occlusion and validate the reliability of the \textit{Boundary ray ratio} metric by comparing its value with the \textit{Non-visible area ratio}
+    \item Compute the occlusion level and the performance of semantic segmentation of the point cloud, then compare these metrics between different clouds to find correlation. 
 \end{itemize}
 
 
-\section{Invisible Area Ratio of Mesh} \label{sec:invisible area ratio of mesh}
+\section{Non-visible Area Ratio of Mesh} \label{sec:Non-visible area ratio of mesh}
 
-In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, with more viewpoints we can compute less invisible area and thus lower occlusion. As shown in \ref{fig:scene with light sources}, the scene with 2 viewpoints has more bright area. To determine which area is visible and which is not is the key point here to compute invisible area ratio correctly.
+In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, there's less invisible region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender[Blender], the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
 
-\begin{figure}[htp]
+\vspace{10pt}
+
+To determine which area is visible and which is not is the key point here to compute Non-visible area ratio correctly. Obviously, the visible region to a viewpoint is where rays from viewpoint can reach. Hence, ray-tracing based algorithm will play an important role in computation of occlusion level.  
+
+\begin{figure}[H]
     \centering
-    \subfigure[1 viewpoint]{\includegraphics[width=0.45\textwidth]{figures/1 vp.png} \label{fig:1 vp}} \hfill
-    \subfigure[2 viewpoints]{\includegraphics[width=0.45\textwidth]{figures/2 vp.png} \label{fig:2 vp}}
+    \subfigure[1 viewpoint]{\includegraphics[width=0.475\textwidth]{figures/1 vp.png} \label{fig:1 vp}} \hfill
+    \subfigure[2 viewpoints]{\includegraphics[width=0.475\textwidth]{figures/2 vp.png} \label{fig:2 vp}}
     \caption{Scene with Light Sources}
     \label{fig:scene with light sources}
 \end{figure}
 
 \section{Mesh Estimation from Point Cloud} \label{mesh estimation of point cloud}
 
-If we want to apply invisible area ratio to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can then estimate a plane for each of them, then we can generate a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it's also crucial for us to improve the result of mesh estimation. In case of region growing, we need to tweak its input parameters.
+If we want to apply \textit{Non-visible area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it's crucial for us to improve the result of mesh estimation. 
+
+\vspace{10pt}
+
+In case of region growing, we need to tweak its input parameters. An example of a code snippet is shown in list \ref{lst:region_growing}, with so many parameters to adjust, the result of region growing can be unstable, which also makes subsequent process difficult to control. Therefore, it's essential to find a more accurate way to estimate mesh.   
+\begin{lstlisting}[language=C++, caption=region growing, label=lst:region_growing]
+    pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
+    reg.setMinClusterSize(min_cluster_size);
+    reg.setMaxClusterSize(max_cluster_size);
+    reg.setSearchMethod(tree);
+    reg.setNumberOfNeighbours(num_neighbours);
+    reg.setInputCloud(cloud);
+    reg.setInputNormals(normals);
+    reg.setSmoothnessThreshold(smoothness_threshold / 180.0 * M_PI);
+    reg.setCurvatureThreshold(curvature_threshold);
+    reg.extract(rg_clusters);
+\end{lstlisting}
 
 \section{Generate Point Cloud from Estimated Mesh} \label{generate point cloud from estimated mesh}
 
-Once we have a mesh, we can directly sample points on each face of it. The way of sampling is the key point. 
+Once we have a mesh, we can directly generate points from each face of it. One way to do that is sampling points on polygon, which is normally triangle. We have to make the distribution of points as uniform as possible so that the structural information of mesh can be kept precisely. Otherwise, the generated point cloud will give us distorted information which may lead to significantly biased result of computation. The other way to have points from mesh could be related to ray in the scene. As we mentioned in section \ref{sec:Non-visible area ratio of mesh}, ray-tracing based mesh can be applied to our pipeline. When there's ray in the scene, we can compute intersections between ray and triangle. These intersections can present structural information of mesh as well, in case of first hit intersection point, we know that the region surrounding this point is visible. This information of visibility may contribute to subsequent computations. 
 
 
 \section{Boundary Ray Ratio of Point Cloud}
 
+A common way to generate point cloud is conducted by casting lasers from scanner. Since lasers cannot pass through objects, occlusion is then generated on those obscured surfaces. And they are mostly shown on the exterior structure of an indoor scene such as walls, floors and ceilings etc, as they are located in the outermost layer of the room. Items such as chairs and tables, they can also be obscured by other things, but it's difficult to estimate how much they are occluded since their structure is more complex compared to large structures like walls. An example of exterior and interior structure of point cloud is shown in figure \ref{fig:Exterior and interior structure of a point cloud}
 
+\begin{figure}[H]
+    \centering
+    \subfigure[Exterior]{\includegraphics[width=0.65\textwidth]{figures/conf2 ext.png}} \label{fig:exterior} 
+    \subfigure[Interior]{\includegraphics[width=0.65\textwidth]{figures/conf2 int.png}} \label{fig:interior}
+    \caption{Scene with Light Sources}
+    \label{fig:Exterior and interior structure of a point cloud}
+\end{figure}
+
+\vspace{10pt}
+
+Based on what we stated above, we choose \textit{Boundary ray ratio} as the metric to estimate occlusion in point cloud. A set of rays will be cast to detect if it intersect with points identified as exterior structure, in this work we define these external points as boundary. With ground truth labeling of points, the classification of points can easily be done. Finally, we can compute a ratio related to ray that intersects boundary to represent occlusion level of a point cloud. 
 
 \section{Performance Evaluation of Semantic Segmentation} \label{sec:performance evaluation}
 
-
+This step is to find correlation between occlusion level and performance of semantic segmentation. From previous steps we can already compute occlusion level of a point cloud. The problem here is to use some metrics to evaluate the performance of segmentation. In the part \ref{par:scene flow} where we mentioned the related work about scene flow, the author applied F1 score to evaluate their results. This will be considered as one of the options for evaluation. With metrics we computed before we can finally investigate how would the evaluation metrics change with different occlusion level. 
 
 %=====================================================================
 \chapter{Technical Solution} \label{chp:solution}
 %=====================================================================
 
-In this chapter we will introduce our technical solution to the problem stated in \ref{chp:problem}.
+In this chapter we will introduce our technical solution to the problem stated in \ref{chp:problem} in a detailed way. The overall workflow is shown below in Figure \ref{fig:overall flowchart of technical solution}.
 
-\section{Ray Tracing Based Estimation of Visible Area Ratio} \label{sec:ray tracing visible area ratio}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.35\textwidth]{figures/technical solution flowchart.png}
+    \caption{Overall Flowchart of Technical Solution}
+    \label{fig:overall flowchart of technical solution}
+\end{figure}
 
-Ray tracing is a powerful technique used in computer graphics to simulate the way light interacts with objects to generate realistic images. In the context of our study, ray tracing plays a pivotal role in estimating the visible area ratio of triangles in a scene. This estimation is crucial for understanding how much of a triangle's surface is directly illuminated by a light source, especially when other objects in the scene might occlude it.
+\section{Compute Non-visible Area Ratio} \label{sec:compute non-visible area ratio}
 
-\vspace{10pt}
+It's difficult to accurately compute non-visible area of a triangle, since we don't exactly know which part is visible or invisible geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are invisible. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing non-visible area ratio}.
 
-A flow chart of the whole pipeline is shown here.
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/Compute Non-visible Area Ratio.png}
+    \caption{Flowchart of Computing Non-visible Area Ratio}
+    \label{fig:flowchart of computing non-visible area ratio}
+\end{figure}
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=1.0\textwidth]{figures/visible area.png}
-		\caption{Flow chart of visible area ratio estimation}
-		\label{fig:visible area ratio estimation}
-	\end{figure}
-\end{minipage}
+\subsection{Sample Triangles} \label{subsec:sample triangle}
 
-\subsection{Sample Triangles}
-
-To accurately represent a triangle's area using samplings, it's imperative that these samplings comprehensively cover the triangle. For this purpose, we employ the random uniform sampling method. This method ensures that each point within the triangle has an equal chance of being selected, leading to a fair representation of the triangle's entire area.
+In order to make samplings cover the area of triangle uniformly, we take 2 sampling algorithms into consideration. They are uniform sampling and halton sampling. The only difference of these methods is the way they generate random numbers. With these number we calculate barycentric coordinates based on vertices of triangle. 
 
 \paragraph{Uniform Sampling}
 
-The process begins by randomly generating two parameters, \( r_1 \) and \( r_2 \), both of which lie in the interval [0, 1]. These random parameters are then used to compute the barycentric coordinates of the sampled points within the triangle. The barycentric coordinates, denoted as \( \alpha \), \( \beta \), and \( \gamma \), allow us to express any point within the triangle as a linear combination of the triangle's vertices.
+The process begins by randomly generating two parameters, \( r_1 \) and \( r_2 \), both of which lie in the interval [0, 1] with a uniform distribution, ensuring that each point within the interval has an equal probability of being selected. These random parameters are then used to compute the barycentric coordinates of the sampled points within the triangle. The barycentric coordinates, denoted as \( \alpha \), \( \beta \), and \( \gamma \), allow us to express any point within the triangle as a linear combination of the triangle's vertices.
 
 \vspace{10pt}
 
-To derive the sampled point's coordinates using \( r_1 \) and \( r_2 \), we use the following equations:
-\[ \alpha = 1 - \sqrt{r_1} \]
-\[ \beta = \sqrt{r_1} \times r_2 \]
-\[ \gamma = 1 - \alpha - \beta \]
-\[ P = \alpha V_1 + \beta V_2 + \gamma V_3 \]
+The algorithm of this part is shown below: 
 
-Where \( P \) is the sampled point, and \( V_1 \), \( V_2 \), and \( V_3 \) are the triangle's vertices. Below is a visualization of the uniform sampling method.
+\begin{algorithm}
+\caption{Uniform Sampling within a Triangle}\label{alg:uniform_sampling}
+\begin{algorithmic}
+\Require Triangle vertices \(V_1\), \(V_2\), \(V_3\)
+\Ensure Sampled point \(P\) within the triangle
+\State Generate two random numbers \(r_1\) and \(r_2\) with a uniform distribution in the interval [0, 1]
+\State Compute the barycentric coordinates using \(r_1\) and \(r_2\) as follows:
+\State \hspace{0.5cm} \( \alpha \gets 1 - \sqrt{r_1} \)
+\State \hspace{0.5cm} \( \beta \gets \sqrt{r_1} \times r_2 \)
+\State \hspace{0.5cm} \( \gamma \gets 1 - \alpha - \beta \)
+\State Compute the Cartesian coordinates of the sampled point \(P\) as:
+\State \hspace{0.5cm} \( P \gets \alpha V_1 + \beta V_2 + \gamma V_3 \)
+\State \Return \(P\)
+\end{algorithmic}
+\end{algorithm}
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.6\textwidth]{figures/uniform sample triangle.png}
-		\caption{Uniform Sample Triangle}
-		\label{fig:uniform sample triangle}
-	\end{figure}
-\end{minipage}
 
 \paragraph{Halton Sampling}
 
-We first generate a halton sequence.
+In the part of uniform sampling, we have introduced how to compute barycentric coordinates on a triangle. Therefore, here we focus on the generation of random numbers using the Halton sequence, a method that generates quasi-random numbers which are known to fill the space more uniformly compared to purely random numbers.
+
+The algorithm to generate a number in the Halton sequence can be represented as:
+
+\begin{algorithm}[H]
+\caption{Halton Sequence Generation}\label{alg:halton}
+\begin{algorithmic}
+\Require $index \geq 0$, $base > 1$ (a prime number)
+\Ensure Halton number corresponding to the given index and base
+\State $result \gets 0.0$
+\State $f \gets 1.0 / base$
+\State $i \gets index$
+\While{$i > 0$}
+    \State $result \gets result + f \cdot (i \mod base)$
+    \State $i \gets i / base$  \Comment{Integer division}
+    \State $f \gets f / base$
+\EndWhile
+\State \Return $result$
+\end{algorithmic}
+\end{algorithm}
+
+
+Using this method, we generate two sequences of Halton numbers with different bases such as 2 and 3, respectively, which are then used to compute the barycentric coordinates for uniform sampling within a triangle. These quasi-random numbers, \( r1 \) and \( r2 \), provide a more evenly distributed set of sample points within the triangle compared to purely random sampling, facilitating a more uniform sampling process. This can be verified in Figure \ref{fig:sample triangle}, where halton sampling shows a result which is closer to even distribution.  
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Uniform]{\includegraphics[width=0.7\textwidth]{figures/uniform sample triangle.png}}  \label{fig:uniform sampling} 
+    \subfigure[Halton]{\includegraphics[width=0.7\textwidth]{figures/halton sample triangle.png}} \label{fig:halton sampling}
+    \caption{Sample Triangle}
+    \label{fig:sample triangle}
+\end{figure}
 
 
 
 \subsection{Generate Rays}
 
-In computer graphics, especially in the context of ray tracing, generating rays is a fundamental step. These rays simulate the path of light as it interacts with objects in a scene. In our approach, we generate rays from the sampled points on the triangle to a light source. This is crucial for determining how light interacts with the triangle, especially when considering factors like shading and occlusion.
-
-\vspace{10pt}
-The sampled points serve as the origin of each ray, while the view point (or light source) acts as the look-at point. The direction of each ray is computed based on the difference between the viewpoint and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
+Rays simulate the path of light as it interacts with objects in a scene. In our approach, while it's an usual case to cast ray from viewpoint, here we generate them from the sampled points on the triangle to the light source as shown in Figure \ref{fig:generate ray from sampling to viewpoint}, we need to pay attention that the viewpoint is abstracted as a point instead of an object with volume. The sampled points serve as the origin of each ray, while the view point (or light source) acts as the look-at point. The direction of each ray is computed based on the difference between the viewpoint and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
 
 \vspace{10pt}
 
-The direction of the ray, \( \text{Direction} \), can be computed as:
-
-\begin{equation}
-	\text{Direction} = \frac{\text{viewpoint} - \text{Origin}}{\|\text{viewpoint} - \text{Origin}\|}
-\end{equation}
+The direction vector can be calculated using the formula 
+\[
+\textit{Direction} = \frac{\textit{viewpoint} - \textit{Origin}}{\|\textit{viewpoint} - \textit{Origin}\|}
+\]
 
 Where:
 \begin{itemize}
-    \item \(\text{Origin}\) is the starting point of the ray, which in our case is the sampled point on the triangle.
-    \item \(\text{Destination}\) is the end point of the ray, typically representing the viewpoint or light source.
+    \item \(\textit{Origin}\) is the starting point of the ray, which in our case is the sampled point on the triangle.
+    \item \(\textit{Destination}\) is the end point of the ray, typically representing the viewpoint or light source.
 \end{itemize}
 
-By generating rays in this manner, we can accurately simulate the behavior of light as it travels from the triangle to the viewpoint or light source. This is essential for producing realistic renderings and for analyzing the effects of various factors, such as occlusion, on the final image.
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.5\textwidth]{figures/sample to vp.png}
+    \caption{Generate Ray from Sampling to Viewpoint}
+    \label{fig:generate ray from sampling to viewpoint}
+\end{figure}
 
 
 \subsection{Ray Triangle Intersection}
 
 Ray-triangle intersection is a fundamental operation in computer graphics, especially in the context of ray tracing. Determining whether a ray intersects a triangle and finding the intersection point are crucial for rendering scenes composed of triangular meshes.
+
+
 
 \vspace{10pt}
 
@@ -363,80 +427,76 @@ One of the most efficient and widely used algorithms for this purpose is the Mö
 
 \vspace{10pt}
 
-Given a ray represented by its origin \( O \) and direction \( D \), and a triangle defined by its vertices \( V_1 \), \( V_2 \), and \( V_3 \), the algorithm computes the intersection using barycentric coordinates.
+\begin{algorithm}[H]
+\caption{Möller–Trumbore Ray-Triangle Intersection Algorithm}\label{alg:ray_triangle_intersection}
+\begin{algorithmic}
+\Require Ray with origin \( O \) and direction \( D \)
+\Require Triangle with vertices \( V_1 \), \( V_2 \), and \( V_3 \)
+\Ensure Intersection point \( P \) or indication of no intersection
 
-\vspace{10pt}
+\State Compute edge vectors:
+\State \hspace{0.5cm} \( e_1 \gets V_2 - V_1 \)
+\State \hspace{0.5cm} \( e_2 \gets V_3 - V_1 \)
 
-The intersection point \( P \) can be represented as:
-\[ P = (1 - u - v) V_1 + u V_2 + v V_3 \]
+\State Compute vector \( h \) as the cross product of \( D \) and \( e_2 \):
+\State \hspace{0.5cm} \( h \gets D \times e_2 \)
 
-Where \( u \) and \( v \) are the barycentric coordinates. The ray intersects the triangle if \( 0 \leq u \leq 1 \), \( 0 \leq v \leq 1 \), and \( u + v \leq 1 \).
+\State Compute determinant \( a \):
+\State \hspace{0.5cm} \( a \gets e_1 \cdot h \)
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
-		\caption{Ray Intersect Triangle}
-		\label{fig:ray intersect triangle}
-	\end{figure}
-\end{minipage}
+\If{\( a \) is close to zero}
+    \State \Return No intersection  \Comment{Ray is nearly parallel to the triangle}
+\EndIf
 
-The algorithm uses the following equations to compute \( u \), \( v \), and \( t \) (where \( t \) is the distance from the ray origin to the intersection point):
+\State Compute factor \( f \):
+\State \hspace{0.5cm} \( f \gets \frac{1}{a} \)
 
-\begin{itemize}
-    \item \textbf{Edge Vectors:} These vectors represent two edges of the triangle.
-	\[ e_1 = V_2 - V_1 \]
-	\[ e_2 = V_3 - V_1 \]
-	
-    \item \textbf{Vector \( h \):} The cross product of the ray direction and \( e_2 \).
-    \[ h = D \times e_2 \]
-    
-    \item \textbf{Determinant \( a \):} It's used to check if the ray is nearly parallel to the triangle.
-    \[ a = e_1 \cdot h \]
-    
-    \item \textbf{Factor \( f \):} Used for subsequent calculations.
-    \[ f = \frac{1}{a} \]
-    
-    \item \textbf{Vector \( s \):} Represents the vector from the ray's origin to one vertex of the triangle.
-    \[ s = O - V_1 \]
-    
-    \item \textbf{Barycentric Coordinate \( u \):} The first computed barycentric coordinate.
-    \[ u = f (s \cdot h) \]
-    
-    \item \textbf{Vector \( q \):} The cross product of vector \( s \) and \( e_1 \).
-    \[ q = s \times e_1 \]
-    
-    \item \textbf{Barycentric Coordinate \( v \):} The second computed barycentric coordinate.
-    \[ v = f (D \cdot q) \]
-    
-    \item \textbf{Distance \( t \) to Intersection:} Represents the distance from the ray's origin to the intersection point.
-    \[ t = f (e_2 \cdot q) \]
-\end{itemize}
+\State Compute vector \( s \):
+\State \hspace{0.5cm} \( s \gets O - V_1 \)
 
-The algorithm first checks if \( a \) is close to zero, which means the ray is nearly parallel to the triangle and thus, likely does not intersect it. If \( a \) is not close to zero, the algorithm proceeds to compute \( u \), \( v \), and \( t \) to determine the intersection.
+\State Compute barycentric coordinate \( u \):
+\State \hspace{0.5cm} \( u \gets f \cdot (s \cdot h) \)
 
-This algorithm is both efficient and robust, making it a popular choice for ray-triangle intersection tests in various graphics applications.
+\If{\( u < 0 \) or \( u > 1 \)}
+    \State \Return No intersection
+\EndIf
+
+\State Compute vector \( q \) as the cross product of \( s \) and \( e_1 \):
+\State \hspace{0.5cm} \( q \gets s \times e_1 \)
+
+\State Compute barycentric coordinate \( v \):
+\State \hspace{0.5cm} \( v \gets f \cdot (D \cdot q) \)
+
+\If{\( v < 0 \) or \( u + v > 1 \)}
+    \State \Return No intersection
+\EndIf
+
+\State Compute distance \( t \) to the intersection point:
+\State \hspace{0.5cm} \( t \gets f \cdot (e_2 \cdot q) \)
+
+\State Compute intersection point \( P \):
+\State \hspace{0.5cm} \( P \gets (1 - u - v) V_1 + u V_2 + v V_3 \)
+
+\State \Return Intersection point \( P \) and distance \( t \)
+\end{algorithmic}
+\end{algorithm}
 
 \subsection{Visible Area Ratio}
-
-In the context of ray tracing and light interaction, understanding the visible area of a triangle is crucial. The visible area ratio provides insight into how much of a triangle's surface is directly illuminated by a light source without being occluded by other objects in the scene.
-
-\vspace{10pt}
 
 From the previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the light source. To determine the visible area, we first need to compute the visibility weight for each sampling. This weight represents the ratio of visible samplings to the total number of samplings on the triangle.
 
 \vspace{10pt}
 
 Mathematically, the visibility weight, \( w \), can be defined as:
-\begin{equation}
-    w = \frac{\text{Number of visible samplings}}{\text{Total number of samplings}}
-\end{equation}
+\[ 
+    w = \frac{\textit{Number of visible samplings}}{\textit{Total number of samplings}}
+\]
 
-The visible area \( A_{\text{visible}} \) of the triangle can then be computed as:
-\begin{equation}
-    A_{\text{visible}} = w \times A_{\text{total}}
-\end{equation}
-where \( A_{\text{total}} \) is the total area of the triangle.
+The visible area \( A_{\textit{visible}} \) of the triangle can then be computed as:
+\[ 
+    A_{\textit{visible}} = w \times A_{\textit{total}}
+\]
+where \( A_{\textit{total}} \) is the total area of the triangle.
 
 A sampling is deemed visible if at least one ray originating from it does not intersect any triangle other than the one from which the sampling was generated. To ascertain this, we must examine all intersections related to the ray emanating from the sampling. If no intersection is closer to the sampling than the distance between the sampling and the light source, then the sampling is considered visible.
 
