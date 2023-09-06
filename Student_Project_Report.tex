@@ -309,7 +309,7 @@ In this chapter we will introduce our technical solution to the problem stated i
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.35\textwidth]{figures/technical solution flowchart.png}
+    \includegraphics*[width=0.38\textwidth]{figures/technical solution flowchart.png}
     \caption{Overall Flowchart of Technical Solution}
     \label{fig:overall flowchart of technical solution}
 \end{figure}
@@ -357,6 +357,8 @@ The algorithm of this part is shown below:
 \paragraph{Halton Sampling}
 
 In the part of uniform sampling, we have introduced how to compute barycentric coordinates on a triangle. Therefore, here we focus on the generation of random numbers using the Halton sequence, a method that generates quasi-random numbers which are known to fill the space more uniformly compared to purely random numbers.
+
+\vspace{10pt}
 
 The algorithm to generate a number in the Halton sequence can be represented as:
 
@@ -414,16 +416,14 @@ Where:
     \label{fig:generate ray from sampling to viewpoint}
 \end{figure}
 
+When there are multiple viewpoints in the scene, we have to generate same amount of rays as viewpoints for each sampling.  
 
 \subsection{Ray Triangle Intersection}
 
 Ray-triangle intersection is a fundamental operation in computer graphics, especially in the context of ray tracing. Determining whether a ray intersects a triangle and finding the intersection point are crucial for rendering scenes composed of triangular meshes.
-
-
-
 \vspace{10pt}
 
-One of the most efficient and widely used algorithms for this purpose is the Möller–Trumbore intersection algorithm. This algorithm determines the intersection of a ray and a triangle in a 3D space without any need for pre-computed plane equations.
+One of the most efficient and widely used algorithms for this purpose is the \textit{Möller–Trumbore} intersection algorithm. It operates by representing the triangle in barycentric coordinates, which allows it to avoid the computation of explicit plane equations. It then uses these coordinates to find the intersection point of the ray and the triangle, if it exists. The algorithm performs a series of vector operations including dot products and cross products to compute the barycentric coordinates and the distance from the ray's origin to the intersection point. More detail is shown below:
 
 \vspace{10pt}
 
@@ -481,123 +481,171 @@ One of the most efficient and widely used algorithms for this purpose is the Mö
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Visible Area Ratio}
+\subsection{Non-Visible Area Ratio}
 
-From the previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the light source. To determine the visible area, we first need to compute the visibility weight for each sampling. This weight represents the ratio of visible samplings to the total number of samplings on the triangle.
-
-\vspace{10pt}
-
-Mathematically, the visibility weight, \( w \), can be defined as:
+From previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the viewpoints. As opposed to directly compute non-visible area, we detect visible samplings here. We use visible weight represents the ratio of visible samplings to the total number of samplings on the triangle. With this weight we compute visible area for each triangle, then we sum up them to get the total visible area, and the ratio can be easily calculated with total area. Mathematically, the visibility weight, \( w \), can be defined as:
 \[ 
-    w = \frac{\textit{Number of visible samplings}}{\textit{Total number of samplings}}
+    w = \frac{\textit{Number of visible samplings per triangle}}{\textit{Total number of samplings per triangle}}
 \]
 
 The visible area \( A_{\textit{visible}} \) of the triangle can then be computed as:
 \[ 
     A_{\textit{visible}} = w \times A_{\textit{total}}
 \]
-where \( A_{\textit{total}} \) is the total area of the triangle.
 
-A sampling is deemed visible if at least one ray originating from it does not intersect any triangle other than the one from which the sampling was generated. To ascertain this, we must examine all intersections related to the ray emanating from the sampling. If no intersection is closer to the sampling than the distance between the sampling and the light source, then the sampling is considered visible.
+The visible area ratio, denoted as \( R_{\textit{visible}} \), is calculated as the ratio of the total visible area \( A_{\textit{total visible}} \) to the total area \( A_{\textit{total}} \) of the triangle. It can be mathematically represented as:
+\[ 
+    R_{\textit{visible}} = \frac{A_{\textit{total visible}}}{A_{\textit{total}}}
+\]
 
-\vspace{10pt}
+Conversely, the non-visible area ratio, denoted as \( R_{\textit{non-visible}} \), can be calculated as the complement of the visible area ratio. It is given by:
+\[ 
+    R_{\textit{non-visible}} = 1 - R_{\textit{visible}}
+\]
 
-This method ensures a precise computation of the visible area, accounting for occlusions and the intricate play of light within the scene.
+A sampling is deemed visible if at least one ray originating from it does not intersect any triangle between its origin and the viewpoint other than the one from which the sampling was generated. To ascertain this, we should examine all first hit intersection related to the ray cast from the sampling. If the distance from origin to viewpoint is shorter than the distance between origin and first hit intersection, which means no intersection can obscure the viewpoint, then this sampling is considered visible. 
+
+\begin{algorithm}[H]
+\caption{Determining the Visibility of a Sampling}\label{alg:visibility_sampling}
+\begin{algorithmic}
+\Require Ray originating from sampling with origin \( O \) and direction \( D \)
+\Require Viewpoint \( V \)
+\Require Set of triangles \( T \) excluding the triangle from which the sampling was generated
+\Ensure Visibility status of the sampling
+
+\State Compute the distance from the origin to the viewpoint: \( d_{\text{viewpoint}} = \| V - O \| \)
+\State Initialize variable \( d_{\text{intersection}} \) to infinity
+\State Initialize variable \( \text{isVisible} \) to false
+
+\For{each triangle \( t \) in \( T \)}
+    \State Compute the intersection of the ray with triangle \( t \) using the Möller–Trumbore algorithm
+    \If{there is an intersection at distance \( d \) from \( O \)}
+        \State Update \( d_{\text{intersection}} \) to the minimum of \( d_{\text{intersection}} \) and \( d \)
+    \EndIf
+\EndFor
+
+\If{\( d_{\text{viewpoint}} < d_{\text{intersection}} \)}
+    \State Set \( \text{isVisible} \) to true  \Comment{No intersection obscures the viewpoint}
+\EndIf
+
+\State \Return \( \text{isVisible} \)
+\end{algorithmic}
+\end{algorithm}
  
-\section{Segmentation Based Estimation of Mesh} \label{sec:segmentation mesh estimation}
+\section{Estimate Mesh and Generate Point Cloud} \label{sec:estimate mesh and generate point cloud}
 
-We use GoCoPP to fit planar primitives of point cloud.
+In this part we estimate mesh for subsequent computation of non-visible area ratio. Since we want to make comparison between this ratio and occlusion level of point cloud, the cloud should be generated from this mesh. 
+
+\paragraph{Estimate Mesh from Point Cloud} \label{par:estimate mesh from point cloud}
+
+As discussed in \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the work has been done by Mulin and Florent[GoCoPP], they proposed a method \textit{GoCoPP} to find good configurations of planar primitives in unorganized point cloud. Regarding their experiments, \textit{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \textit{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \textit{GoCoPP} to generate mesh from point cloud.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Region Growing]{\includegraphics[width=0.65\textwidth]{figures/conf2 rg.png}}  \label{fig:region growing} 
+    \subfigure[GoCoPP]{\includegraphics[width=0.65\textwidth]{figures/conf2 gocopp.png}} \label{fig:gocopp}
+    \caption{Segmentation Methods}
+    \label{segmentation results}
+\end{figure}
+
+We use the same pipeline introduced in \ref{sec:compute non-visible area ratio} to compute its non-visible area ratio to represent occlusion level. The result depends on which strategy we use to place viewpoints. We can randomly place them in the scene or with fixed position such as center of the scene's bounding box, this will be explained more detailed in \ref{chp:experimental results}.
+
+\paragraph{Generate Point Cloud from Estimated Mesh} \label{par:generate point cloud from estimated mesh}
+
+The computation of non-visible area of a mesh is based on visible samples on each triangle. Since we want to make comparison on occlusion level between mesh and point cloud, the cloud should reflect the information about visibility. Hence, here we directly create the visible point cloud from visible samplings.
+
+\section{Compute Boundary Ray Ratio of Point Cloud} \label{compute boundary ray ratio of point cloud} 
+
+We define the boundary ray as the ray which intersects with boundary point. Although our input point cloud has ground truth label of each point, the cloud created from samplings does not preserve this kind of information. Therefore, the first step is to identify the semantic class of each point. With these information we can then compute if a ray intersects with boundary. A workflow of this part is shown in Figure \ref{fig:flowchart of computing boundary ray ratio}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.85\textwidth]{figures/Compute Boundary Ray Ratio of Point Cloud.png}
+    \caption{Flowchart of Computing Boundary Ray Ratio}
+    \label{fig:flowchart of computing boundary ray ratio}
+\end{figure}
+
+\paragraph{Estimate Semantics}
+
+We have to first categorize point of the original ground truth cloud into either boundary or non-boundary. 
+Then we put the point of visible sampling cloud inside the pre-processed boundary cloud. To determine the category we compute nearest neighbours of a point, if there are more boundary points we classify it as boundary as well, and vice versa. The computation of nearest neighbours is realized through \textit{K-D Tree} algorithm, which offers us an efficient way to get a search point's \textit{K} nearest neighbour points, where \textit{K} indicate the number of neighbours.
 
 
-\section{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
+\paragraph{Generate Random Rays}
 
-Ray tracing is a powerful technique that simulates the path of rays as they traverse through a scene. In the context of point cloud data, ray tracing can be employed to identify visible and occluded regions within the cloud. By scanning the ground truth point cloud using a ray tracing based method, we can derive a modified point cloud where the retained points represent the visible areas, while the removed points indicate occluded regions.
+We want to use a ray from outside of the scene and directed towards the cloud, then we check how many boundaries the ray can intersects with, since this indicate how much occlusion a ray can contribute to the overall occlusion level. In case of a room, its boundary can be represented as a cuboid, which can at most has 2 faces intersect with one ray. Based on that, our rays can be classified as \textit{non-boundary ray}, \textit{1-boundary ray} and \textit{2-boundary ray} as shown in Figure \ref{classification of bound ray}
 
-\subsection{Spherical Light Source}
-
-To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
-
-\vspace{10pt}
-
-The uniform sampling on the sphere is achieved using random sampling in the azimuthal angle \( \theta \) and the polar angle \( \phi \). The azimuthal angle \( \theta \) is uniformly sampled in the range \([0, 2\pi]\), while the polar angle \( \phi \) is sampled such that its cosine is uniformly distributed in the range \([-1, 1]\). This ensures a uniform distribution of points over the sphere's surface.
-
-\vspace{10pt}
-
-Given a center point of the sphere and a predefined radius \( r \), the coordinates \( (x, y, z) \) of a sampled point on the sphere are computed as:
-\begin{align*}
-x &= x_{\text{center}} + r \sin(\phi) \cos(\theta) \\
-y &= y_{\text{center}} + r \sin(\phi) \sin(\theta) \\
-z &= z_{\text{center}} + r \cos(\phi)
-\end{align*}
-
-This process is repeated for the desired number of samples, resulting in a set of points uniformly distributed on the surface of the sphere. These points can then be used as origins for rays to simulate light emission in all directions.
-
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.6\textwidth]{figures/uniform sample triangle.png}
-		\caption{Uniform Sample Sphere}
-		\label{fig:uniform sample sphere}
-	\end{figure}
-\end{minipage}
-
-\subsection{Ray Point Intersection}
-
-In our model, each point within the point cloud is represented as a small sphere with a defined radius. This simplifies the ray-point intersection check, as we can treat each point as a volumetric entity rather than a singular coordinate in space.
-
-\vspace{10pt}
-
-To determine if a ray intersects with a sphere, we first normalize the direction vector of the ray. Then, we compute the vector \( \mathbf{L} \) from the ray's origin to the center of the sphere. If the squared magnitude of \( \mathbf{L} \) is less than the squared radius of the sphere, it indicates that the ray's origin is inside the sphere, and thus, an intersection exists.
-
-\vspace{10pt}
-
-Next, we compute the projection \( t_{ca} \) of \( \mathbf{L} \) onto the ray's direction. If \( t_{ca} \) is negative, it means the sphere is behind the ray's origin, and no intersection occurs.
-
-\vspace{10pt}
-
-We then compute the squared perpendicular distance \( d^2 \) from the center of the sphere to the ray. If \( d^2 \) exceeds the squared radius of the sphere, the ray does not intersect the sphere.
-
-\vspace{10pt}
-
-Mathematically, the steps can be summarized as:
-\begin{align*}
-	\mathbf{L} &= \text{center of sphere} - \text{ray origin} \\
-	\text{originDistance}^2 &= \mathbf{L} \cdot \mathbf{L} \\
-	t_{ca} &= \mathbf{L} \cdot \text{normalized ray direction} \\
-	d^2 &= \text{originDistance}^2 - t_{ca}^2
-\end{align*}
-
-If the ray's origin is not inside the sphere, \( t_{ca} \) is positive, and \( d^2 \) is less than the squared radius of the sphere, then the ray intersects the sphere.
-
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
-		\caption{Ray Intersect Point}
-		\label{fig:ray intersect point}
-	\end{figure}
-\end{minipage}
-
-\subsection{Ray Openings Intersection}
-
-Openings or gaps in the scene, such as windows or doorways, should not contribute to occlusion. To account for these openings, we need an efficient method to determine if a ray intersects with any of the openings in the scene.
+\begin{figure}[H]
+    \centering
+    \subfigure[Non-boundary Ray]{\includegraphics[width=0.32\textwidth]{figures/no bound.png}} \label{fig:non-bound ray}
+    \subfigure[1-boundary Ray]{\includegraphics[width=0.32\textwidth]{figures/1 bound.png}} \label{fig:1-bound ray}
+    \subfigure[2-boundary Ray]{\includegraphics[width=0.32\textwidth]{figures/2 bounds.png}}  \label{fig:2-bounds ray} 
+    \caption{Classification of Boundary Rays}
+    \label{classification of bound ray}
+\end{figure}
 
 \vspace{10pt}
 
-Given the typically limited number of openings in a scene, it's feasible to manually select a few points that represent the boundary of each opening. Using these points, we can construct a polygonal representation of the opening. The ray-openings intersection check can then be performed by testing if the ray intersects with any of these polygons.
+In our work, it's more feasible for us to create rays within the room which is always presented as point cloud. We first randomly generate two points within the bounding box of the scene. One as origin of the ray and the other is the look-at direction. To simulate a ray originates from outside and pass through the room we also take its opposite direction into consideration. Namely, for one ray we have to compute its intersection with points in both directions. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{figures/ray with two directions.png}
+    \caption{Ray With 2 Directions}
+    \label{fig:ray with 2 directions}
+\end{figure}
+
+\paragraph{Ray Point Intersection} \label{ray point intersection}
+
+Each point within the point cloud is represented as a small sphere with a defined radius. This simplifies the ray-point intersection check, as we can treat each point as a volumetric entity rather than a singular coordinate in space. The way ray intersects with a sphere is illustrated in Figure \ref{fig:ray intersect point}. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.4\textwidth]{figures/ray intersect point.png}
+    \caption{Ray Intersect Point}
+    \label{fig:ray intersect point}
+\end{figure}
+
+To determine if a ray intersects with a sphere, we follow algorithm stated below:
+
+\begin{algorithm}[H]
+\caption{Ray-Sphere Intersection Algorithm}
+\begin{algorithmic}[1]
+\Require Ray origin, Ray direction, Sphere center, Sphere radius
+\State Normalize the ray direction vector if not normalized
+\State Compute vector \( \mathbf{L} = \text{Sphere center} - \text{Ray origin} \)
+\State Compute \( \text{originDistance}^2 = \mathbf{L} \cdot \mathbf{L} \)
+\State Compute \( t_{ca} = \mathbf{L} \cdot \text{Normalized ray direction} \)
+\If{\( \text{originDistance}^2 < \text{Sphere radius}^2 \)}
+    \State \Return Intersection exists (Ray origin is inside the sphere)
+\EndIf
+\If{\( t_{ca} < 0 \)}
+    \State \Return No intersection (Sphere is behind the ray)
+\EndIf
+\State Compute \( d^2 = \text{originDistance}^2 - t_{ca}^2 \)
+\If{\( d^2 > \text{Sphere radius}^2 \)}
+    \State \Return No intersection (Ray misses the sphere)
+\Else
+    \State \Return Intersection exists (Ray intersects the sphere)
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+\paragraph{Ray Openings Intersection}
+
+Openings or gaps in the scene, such as windows or doors, should not contribute to occlusion. In the context of boundary rays, we regard openings as boundary. To account for these openings, we need an efficient method to determine if a ray intersects with any of the openings in the scene. Given the typically limited number of openings in a scene, it's feasible to manually select a few points that represent the boundary of each opening. Using these points, we can construct a polygonal representation of the opening. The ray-openings intersection check can then be performed by testing if the ray intersects with any of these polygons.
 
 \vspace{10pt}
 
-For a set of points \( P = \{p_1, p_2, ..., p_n\} \) that define a polygon, we first estimate a plane \( \mathbf{N} \) that best fits these points. Once the plane is determined, all points are projected onto this plane to ensure they lie within the same plane. The next step involves calculating the intersection of the ray with this plane. If an intersection exists, we need to determine if this intersection point lies inside the polygon.
+For a set of points \( P = \{p_1, p_2, ..., p_n\} \) that define a polygon, we first estimate a plane \( \mathbf{N} \) that best fits these points. Once the plane is determined, all points are projected onto this plane to ensure they lie within the same plane. The next step involves calculating the intersection of the ray with this plane. If an intersection exists, we need to determine if this intersection point lies inside the polygon. This workflow is shown in Figure \ref{fig:estimate polygon from points}.
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=1.0\textwidth]{figures/detect openings.png}
-		\caption{Estimate Polygon from Points}
-		\label{fig:estimate polygon from points}
-	\end{figure}
-\end{minipage}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/detect openings.png}
+    \caption{Estimate Polygon from Points}
+    \label{fig:estimate polygon from points}
+\end{figure}
 
 To check the position of the intersection point relative to the polygon, we construct vectors between the intersection point and each vertex of the polygon. For every pair of neighboring vectors, we compute their cross product. If all resulting cross products point in the same direction (i.e., they have the same sign), then the intersection point is inside the polygon. Otherwise, the intersection point lies outside the polygon.
 
@@ -611,58 +659,87 @@ v_{1x} & v_{1y} & v_{1z} \\
 v_{2x} & v_{2y} & v_{2z} \\
 \end{vmatrix}
 \]
-Where \( \mathbf{i}, \mathbf{j}, \) and \( \mathbf{k} \) are the unit vectors in the x, y, and z directions, respectively.
+Where \( \mathbf{i}, \mathbf{j}, \) and \( \mathbf{k} \) are the unit vectors in the x, y, and z directions, respectively. By iterating over all the vertices of the polygon and computing these cross products, we can determine the position of the intersection point with respect to the polygon. In Figure \ref{fig:ray intersect polygon} the ray intersects with polygon. To verify the algorithm with this illustration, we can apply right-hand rule to every 2 neighbouring vectors in clockwise order, then the cross product should always point downwards.
 
-By iterating over all the vertices of the polygon and computing these cross products, we can determine the position of the intersection point with respect to the polygon.
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
+    \caption{Ray Intersect Polygon}
+    \label{fig:ray intersect polygon}
+\end{figure}
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.25\textwidth]{figures/intersect polygon.png}
-		\caption{Ray Intersect Polygon}
-		\label{fig:ray intersect polygon}
-	\end{figure}
-\end{minipage}
+\paragraph{Boundary Ray Ratio}
 
-
-\subsection{Ray Tracing Based Occlusion Computation} \label{sec:ray tracing occlusion computation}
-
-To assess occlusion within the point cloud, we employ a ray tracing method where rays emanate from various points on a spherical light source. The degree of occlusion for each point in the cloud is deduced from the count of rays that neither intersect any point in the cloud nor any predefined openings in the scene.
+The ray within a scene may intersect with multiple boundary points or openings. In our approach, since we have defined the classification of rays with at most 2 boundaries, we only inspect whether each ray intersects with a boundary in each direction. Specifically, if a ray intersects boundaries in both directions, it is classified as a 2-boundary ray.
 
 \vspace{10pt}
 
-Within this framework, we introduce the notion of "occlusion rays". These rays, once cast from the light source, bypass any intersections with the point cloud or the designated scene openings.
+After classifying all rays in the scene, we compute the boundary ray ratio, which exactly represents the occlusion level of a point cloud, using the following formula:
+
+\[
+\textit{{Boundary Ray Ratio}} = \frac{{\textit{{occlusion}}}}{{\textit{{occlusion}} + \textit{{visibility}}}} = \textit{{Occlusion Level}}
+\]
+
+Where:
+\begin{itemize}
+    \item \textbf{{Occlusion}}: The number of rays that do not intersect with any boundary, denoted as \textit{{non-boundary ray count}}.
+    \item \textbf{{Visibility}}: A measure calculated as the sum of \textit{{1-boundary ray count}} and twice the \textit{{2-boundary ray count}}.
+\end{itemize}
+
+The quantities in the formula are calculated as follows:
+\[
+\textit{{occlusion}} = \textit{{non-boundary ray count}}
+\]
+\[
+\textit{{visibility}} = \textit{{1-boundary ray count}} + 2 \cdot \textit{{2-boundary ray count}}
+\]
+
+By evaluating the occlusion level with the above formula, we can analyze the proportion of rays that are obstructed versus those that are not, providing insight into the level of visibility within the scene.
+
+
+\section{Evaluate Performance of Segmentation} \label{evaluate performance of segmentation}
+
+In this step, except the point clouds we already have, we would also create a set of occluded point clouds based on the original data. With these secondary data we can make the result of evaluation more reliable. 
+
+\subsection{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
+
+Ray tracing is a powerful technique that simulates the path of rays as they traverse through a scene. In the context of point cloud data, ray tracing can be employed to identify visible and occluded regions within the cloud. By scanning the ground truth point cloud using a ray tracing based method, we can derive a modified point cloud where the retained points represent the visible areas, while the removed points indicate occluded regions.
+
+\paragraph{Spherical Light Source}
+
+To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
 
 \vspace{10pt}
 
-To provide a quantitative measure of occlusion, we calculate the ratio of occlusion rays to the overall number of rays cast. This metric, termed the "occlusion ray ratio", offers an insight into the occlusion level within the point cloud. A higher ratio signifies a pronounced occlusion presence.
+The uniform sampling on the sphere is achieved using random sampling in the azimuthal angle \( \theta \) and the polar angle \( \phi \). The azimuthal angle \( \theta \) is uniformly sampled in the range \([0, 2\pi]\), while the polar angle \( \phi \) is sampled such that its cosine is uniformly distributed in the range \([-1, 1]\). This ensures a uniform distribution of points over the sphere's surface.
 
-\subsection{Exterior Structure Based Occlusion Computation} \label{sec:exterior structure occlusion computation}
+\vspace{10pt}
 
-Exterior structures, such as walls, ceilings, and floors, frequently experience occlusion, primarily due to obstructions posed by interior objects. We operate under the assumption that a scene with a higher density of interior objects will result in increased occlusion of exterior structures. While interior objects themselves can be occluded, pinpointing such occlusions is challenging. Consequently, we use the occlusion level of exterior structures as a proxy for the scene's overall occlusion level. Our aim is to discern a correlation between the occlusion level and the ratio of interior to exterior objects, enhancing the reliability of our results.
+Given a center point of the sphere and a predefined radius \( r \), the coordinates \( (x, y, z) \) of a sampled point on the sphere are computed as:
+\begin{align*}
+    x &= x_{\text{center}} + r \sin(\phi) \cos(\theta) \\
+    y &= y_{\text{center}} + r \sin(\phi) \sin(\theta) \\
+    z &= z_{\text{center}} + r \cos(\phi)
+\end{align*}
 
-\subsubsection{Exterior Structure Extraction}
+This process is repeated for the desired number of samples, resulting in a set of points uniformly distributed on the surface of the sphere. These points can then be used as origins for rays to simulate light emission in all directions.
 
-We directly extract exterior structures from the ground truth point cloud. In our scenario, this involves isolating walls, ceilings, and floors.
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.45\textwidth]{figures/halton sample sphere.png}
+    \caption{Halton Sample Sphere}
+    \label{fig:halton sample sphere}
+\end{figure}
 
-\subsubsection{Ratio Computation}
-
-The next step involves computing the ratio of interior points relative to exterior points.
-
-\subsubsection{Ray Tracing Based Occlusion Computation}
-
-Echoing the methodology delineated in Section \ref{sec:ray tracing occlusion computation}, rays are generated from various points on the spherical light source. The occlusion level for each point is then determined based on the number of rays that avoid intersections with any point on the exterior structure.
-
-
-\section{Evaluate Performance with Metrics}
+\subsection{Evaluate Performance with Metrics}
 
 In the realm of semantic segmentation, evaluating the performance of a model is crucial to ensure its reliability and effectiveness. Metrics serve as standardized measures to assess the quality of segmentation results, comparing the predicted outputs against the ground truth. By using these metrics, researchers and practitioners can gauge the strengths and weaknesses of their models, facilitating improvements and ensuring optimal performance. In this section, we discuss the metrics used to evaluate the performance of semantic segmentation models.
 
-\subsection{Semantic Classes}
+\paragraph{Semantic Classes}
 
-Semantic segmentation requires a clear definition of the classes that are to be identified within the dataset. Due to discrepancies between the ground truth point cloud dataset, denoted as [S3dis], and the dataset used for the pre-trained model, we have defined the following semantic classes for our segmentation task:
+Semantic segmentation requires a clear definition of the classes that are to be identified within the data set. Due to discrepancies between the ground truth point cloud data set, denoted as [S3dis], and the data set used for the pre-trained model, we have defined the following semantic classes for our segmentation task:
 
-\begin{table}[h]
+\begin{table}[H]
     \centering
     \begin{tabular}{|c|c|}
         \hline
@@ -689,59 +766,59 @@ Semantic segmentation requires a clear definition of the classes that are to be 
 
 It's worth noting that certain classes, such as the ceiling, have been mapped to the same class ID as other classes (in this case, the floor). This decision was made based on the similarities between the datasets and to ensure a more streamlined segmentation process.
 
-\subsection{Metrics}
+\paragraph{Metrics}
 
-We use the following metrics to evaluate the performance of our model:
+To evaluate the performance of our model, we employ several widely-recognized metrics, which includes \textit{Accuracy}, \textit{IoU}, \textit{Precision}, \textit{Recall} and \textit{F1 Score}, each providing a different perspective on the model's capabilities. Below, we detail these metrics along with their respective mathematical formulations:
 
-\subsubsection{IoU}
+\vspace{10pt}
 
-Inttersection over Union, also known as the Jaccard Index, IoU measures the overlap between the predicted segmentation and the ground truth. It's calculated as the area of overlap divided by the area of union of the two sets.
+\textbf{Accuracy} is a fundamental metric that quantifies the proportion of correctly predicted segmentation pixels out of the total number of pixels. It is given by the formula:
+\[
+	\textit{Accuracy} = \frac{\textit{Number of Correct Predictions}}{\textit{Total Number of Predictions}}
+\]
 
-\begin{equation}
-	IoU = \frac{\text{Intersection}}{\text{Union}}
-\end{equation}
+Though a useful metric, accuracy can sometimes be misleading, particularly when the classes are imbalanced.
 
-A higher IoU indicates better segmentation accuracy.
+\vspace{10pt}
 
-\subsubsection{F1 Score}
+\textbf{IoU (Intersection over Union)}, also known as the Jaccard Index, IoU measures the overlap between the predicted segmentation and the ground truth. It is calculated as the area of overlap divided by the area of union of the two sets, as given by:
 
-The F1 Score is the harmonic mean of precision and recall. It provides a balance between the two, ensuring that both false positives and false negatives are taken into account.
+\[
+	IoU = \frac{\textit{Intersection}}{\textit{Union}}
+\]
 
-\begin{equation}
-	F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
-\end{equation}
+A higher IoU value signifies better segmentation accuracy.
 
-An F1 Score closer to 1 indicates better performance, while a score closer to 0 indicates poor performance.
+\vspace{10pt}
 
-\subsubsection{Accuracy}
+\textbf{Precision and Recall} are two complementary metrics that provide insights into the model's performance regarding false positives and false negatives. \textbf{Precision} quantifies the proportion of positive identifications that were actually correct, as given by:
 
-Accuracy measures the proportion of correctly predicted segmentation pixels to the total number of pixels.
+\[
+	\textit{Precision} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Positives}}
+\]
 
-\begin{equation}
-	\text{Accuracy} = \frac{\text{Number of Correct Predictions}}{\text{Total Number of Predictions}}
-\end{equation}
+A higher precision indicates a larger percentage of the model's positive predictions were correct.
 
-While a useful metric, accuracy can sometimes be misleading, especially if the classes are imbalanced.
+\vspace{10pt}
 
-\subsubsection{Recall}
+\textbf{Recall}, on the other hand, measures the proportion of actual positives that were correctly identified, as given by:
 
-Recall measures the proportion of actual positives that were correctly identified.
-
-\begin{equation}
-	\text{Recall} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Negatives}}
-\end{equation}
+\[
+	\textit{Recall} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Negatives}}
+\]
 
 A higher recall indicates that fewer actual positives were missed by the model.
 
-\subsubsection{Precision}
+\vspace{10pt}
 
-Precision measures the proportion of positive identifications that were actually correct.
+\textbf{F1 Score} is the harmonic mean of precision and recall, providing a balance between the two and ensuring that both false positives and false negatives are considered. It is calculated as:
 
-\begin{equation}
-	\text{Precision} = \frac{\text{True Positives}}{\text{True Positives} + \text{False Positives}}
-\end{equation}
+\[
+	F1 = 2 \times \frac{\textit{Precision} \times \textit{Recall}}{\textit{Precision} + \textit{Recall}}
+\]
 
-A higher precision indicates that a larger percentage of the model's positive predictions were correct.
+An F1 Score closer to 1 indicates better performance, while a score closer to 0 indicates poor performance.
+
 
 %=====================================================================
 \chapter{Implementation}\label{chp:implementation}
@@ -1242,7 +1319,7 @@ This project is designated to be used in a web application. However, we also pro
 
 
 %=====================================================================
-\chapter{Experimental Results} \label{chp:experiments}
+\chapter{Experimental Results} \label{chp:experimental results}
 %=====================================================================
 
 
