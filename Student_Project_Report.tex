@@ -43,11 +43,11 @@
 \clubpenalty=10000
 
 \lstdefinelanguage{json}{
-    basicstyle=\normalfont\ttfamily,
+    basicstyle=\small\ttfamily,
     numbers=left,
     numberstyle=\scriptsize,
     stepnumber=1,
-    numbersep=8pt,
+    numbersep=6pt,
     showstringspaces=false,
     breaklines=true,
     frame=lines,
@@ -161,7 +161,7 @@ This paper presents the OGSF-Net, a novel architecture designed to address the c
 
 \paragraph{OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion.} \label{par:OcCo occlusion completion}
 
-In this work, the authors proposed ${Occlusion Completion}$, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weighths for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
+In this work, the authors proposed ${Occlusion Completion}$, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weights for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
 
 \section{Positioning and Contributions}
 
@@ -536,7 +536,7 @@ A sampling is deemed visible if at least one ray originating from it does not in
 
 In this part we estimate mesh for subsequent computation of non-visible area ratio. Since we want to make comparison between this ratio and occlusion level of point cloud, the cloud should be generated from this mesh. 
 
-\paragraph{Estimate Mesh from Point Cloud} \label{par:estimate mesh from point cloud}
+\subsection{Estimate Mesh from Point Cloud} \label{par:estimate mesh from point cloud}
 
 As discussed in \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the work has been done by Mulin and Florent[GoCoPP], they proposed a method \textit{GoCoPP} to find good configurations of planar primitives in unorganized point cloud. Regarding their experiments, \textit{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \textit{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \textit{GoCoPP} to generate mesh from point cloud.
 
@@ -550,7 +550,7 @@ As discussed in \ref{mesh estimation of point cloud}, region growing is an optio
 
 We use the same pipeline introduced in \ref{sec:compute non-visible area ratio} to compute its non-visible area ratio to represent occlusion level. The result depends on which strategy we use to place viewpoints. We can randomly place them in the scene or with fixed position such as center of the scene's bounding box, this will be explained more detailed in \ref{chp:experimental results}.
 
-\paragraph{Generate Point Cloud from Estimated Mesh} \label{par:generate point cloud from estimated mesh}
+\subsection{Generate Point Cloud from Estimated Mesh} \label{par:generate point cloud from estimated mesh}
 
 The computation of non-visible area of a mesh is based on visible samples on each triangle. Since we want to make comparison on occlusion level between mesh and point cloud, the cloud should reflect the information about visibility. Hence, here we directly create the visible point cloud from visible samplings.
 
@@ -565,13 +565,13 @@ We define the boundary ray as the ray which intersects with boundary point. Alth
     \label{fig:flowchart of computing boundary ray ratio}
 \end{figure}
 
-\paragraph{Estimate Semantics}
+\subsection{Estimate Semantics}
 
 We have to first categorize point of the original ground truth cloud into either boundary or non-boundary. 
 Then we put the point of visible sampling cloud inside the pre-processed boundary cloud. To determine the category we compute nearest neighbours of a point, if there are more boundary points we classify it as boundary as well, and vice versa. The computation of nearest neighbours is realized through \textit{K-D Tree} algorithm, which offers us an efficient way to get a search point's \textit{K} nearest neighbour points, where \textit{K} indicate the number of neighbours.
 
 
-\paragraph{Generate Random Rays}
+\subsection{Generate Random Rays}
 
 We want to use a ray from outside of the scene and directed towards the cloud, then we check how many boundaries the ray can intersects with, since this indicate how much occlusion a ray can contribute to the overall occlusion level. In case of a room, its boundary can be represented as a cuboid, which can at most has 2 faces intersect with one ray. Based on that, our rays can be classified as \textit{non-boundary ray}, \textit{1-boundary ray} and \textit{2-boundary ray} as shown in Figure \ref{classification of bound ray}
 
@@ -590,18 +590,18 @@ In our work, it's more feasible for us to create rays within the room which is a
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.6\textwidth]{figures/ray with two directions.png}
+    \includegraphics*[width=0.5\textwidth]{figures/ray with two directions.png}
     \caption{Ray With 2 Directions}
     \label{fig:ray with 2 directions}
 \end{figure}
 
-\paragraph{Ray Point Intersection} \label{ray point intersection}
+\subsection{Ray Point Intersection} \label{ray point intersection}
 
 Each point within the point cloud is represented as a small sphere with a defined radius. This simplifies the ray-point intersection check, as we can treat each point as a volumetric entity rather than a singular coordinate in space. The way ray intersects with a sphere is illustrated in Figure \ref{fig:ray intersect point}. 
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.4\textwidth]{figures/ray intersect point.png}
+    \includegraphics*[width=0.32\textwidth]{figures/ray intersect point.png}
     \caption{Ray Intersect Point}
     \label{fig:ray intersect point}
 \end{figure}
@@ -632,7 +632,7 @@ To determine if a ray intersects with a sphere, we follow algorithm stated below
 \end{algorithm}
 
 
-\paragraph{Ray Openings Intersection}
+\subsection{Ray Openings Intersection}
 
 Openings or gaps in the scene, such as windows or doors, should not contribute to occlusion. In the context of boundary rays, we regard openings as boundary. To account for these openings, we need an efficient method to determine if a ray intersects with any of the openings in the scene. Given the typically limited number of openings in a scene, it's feasible to manually select a few points that represent the boundary of each opening. Using these points, we can construct a polygonal representation of the opening. The ray-openings intersection check can then be performed by testing if the ray intersects with any of these polygons.
 
@@ -668,7 +668,7 @@ Where \( \mathbf{i}, \mathbf{j}, \) and \( \mathbf{k} \) are the unit vectors in
     \label{fig:ray intersect polygon}
 \end{figure}
 
-\paragraph{Boundary Ray Ratio}
+\subsection{Boundary Ray Ratio}
 
 The ray within a scene may intersect with multiple boundary points or openings. In our approach, since we have defined the classification of rays with at most 2 boundaries, we only inspect whether each ray intersects with a boundary in each direction. Specifically, if a ray intersects boundaries in both directions, it is classified as a 2-boundary ray.
 
@@ -688,10 +688,10 @@ Where:
 
 The quantities in the formula are calculated as follows:
 \[
-\textit{{occlusion}} = \textit{{non-boundary ray count}}
+    \textit{{occlusion}} = \textit{{non-boundary ray count}}
 \]
 \[
-\textit{{visibility}} = \textit{{1-boundary ray count}} + 2 \cdot \textit{{2-boundary ray count}}
+    \textit{{visibility}} = \textit{{1-boundary ray count}} + 2 \cdot \textit{{2-boundary ray count}}
 \]
 
 By evaluating the occlusion level with the above formula, we can analyze the proportion of rays that are obstructed versus those that are not, providing insight into the level of visibility within the scene.
@@ -699,45 +699,51 @@ By evaluating the occlusion level with the above formula, we can analyze the pro
 
 \section{Evaluate Performance of Segmentation} \label{evaluate performance of segmentation}
 
-In this step, except the point clouds we already have, we would also create a set of occluded point clouds based on the original data. With these secondary data we can make the result of evaluation more reliable. 
+In this step, we are going to compare performance of segmentation of point clouds with different occlusion level. Since the complexity and structure of each room scene can vary greatly, we want to do the comparisons within the same scene but with different occlusion level. To achieve this we would create a set of sub-sampled point clouds based on number of viewpoints in the scene.
 
 \subsection{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
 
-Ray tracing is a powerful technique that simulates the path of rays as they traverse through a scene. In the context of point cloud data, ray tracing can be employed to identify visible and occluded regions within the cloud. By scanning the ground truth point cloud using a ray tracing based method, we can derive a modified point cloud where the retained points represent the visible areas, while the removed points indicate occluded regions.
+To down-sample the original point cloud, we would perform it in a manner similar to sampling a real scene using a laser scanner. The points stored in the data acquired from the scanner are those that are visible to it. If we apply this to original point cloud, we are actually creating a sub-sampled data set based on visibility to light sources. 
 
 \paragraph{Spherical Light Source}
 
-To simulate a light source that emits rays in all directions, we use a spherical model. Points are uniformly sampled on the surface of this sphere, with each point representing a potential direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan.
-
-\vspace{10pt}
-
-The uniform sampling on the sphere is achieved using random sampling in the azimuthal angle \( \theta \) and the polar angle \( \phi \). The azimuthal angle \( \theta \) is uniformly sampled in the range \([0, 2\pi]\), while the polar angle \( \phi \) is sampled such that its cosine is uniformly distributed in the range \([-1, 1]\). This ensures a uniform distribution of points over the sphere's surface.
-
-\vspace{10pt}
-
-Given a center point of the sphere and a predefined radius \( r \), the coordinates \( (x, y, z) \) of a sampled point on the sphere are computed as:
-\begin{align*}
-    x &= x_{\text{center}} + r \sin(\phi) \cos(\theta) \\
-    y &= y_{\text{center}} + r \sin(\phi) \sin(\theta) \\
-    z &= z_{\text{center}} + r \cos(\phi)
-\end{align*}
-
-This process is repeated for the desired number of samples, resulting in a set of points uniformly distributed on the surface of the sphere. These points can then be used as origins for rays to simulate light emission in all directions.
+To simulate a light source that emits rays in all directions, we use a spherical model. Points are sampled on the surface of this sphere using the Halton sequence, which we introduced in Algorithm \ref{alg:halton}. Each point represents a direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan. An example of the result of this method is shown in Figure \ref{fig:halton sample sphere}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.45\textwidth]{figures/halton sample sphere.png}
+    \includegraphics*[width=0.4\textwidth]{figures/halton sample sphere.png}
     \caption{Halton Sample Sphere}
     \label{fig:halton sample sphere}
 \end{figure}
 
+The sampling on the sphere is achieved using halton sampling in the azimuthal (\( \theta \)) and polar (\( \phi \)) angles. This method ensures a uniform distribution of points over the sphere's surface, providing a comprehensive representation of the light source's emission pattern. The coordinates of a sampled point on the sphere are computed based on the center point of the sphere and a predefined radius. The specific algorithm is as follows:
+
+\begin{algorithm}[H]
+\caption{Halton Sampling on Sphere Surface}
+\begin{algorithmic}[1]
+\Require Sphere center, Number of samples, Radius
+\State Initialize an empty list of samples
+\For{\(i = 0\) to \( \text{number of samples} - 1\)}
+    \State Compute azimuthal angle \( \theta = 2 \pi \times \text{halton}(i, 2) \)
+    \State Compute polar angle \( \phi = \arccos(2 \times \text{halton}(i, 3) - 1) \)
+    \State Compute sample point coordinates:
+    \State \( x = \text{center.x} + \text{radius} \times \sin(\phi) \times \cos(\theta) \)
+    \State \( y = \text{center.y} + \text{radius} \times \sin(\phi) \times \sin(\theta) \)
+    \State \( z = \text{center.z} + \text{radius} \times \cos(\phi) \)
+    \State Add the computed point to the samples list
+\EndFor
+\State Set the properties of the point cloud (width, height, and density)
+\State \Return the list of samples
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Evaluate Performance with Metrics}
 
-In the realm of semantic segmentation, evaluating the performance of a model is crucial to ensure its reliability and effectiveness. Metrics serve as standardized measures to assess the quality of segmentation results, comparing the predicted outputs against the ground truth. By using these metrics, researchers and practitioners can gauge the strengths and weaknesses of their models, facilitating improvements and ensuring optimal performance. In this section, we discuss the metrics used to evaluate the performance of semantic segmentation models.
+Evaluating the performance of semantic segmentation is crucial to ensure its reliability and effectiveness. Metrics serve as standardized measures to assess the quality of segmentation results, comparing the predicted outputs against the ground truth. In this part, we discuss the metrics used to evaluate the performance of semantic segmentation models.
 
 \paragraph{Semantic Classes}
 
-Semantic segmentation requires a clear definition of the classes that are to be identified within the data set. Due to discrepancies between the ground truth point cloud data set, denoted as [S3dis], and the data set used for the pre-trained model, we have defined the following semantic classes for our segmentation task:
+Semantic segmentation requires a clear definition of the classes that are to be identified within the data set. Due to discrepancies between the ground truth point cloud data set, denoted as [S3dis], and the data set used for the pre-trained model, we have extracted those common semantic classes for our segmentation task in Table \ref{tab:semantic_classes}:
 
 \begin{table}[H]
     \centering
@@ -764,47 +770,94 @@ Semantic segmentation requires a clear definition of the classes that are to be 
     \label{tab:semantic_classes}
 \end{table}
 
-It's worth noting that certain classes, such as the ceiling, have been mapped to the same class ID as other classes (in this case, the floor). This decision was made based on the similarities between the datasets and to ensure a more streamlined segmentation process.
+Given a segmented point cloud, we can evaluate the segmentation by calculating various metrics such as accuracy, precision, and recall for each class. In semantic segmentation of point clouds, each point in the cloud is classified into one of several possible categories, which are True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN) regarding the correctness of segmentation. The Algorithm \ref{alg:computation of tp, tn, fp, fn} demonstrates how to classify points into them and counting the values. With these values we can then compute metrics explained in subsequent section.  
 
-\paragraph{Metrics}
+\begin{algorithm}[H]
+\caption{Computation of TP, TN, FP, and FN for Point} \label{alg:computation of tp, tn, fp, fn}
+\begin{algorithmic}[1]
+\Require Segmented point cloud \(P\) with \(N\) points, Ground truth labels for each point
+\Ensure Computation of True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives (FN) for each class
 
-To evaluate the performance of our model, we employ several widely-recognized metrics, which includes \textit{Accuracy}, \textit{IoU}, \textit{Precision}, \textit{Recall} and \textit{F1 Score}, each providing a different perspective on the model's capabilities. Below, we detail these metrics along with their respective mathematical formulations:
+\State Initialize counters for True Positives (TP), True Negatives (TN), False Positives (FP), and False Negatives (FN) for each class to zero
+\For{each point \(p_i\) in point cloud \(P\)}
+    \State Get the ground truth label and predicted label for \(p_i\)
+    \For{each class \(c_j\)}
+        \If{the ground truth label of \(p_i\) is \(c_j\)}
+            \If{the predicted label of \(p_i\) is \(c_j\)}
+                \State TP for class \(c_j\) += 1
+            \Else
+                \State FN for class \(c_j\) += 1
+            \EndIf
+        \Else
+            \If{the predicted label of \(p_i\) is \(c_j\)}
+                \State FP for class \(c_j\) += 1
+            \Else
+                \State TN for class \(c_j\) += 1
+            \EndIf
+        \EndIf
+    \EndFor
+\EndFor
+
+\State \Return Counters TP, TN, FP, and FN for each class
+\end{algorithmic}
+\end{algorithm}
+
+\paragraph{Metrics} \label{par:metrics}
+
+To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \textit{Accuracy}, \textit{IoU}, \textit{Precision}, \textit{Recall} and \textit{F1 Score}. These metrics provide different perspectives on the model's capabilities and are computed using the values of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN) which are obtained for each class through the algorithm described earlier. Below, we detail these metrics along with their respective mathematical formulations:
 
 \vspace{10pt}
 
-\textbf{Accuracy} is a fundamental metric that quantifies the proportion of correctly predicted segmentation pixels out of the total number of pixels. It is given by the formula:
+\textbf{Accuracy} is a fundamental metric that quantifies the proportion of correctly predicted points out of the total number of points. It is given by the formula:
 \[
-	\textit{Accuracy} = \frac{\textit{Number of Correct Predictions}}{\textit{Total Number of Predictions}}
+    \textit{Accuracy} = \frac{\textit{Number of Correct Predictions}}{\textit{Total Number of Predictions}}
+\]
+which can also be formulated in terms of TP, FP, TN and FN as:
+\[
+    \textit{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
 \]
 
 Though a useful metric, accuracy can sometimes be misleading, particularly when the classes are imbalanced.
 
 \vspace{10pt}
 
-\textbf{IoU (Intersection over Union)}, also known as the Jaccard Index, IoU measures the overlap between the predicted segmentation and the ground truth. It is calculated as the area of overlap divided by the area of union of the two sets, as given by:
-
+\textbf{IoU (Intersection over Union)}, also known as the Jaccard Index, measures the overlap between the predicted segmentation and the ground truth. It is calculated as the area of overlap divided by the area of union of the two sets, as given by:
 \[
-	IoU = \frac{\textit{Intersection}}{\textit{Union}}
+    IoU = \frac{\textit{Intersection}}{\textit{Union}}
+\]
+or equivalently,
+\[
+    IoU = \frac{TP}{TP + FP + FN}
 \]
 
 A higher IoU value signifies better segmentation accuracy.
 
 \vspace{10pt}
 
-\textbf{Precision and Recall} are two complementary metrics that provide insights into the model's performance regarding false positives and false negatives. \textbf{Precision} quantifies the proportion of positive identifications that were actually correct, as given by:
+\textbf{Precision and Recall} are two complementary metrics that provide insights into the model's performance regarding false positives and false negatives. 
 
+\vspace{10pt}
+
+\textbf{Precision} quantifies the proportion of positive identifications that were actually correct, as given by:
 \[
-	\textit{Precision} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Positives}}
+    \textit{Precision} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Positives}}
+\]
+or equivalently,
+\[
+    \textit{Precision} = \frac{TP}{TP + FP}
 \]
 
 A higher precision indicates a larger percentage of the model's positive predictions were correct.
 
 \vspace{10pt}
 
-\textbf{Recall}, on the other hand, measures the proportion of actual positives that were correctly identified, as given by:
-
+\textbf{Recall}, on the other hand, measures the proportion of actual positives that were identified correctly, as given by:
 \[
-	\textit{Recall} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Negatives}}
+    \textit{Recall} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Negatives}}
+\]
+or equivalently,
+\[
+    \textit{Recall} = \frac{TP}{TP + FN}
 \]
 
 A higher recall indicates that fewer actual positives were missed by the model.
@@ -812,144 +865,106 @@ A higher recall indicates that fewer actual positives were missed by the model.
 \vspace{10pt}
 
 \textbf{F1 Score} is the harmonic mean of precision and recall, providing a balance between the two and ensuring that both false positives and false negatives are considered. It is calculated as:
-
 \[
-	F1 = 2 \times \frac{\textit{Precision} \times \textit{Recall}}{\textit{Precision} + \textit{Recall}}
+    F1 = 2 \times \frac{\textit{Precision} \times \textit{Recall}}{\textit{Precision} + \textit{Recall}}
+\]
+or equivalently,
+\[
+    F1 = 2 \times \frac{TP}{2 \times TP + FP + FN}
 \]
 
 An F1 Score closer to 1 indicates better performance, while a score closer to 0 indicates poor performance.
-
 
 %=====================================================================
 \chapter{Implementation}\label{chp:implementation}
 %=====================================================================
 
-In this chapter, we delve deeper into the nuts and bolts of our solution as presented in Chapter\ref{chp:solution}, shedding light on the tools and methodologies employed and highlighting their critical roles in our system.
+In this chapter, we first delve deeper into the core part of implementation of our computational pipeline as presented in Chapter\ref{chp:solution}. Then we go through the overall structure of the software which is ready for user to interact with.
 
-\section{PCL Serves as Main Component in Computational Pipeline}\label{sec:pcl and eigen}
+\section{PCL and Eigen Serves for Computation}\label{sec:pcl and eigen}
 
-The Point Cloud Library (PCL) stands as the cornerstone of our implementation. We predominantly rely on PCL for an array of vital tasks, ranging from reading and segmenting point cloud data to evaluating its occlusion levels.
+The Point Cloud Library (PCL) stands as the backbone of our implementation. We rely on PCL to accomplish a set of tasks, ranging from reading point cloud to evaluating its occlusion levels. Parallel to PCL, the Eigen library emerges as an invaluable asset. It is our preferred choice for handling mathematical operations that are indispensable to our pipeline.
 
-Parallel to PCL, the Eigen library emerges as an invaluable asset. It is our preferred choice for handling intricate mathematical operations that are indispensable to our pipeline. To ensure a comprehensive and cohesive system, we also incorporate auxiliary libraries, such as JsonCpp and Websocketpp, which furnish our framework with supplemental functionalities.
+\subsection{Handling Point Cloud Data}
 
-\subsection{Uniform Sampling}\label{subsec:uniform sampling}
+We read point cloud data and load them into different types as follows:
 
-In many computer graphics and simulation applications, it's often necessary to sample points uniformly from geometric shapes like spheres or triangles. To achieve this, we often use random number generators to create random points that fall within the shape.
+\begin{itemize}
+    \item \textbf{pcl::PointXYZ} - Point cloud with only coordinate information.
+    \item \textbf{pcl::PointXYZI} - Extra intensity field, in this work it is used mostly to store category information of a point.
+    \item \textbf{pcl::PointXYZRGB} - Point cloud with coordinate and color information. If without RGB value attached, we will see point cloud rendered with white color.
+\end{itemize}
 
-We'll start by understanding the methodology for each shape, followed by C++ code samples.
+Sometimes we need to store points to a new point cloud, which can be done in a typical way shown in code snippet below:
 
-\subsubsection{Spherical Light Source}
-
-In order to simulate a spherical light source or any uniformly distributed sampling on a sphere, the `UniformSamplingSphere` method is introduced. The sampling process commences by initializing a random number generator with a uniform distribution:
-
-\begin{lstlisting}[language=C++, caption=Spherical Sampling Initialization]
-static std::default_random_engine generator;
-static std::uniform_real_distribution<double> distribution(0.0, 1.0);
-\end{lstlisting}
-
-With the random number generator established, azimuthal and polar angles are computed for each sample. These angles are then transformed into Cartesian coordinates, centered around a provided point:
-
-\begin{lstlisting} [language=C++, caption=Sampling on a Sphere]
-for (size_t i = 0; i < num_samples; ++i) {
-	double theta = 2 * M_PI * distribution(generator);  // Azimuthal angle
-	double phi = acos(2 * distribution(generator) - 1); // Polar angle
-
-	pcl::PointXYZ sample;
-	sample.x = center.x + radius * sin(phi) * cos(theta);
-	sample.y = center.y + radius * sin(phi) * sin(theta);
-	sample.z = center.z + radius * cos(phi);
-
-	samples.push_back(sample);
+\begin{lstlisting}[language=C++, caption=Save Point Cloud Data]
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
+for(...) {
+    pcl::PointXYZ point;
+    cloud->points.push_back(point);
 }
+cloud->width = cloud->points.size();
+cloud->height = 1;
+cloud->is_dense = true;
+pcl::io::savePCDFileASCII("../files/cloud.pcd", *cloud);
 \end{lstlisting}
 
-This method returns a vector of sample points surrounding the given center.
+\subsection{Estimate Polygon}
 
-\subsubsection{Triangle}
+Computation of ray-opening intersection plays an crucial role in calculating boundary ray ratio. Each opening is represented as a polygon, and the data we can extract from the original point cloud is a set of small clouds where each point inside it can be regarded as a vertex of polygon in 3D space. And these vertices are most likely not in the same plane, therefore, we would estimate a polygon which is able to be used in subsequent computation. 
 
-For uniform sampling on a triangle, the primary idea revolves around barycentric coordinates. The number of samples per triangle is proportionate to its area, which is multiplied by a pre-defined $`samples_per_unit_area`$ to decide the sample count:
+\paragraph{Plane Estimation}
 
-\begin{lstlisting}[language=C++, caption=Triangle Sampling Initialization]
-    for (auto& tri : t_triangles) {
-        double area = calculateTriangleArea(tri.second);
-        size_t num_samples = static_cast<size_t>(area * samples_per_unit_area);
+The initial step revolves around fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. The function \textit{computePlaneCoefficients} captures this essence:
+
+\begin{lstlisting}[language=C++, caption=Compute Plane Coefficients]
+pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
+pcl::PointIndices::Ptr inliers(new pcl::PointIndices);
+pcl::SACSegmentation<pcl::PointXYZ> seg;
+seg.setOptimizeCoefficients(false);
+seg.setModelType(pcl::SACMODEL_PLANE); // SACMODEL_PLANE
+seg.setMethodType(pcl::SAC_RANSAC); // SAC_RANSAC
+seg.setDistanceThreshold(0.01);
+seg.setInputCloud(cloud);
+seg.segment(*inliers, *coefficients);
 \end{lstlisting}
 
-If only one sample is required, it's directly chosen as the triangle's center:
+In this snippet, PCL's \textit{SACSegmentation} is configured to detect planar models. If successful, it retrieves the plane's coefficients.
 
-\begin{lstlisting}[language=C++, caption=Triangle Center Sampling]
-if(num_samples == 1) {
-	Sample sample;
-	sample.point = tri.second.center;
-	t_samples[sample.index] = sample;
-}
-\end{lstlisting}
+\paragraph{Projection onto Plane}
 
-For a general case, random barycentric coordinates are generated using two random numbers, \( r_1 \) and \( r_2 \):
-
-\begin{lstlisting}[language=C++, caption=Barycentric Coordinate Sampling]
-for (size_t i = 0; i < num_samples; ++i) {
-	double r1 = distribution(generator);
-	double r2 = distribution(generator);
-
-	double sqrtR1 = std::sqrt(r1);
-	double alpha = 1 - sqrtR1;
-	double beta = r2 * sqrtR1;
-
-	Eigen::Vector3d sample_point = alpha * tri.second.v1 + beta * tri.second.v2 + (1 - alpha - beta) * tri.second.v3;
-
-	Sample sample;
-	sample.point = sample_point;
-	t_samples[sample.index] = sample;
-}
-\end{lstlisting}
-
-This method ensures that the samples are uniformly distributed across the surface of the triangle, which can be especially crucial for graphics, simulations, or light transport calculations.
-
-
-\subsection{Mesh Estimation}\label{sec:mesh estimation}
-
-Estimating the mesh necessitates an initial handling of point cloud data. As such, leveraging the Point Cloud Library (PCL) becomes an intuitive decision, and we seamlessly integrate it into the core of our computational pipeline.
-
-
-\paragraph{Plane Estimation:} The initial step revolves around fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. The function \texttt{computePlaneCoefficients} captures this essence:
-
-\begin{lstlisting}[language=C++, caption=Estimating Plane Coefficients]
-pcl::ModelCoefficients::Ptr coefficients = computePlaneCoefficients(points);
-\end{lstlisting}
-
-In this snippet, PCL's \texttt{SACSegmentation} is configured to detect planar models. If successful, it retrieves the plane's coefficients, essential for subsequent operations.
-
-\paragraph{Projection onto Plane:} Armed with the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. The function \texttt{estimatePolygon} accomplishes this feat:
+Armed with the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. The function \textit{estimatePolygon} accomplishes this feat:
 
 \begin{lstlisting}[language=C++, caption=Projecting Points onto Plane]
 pcl::PointCloud<pcl::PointXYZ>::Ptr polygon_cloud = estimatePolygon(points, coefficients);
 \end{lstlisting}
 
-Here, PCL's \texttt{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as $`cloud_projected`$.
+Here, PCL's \textit{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \textit{cloud projected}.
 
-\paragraph{Convex Hull Computation:} With our points now sharing a planar space, we strive to compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points. The usage of PCL's \texttt{ConvexHull} class, as seen in the `estimatePolygon` function, is pivotal in this stage.
-
-\paragraph{Triangle Generation:} On establishing the polygon, our final venture is to segment it into triangles. This process involves using the polygon's centroid, combined with successive boundary points, to define each triangle. In the \texttt{generateTriangleFromCluster} function, every triangle's geometric attributes and supplementary properties, like its area, are meticulously computed and stored.
-
-\begin{lstlisting}[language=C++, caption=Triangle Generation from Polygons]
-void Occlusion::generateTriangleFromCluster() { ... }
-\end{lstlisting}
-
-The \texttt{computeCentroid} function calculates the centroid of the polygon by traversing through its points. Subsequently, triangles are generated with the centroid and polygon vertices, with each triangle's center and area meticulously computed.
-
-Collectively, this workflow ensures a methodical transformation of raw clusters into structured triangular meshes, laying the foundation for advanced analysis and visualization.
+\paragraph{Convex Hull Computation} 
+With our points now sharing a planar space, we strive to compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points. The usage of PCL's \textit{ConvexHull} class, as seen in the \textit{estimatePolygon} function, is pivotal in this stage.
 
 
-\subsection{Ray Tracing Intersection Computation} \label{sec:ray tracing}
+\subsection{Ray Tracing Based Intersection Computation} \label{sec:ray tracing}
 
 Ray tracing based methods are pivotal to our computational pipeline. We use ray to check if it intersects with any basic element in the scene, such as point, triangle, polygon, bounding box, etc.
 
+\paragraph{Database-like Structure}
+
 To compute and record all intersections between all rays and all elements in the scene, we build different structure for each type of element. Their interactions are also recorded, which makes the system looks like a database. We can query the database to get all the information we need.  
 
-\subsubsection{Database-like Structure}
-
-\begin{lstlisting} [language=C++, caption=Data Structures]
+\begin{lstlisting} [language=C++, caption=Data Structures, label=lst:database]
+struct Ray3D {      // ray structure used for point cloud ray tracing
+    size_t index;
+    pcl::PointXYZ origin;
+    pcl::PointXYZ direction;
+    std::vector<size_t> first_dir_bound_intersection_idx;
+    std::vector<size_t> second_dir_bound_intersection_idx;
+    std::vector<size_t> clutter_intersection_idx;
+    bool first_dir_intersect_bound = false;
+    bool second_dir_intersect_bound = false;
+    bool intersect_clutter = false;
+};
 struct Intersection {
     size_t index;
     size_t triangle_index;
@@ -991,22 +1006,22 @@ struct Triangle {
 
 \end{lstlisting}
 
-\subsection{Octree Partitioning}
+\paragraph{Octree Partitioning}
 
-In the context of our pipeline, the sheer magnitude of input data can be quite overwhelming. It's not uncommon for us to deal with data sets comprising millions of points and thousands of intersecting rays. A naive approach, iterating through each data point and ray, would be computationally taxing. Recognizing this challenge, it becomes imperative to partition our data into more manageable chunks. Commonly, data structures such as BVH, kdTree, and octree are used for this purpose. Leveraging the existing octree implementation in PCL, we employ it for partitioning our data.
+In the context of our pipeline, the sheer magnitude of input data can be quite overwhelming. It's not uncommon for us to deal with data sets comprising millions of points and thousands of intersecting rays. A naive approach, iterating through each data point and ray, would be computationally taxing. Recognizing this challenge, it becomes imperative to partition our data into more manageable chunks. Commonly, data structures such as BVH, KD-Tree, and octree are used for this purpose. Leveraging the existing octree implementation in PCL, we employ it for partitioning our data.
+
+\vspace{10pt}
 
 The outcome of octree partitioning is a structured tree. Within this tree, there are three distinct types of nodes: leaf nodes, branch nodes, and the root node. Leaf nodes serve as storage units for data, branch nodes encapsulate the bounding box for their respective child nodes, and the root node safeguards the bounding box encompassing the entire tree. Navigating this structure, if a ray originates inside the root node, we examine its intersection with the root's child nodes. Typically, if our tree depth surpasses two, this should return a branch node. The procedure recursively continues until we pinpoint a leaf node, at which point we verify the ray's intersection with the data housed in the leaf. If there's a data intersection, the intersection point is duly returned.
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
-		\caption{Flowchart of the Octree Partitioning Process}
-		\label{fig:flowchart of the octree partitioning process}
-	\end{figure}
-\end{minipage}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+    \caption{Flowchart of the Octree Partitioning Process}
+    \label{fig:flowchart of the octree partitioning process}
+\end{figure}
 
-\subsubsection{Octree Data Structure}
+\paragraph{Octree Data Structure}
 
 The underlying node structure for our octree is captured succinctly in the following code representation:
 
@@ -1030,17 +1045,21 @@ struct OctreeNode {
 };
 \end{lstlisting}
 
-\subsubsection{Mesh} \label{subsec:mesh octree}
+\paragraph{Partition Mesh} \label{subsec:mesh octree}
 
-Harnessing PCL's octree class, we facilitate mesh partitioning. However, this requires a preliminary step: the extraction of a point which epitomizes the triangle. To achieve this, we use the triangle's center of gravity as its representative point. By gathering these representative points, an octree can be constructed.
+Harnessing PCL's octree class, we facilitate mesh partitioning. However, this requires a preliminary step: the extraction of a point which epitomizes the triangle. To achieve this, we use the triangle's center of gravity as its representative point. By gathering these representative points, an octree can be constructed. PCL offers versatility with traversal methods – we have the liberty to opt for either a depth-first or breadth-first approach. Our actual implementation favors the depth-first traversal. The ensuing steps outline our tree-building process:
 
-PCL offers versatility with traversal methods – we have the liberty to opt for either a depth-first or breadth-first approach. Our actual implementation favors the depth-first traversal. The ensuing steps outline our tree-building process:
+\paragraph{Build Depth-Size Map}
 
-\paragraph{Build Depth Map:} Recognizing that nodes at the same depth exhibit identical bounding box sizes, a traversal of the tree allows us to construct a size-depth map. Here, the bounding box's size (denoted by the distance between \( min\_pt \) and \( max\_pt \)) acts as the key, while the node's depth is the associated value. Post traversal, the map elucidates which sizes correlate to specific depths.
+Recognizing that nodes at the same depth exhibit identical bounding box sizes, a traversal of the tree allows us to construct a size-depth map. Here, the bounding box's size (denoted by the distance between \( min\_pt \) and \( max\_pt \)) acts as the key, while the node's depth is the associated value. Post traversal, the map elucidates which sizes correlate to specific depths.
 
-\paragraph{Build Depth Node Map:} For individual nodes, a quick reference to the size-depth map reveals their respective depth. We then proceed to compile a map to document nodes within each depth level. Here, the depth is the key, and a vector, comprising node indices at that depth, forms the value. The order of these nodes in the vector mirrors the depth-first traversal sequence.
+\paragraph{Build Depth-Node Map}
 
-\paragraph{Build Connections Between Nodes:} Establishing connections between parent and child nodes is paramount. This phase involves a traversal of the depth-node map, starting from the root and working through to the penultimate leaf node level. Certain nuances are worth highlighting:
+For individual nodes, a quick reference to the size-depth map reveals their respective depth. We then proceed to compile a map to document nodes within each depth level. Here, the depth is the key, and a vector, comprising node indices at that depth, forms the value. The order of these nodes in the vector mirrors the depth-first traversal sequence.
+
+\paragraph{Build Connections Between Nodes}
+
+Establishing connections between parent and child nodes is paramount. This phase involves a traversal of the depth-node map, starting from the root and working through to the penultimate leaf node level. Certain nuances are worth highlighting:
 
 \begin{itemize}
 	\item The root node stands alone without a parent, but nodes at level 1 unanimously share the root as their parent.
@@ -1061,13 +1080,15 @@ Following is a simplistic example with a tree depth of three. Though an octree t
 
 The node index, placed at the upper left corner of each box, equates to its traversal order in a depth-first pattern. Using node 1 as a reference, all its children indices are lesser than 5. Such observations facilitate the accurate linkage of children to their parent nodes.
 
-\paragraph{Compute Bounding Box:}  With the connections established, we can now compute the bounding box for each node from leaf level. Although the bounding box for points of a leaf node is readily available, here we have to consider triangles. Each point is stored in form of $pcl::PointXYZI$, where $I$ represent its intensity field. In our case we use this field to store the index of triangle. If we iterate over all points, we can iterate over all triangles. The $min_pt$ and $max_pt$ can be obtained from the minimal and maximal vertex of all triangles. Once we have built bounding box for each leaf node, we can traverse upwards to compute bounding box for each branch node and root node. 
+\paragraph{Compute Bounding Box of Each Node}
 
-\subsubsection{Point Cloud}
+With the connections established, we can now compute the bounding box for each node from leaf level. Although the bounding box for points of a leaf node is readily available, here we have to consider triangles. Each point is stored in form of \textit{pcl::PointXYZI}, where \textit{I} represent its intensity field. In our case we use this field to store the index of triangle. If we iterate over all points, we can iterate over all triangles. The $min_pt$ and $max_pt$ can be obtained from the minimal and maximal vertex of all triangles. Once we have built bounding box for each leaf node, we can traverse upwards to compute bounding box for each branch node and root node. 
+
+\paragraph{Partition Point Cloud}
 
 For partitioning the point cloud, most steps are the same as mentioned in Section \ref{subsec:mesh octree}. The only difference is that we don't need to compute bounding box based on triangle for each node, bounding box offered by PCL should be enough for this part.
 
-\subsubsection{Ray Intersecting with Bounding Box}
+\paragraph{Ray Intersecting with Bounding Box}
 
 To determine whether a ray intersects with a bounding box, there are two primary conditions to be considered:
 
@@ -1078,9 +1099,15 @@ To determine whether a ray intersects with a bounding box, there are two primary
 
 The underlying principle is to inspect how the ray interacts with the bounding box by calculating potential intersection points for each dimension (i.e., x, y, and z). This method of computation involves the Slab technique, which calculates the intersection of the ray with the planes that define the bounding box.
 
-The method is materialized in the `rayIntersectOctreeNode` function. The procedure commences by verifying if the ray's origin is nestled within the bounding box by leveraging the `min\_pt\_triangle` and `max\_pt\_triangle` attributes of the octree node. If the origin is confirmed to be within the bounds, the function instantly returns true.
+\vspace{10pt}
+
+The method is materialized in the \textit{rayIntersectOctreeNode} function. The procedure commences by verifying if the ray's origin is nestled within the bounding box by leveraging the `min\_pt\_triangle` and `max\_pt\_triangle` attributes of the octree node. If the origin is confirmed to be within the bounds, the function instantly returns true.
+
+\vspace{10pt}
 
 Nevertheless, if the origin is exterior, the function gauges potential intersection points (or \( t \)-values) for each of the x, y, and z axes. It inspects the intersection of the ray with the 'slabs' (or bounding faces) of the bounding box. The terminal phase ensures that these intersection points lie within a consistent range across all three dimensions, thereby validating the intersection of the ray with the bounding box.
+
+\vspace{10pt}
 
 A distilled representation of the function is provided below:
 
@@ -1107,41 +1134,56 @@ bool Occlusion::rayIntersectOctreeNode(Ray& ray, OctreeNode& node) {
 }
 \end{lstlisting}
 
-It is pivotal to highlight the adoption of a threshold value (in this context, \(1e-8\)) to ascertain numerical stability. When the ray's directional component for a distinct axis approaches zero, the ray becomes nearly parallel to the planes of the bounding box on that specific axis. This peculiarity is addressed by the function by attributing `t-values` to positive or negative infinity as required.
+\paragraph{Recursive Computation}
 
-This algorithm is optimized for efficiency and enables swift determinations of ray-bounding box intersections, a property that's indispensable for maintaining high performance in graphical applications.
+It is pivotal to highlight the adoption of a threshold value (in this context, \(1e-8\)) to ascertain numerical stability. When the ray's directional component for a distinct axis approaches zero, the ray becomes nearly parallel to the planes of the bounding box on that specific axis. This peculiarity is addressed by the function by attributing `t-values` to positive or negative infinity as required. This algorithm is optimized for efficiency and enables swift determinations of ray-bounding box intersections, a property that's indispensable for maintaining high performance in graphical applications.
 
+\subsection{Computation of Evaluation Metrics}
 
-\subsection{Other Libraries Serve as Supporting Components} \label{sec:supporting libraries}
+There's also some implementation detail in this part worth to mention.
+
+\section{Auxiliary Components} \label{subsec:supporting libraries}
 
 Several auxiliary libraries play a pivotal role in our system, furnishing it with additional functionalities and capabilities. We briefly discuss these libraries and their respective roles in our pipeline.
 
-\subsubsection{JsonCpp - Parameter Parser} \label{subsec:jsoncpp}
+\paragraph{JsonCpp - Parameter Parser} \label{par:jsoncpp}
 
 JsonCpp is a C++ library that allows for the parsing of JSON files. In our system, we use it to parse the configuration file, which contains all the parameters required for our pipeline. The following snippet illustrates the configuration file's structure:
 
 \begin{lstlisting}[language=json, caption=Json Configuration File]
 "occlusion": {
-	"mesh": {
-		"path": "../files/conf_m.obj",
-		"pattern": 4,
-		"octree_resolution": 64.0,
-		"enable_acceleration": true,
-		"samples_per_unit_area": 0.01
-	},
-
-	"point_cloud": {
-		"path": "../files/conf1.pcd",
-		"num_rays_per_vp": 30000, 
-		"num_vp": 9, 
-		"point_radius": 0.01,
-		"polygon_path": "../files/polygon_conf.txt",
-		"octree_resolution": 0.5
-	}
+    "mesh": {
+        "path": "../files/simp_conf.obj",
+        "ply_path": "../files/copy_alpha_shape.ply",
+        "pattern": 4,
+        "octree_resolution": 1.0,
+        "enable_acceleration": true,
+        "samples_per_unit_area": 100,
+        "use_ply": true
+    },
+    "point_cloud": {
+        "path": "../files/conf1.pcd",
+        "num_rays_per_vp": 30000, 
+        "num_vp": 9, 
+        "point_radius": 0.01,
+        "polygon_path": "../files/polygon_conf.txt",
+        "octree_resolution": 0.5
+    },
+    "boundary_cloud": {
+        "use_estimated_cloud": true,
+        "path": "../files/copy_bound.pcd",
+        "sample_cloud_path": "../files/visible_sample_cloud.pcd",
+        "num_rays": 5000,
+        "point_radius": 0.2,
+        "polygon_path": "../files/copy_poly.txt",
+        "octree_resolution": 1.0,
+        "use_openings": true,
+        "K_nearest": 10
+    }
 },
 \end{lstlisting}
 
-\subsubsection{Websocketpp - Communication Channel} \label{subsec:websocketpp}
+\paragraph{Websocketpp - Communication Channel} \label{par:websocketpp}
 
 Websocketpp is a C++ library that facilitates the establishment of a communication channel between the backend and frontend. It is a critical component of our system, enabling the seamless exchange of data between the two components. The following snippet illustrates the communication channel's initialization:
 
@@ -1157,6 +1199,7 @@ void on_message(server& s, websocketpp::connection_hdl hdl, server::message_ptr 
 		}
 		...
 	}
+ 
 int main{
 	print_server.set_message_handler([&print_server, &data_holder](websocketpp::connection_hdl hdl, server::message_ptr msg) {
             on_message(print_server, hdl, msg, data_holder);
@@ -1169,11 +1212,12 @@ int main{
 }
 \end{lstlisting}
 
-
 %=====================================================================
 \section{Web-Based User Interface} \label{sec:three.js}
 
 Our software is elegantly encapsulated within the framework of a web application. The PCL-based backend is the computational powerhouse, whereas the frontend enhances user interaction. Detailed structures of the backend were previously introduced in Section \ref{sec:pcl and eigen}. In this section, our focus shifts to the frontend components and how they seamlessly communicate with the backend.
+
+\vspace{10pt}
 
 The user interface's visual representation is captured in Figure \ref{fig:web user interface}.
 
@@ -1184,7 +1228,7 @@ The user interface's visual representation is captured in Figure \ref{fig:web us
 	\label{fig:web user interface}
 \end{figure}
 
-\subsection{Role of Three.js in Visualization}
+\subsection{Three.js Serve for Visualization}
 
 Three.js emerges as a versatile, cross-browser JavaScript library, complemented with an API designed to craft and exhibit animated 3D computer graphics directly in a web browser. This dynamic library provides the interactive visualization pivotal for our application.
 
@@ -1202,13 +1246,11 @@ Given our choice of three.js for visualization, an ensemble of complementary web
 	\item \textbf{Websocket} - Elevating communication protocols to the next level, Websocket delivers full-duplex communication channels over a single TCP connection, encouraging instantaneous data exchange.
 \end{itemize}
 
-Collectively, these technologies synergize to produce a sleek, responsive, and visually captivating frontend, ensuring users are treated to an intuitive and immersive browsing experience.
-
 \subsection{User Interface Usage}
 
 In this part we will briefly introduce our user interface and explain how to use it.
 
-\subsubsection{Stats Panel}
+\paragraph{Stats Panel}
 
 Stats panel is located at the top left corner of the user interface. It shows three different metrics of the scene in different color.
 
@@ -1217,7 +1259,6 @@ Stats panel is located at the top left corner of the user interface. It shows th
 	\item \textbf{Network Latency} - Green, network latency.
 	\item \textbf{Cache Size} - Red, cache size of the point cloud.
 \end{itemize}
-
 
 
 \begin{minipage}{\textwidth}
@@ -1229,7 +1270,7 @@ Stats panel is located at the top left corner of the user interface. It shows th
     \end{figure}
 \end{minipage}
 
-\subsubsection{GUI}
+\paragraph{GUI}
 
 GUI is located at the top right corner of the user interface. It shows different parameters of the scene.
 
@@ -1245,7 +1286,7 @@ GUI is located at the top right corner of the user interface. It shows different
 \begin{itemize}
 	\item \textbf{Light Intensity} - Control the intensity of the light source.
 	\item \textbf{Show Cloud} - Show the point cloud.
-	\item \textbf{Use Shader Material} - Use shader material to visualize the sphere generated by point picker in a different way. Here it's bliking between white and black.
+	\item \textbf{Use Shader Material} - Use shader material to visualize the sphere generated by point picker in a different way. Here it's blinking between white and black.
 	\item \textbf{Center} - Center viewpoint.
 	\item \textbf{Viewpoint Max} - Max viewpoint.
 	\item \textbf{Viewpoint Min} - Min viewpoint.
@@ -1253,7 +1294,7 @@ GUI is located at the top right corner of the user interface. It shows different
 	\item \textbf{Picker Size} - Size of the point picker.
 \end{itemize}
 
-\subsubsection{Buttons}
+\paragraph{Buttons}
 
 Below are the buttons on the user interface.
 
@@ -1269,44 +1310,36 @@ Below are the buttons on the user interface.
 
 \subsection{Software Structure}
 
-\subsubsection{Flowchart}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+    \caption{Flowchart of the Software}
+    \label{fig:flowchart}
+\end{figure}
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
-		\caption{Flowchart of the Software}
-		\label{fig:flowchart}
-	\end{figure}
-\end{minipage}
+\paragraph{Class Diagram}
 
-\subsubsection{Class Diagram}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+    \caption{Flowchart of the Software}
+    \label{fig:flowchart}
+\end{figure}
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
-		\caption{Class Diagram of the Software}
-		\label{fig:class diagram}
-	\end{figure}
-\end{minipage}
+\paragraph{Sequence Diagram}
 
-\subsubsection{Sequence Diagram}
-
-\begin{minipage}{\textwidth}
-    \begin{figure}[H]
-        \centering
-        \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
-        \caption{Sequence Diagram of the Software}
-        \label{fig:sequence diagram}
-    \end{figure}
-\end{minipage}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
+    \caption{Flowchart of the Software}
+    \label{fig:flowchart}
+\end{figure}
 
 \subsection{Command Line Only Mode}
 
 This project is designated to be used in a web application. However, we also provide a command line only mode for users who want to use this project in a command line environment. In this mode, we use a simple command line interface to interact with the backend.
 
-\subsubsection{Arguments and Corresponding Functionality}
+\paragraph{Arguments and Corresponding Functionality}
 
 \begin{itemize}
 	\item \textbf{-moc} - Mesh Occlusion Computation.
@@ -1322,10 +1355,9 @@ This project is designated to be used in a web application. However, we also pro
 \chapter{Experimental Results} \label{chp:experimental results}
 %=====================================================================
 
+\section{Validation}
 
-\section{Mesh Based Occlusion Level}
-
-\subsection{Ground Truth Mesh}
+\subsection{Occlusion Level of Ground Truth Mesh}
 
 \paragraph{Setup}
 
@@ -1372,21 +1404,32 @@ Our results are shown in Table \ref{tab:result of each experiment}. We can see t
 		7th & 0.287 \\
         \hline
     \end{tabular}
-    \caption{Result of Each Experiment}
+    \caption{Result of Ground Truth Mesh}
     \label{tab:result of each experiment}
 \end{table}
 
-\subsection{Estimated Mesh from Point Cloud}
+\section{Estimated Mesh and Visible Sampling Cloud}
+
+Here we want to validate that the difference of occlusion level between the estimated mesh and visible sampling cloud should be within a relative small range. 
 
 \paragraph{Setup}
 
 \paragraph{Results}
 
-\section{Segmentation Performance Evaluation of Point Cloud}
+\section{Evaluate Segmentation Performance of Point Cloud}
+
+\subsection{Occlusion Level of Sub-sampled Point Cloud}
 
 \paragraph{Setup}
 
 \paragraph{Results}
+
+\subsection{Result of Metrics for Segmented Cloud}
+
+\paragraph{Setup}
+
+\paragraph{Results}
+
 
 
 %=====================================================================
@@ -1419,7 +1462,7 @@ Acknowledge any data and code sources you used or for help you received.
 \chapter*{Document, Writing and Formatting Guidelines}
 %=====================================================================
 
-This part of the document uses non-numbered chapter and section headings as they are not part of a regular report structure. In a regular report, \texttt{chapters}, \texttt{sections} and \texttt{subsections} should normally be numbered. Note the use of comment lines and spacings to give more structure to the ASCII text LaTeX document.
+This part of the document uses non-numbered chapter and section headings as they are not part of a regular report structure. In a regular report, \textit{chapters}, \textit{sections} and \textit{subsections} should normally be numbered. Note the use of comment lines and spacings to give more structure to the ASCII text LaTeX document.
 
 In this appendix like part we discuss the structure and formatting rules and guidelines to follow for a written project, research paper, Bachelor or Master thesis report.
 
@@ -1466,9 +1509,9 @@ Use \emph{repetition}, e.g. introduce the problem, show how to solve it and revi
 Do not abruptly jump topics but motivate topic changes. If the topics of text parts change too much, then divide them into subsections or paragraphs. If between paragraphs there are major changes (sequence of different concepts etc.), try to use inline paragraph headings for easy navigation and orientation. One way to integrate such paragraph sequences is to write an introductory paragraph at the beginning of the section and use parallelism.
 
 %--------------------------------------------------------
-\subsubsection*{Sections and Paragraphs}
+\paragraph*{Sections and Paragraphs}
 
-Use \texttt{sections}, \texttt{subsections} and \texttt{paragraphs} to structure your ideas and content into meaningful parts, and make a clear and meaningful order of them. Each section, subsection or paragraph must cover a clearly delineated topic or idea.
+Use \textit{sections}, \textit{subsections} and \textit{paragraphs} to structure your ideas and content into meaningful parts, and make a clear and meaningful order of them. Each section, subsection or paragraph must cover a clearly delineated topic or idea.
 
 Every section must first introduce to the reader what to expect and then tell the details, following the principles of repetition and parallelism. An introductory paragraph is also a good approach to fill the space between the section heading and the first sub heading if subsections are used. The last paragraph of a section can summarize the concepts and lead over to the next topic or section.
 
@@ -1477,7 +1520,7 @@ Each paragraph should have one clear single message, there should only be one co
 Every single sentence should be fully comprehensible in its context, taking only minimal preliminary knowledge of previous paragraphs into account.
 
 %--------------------------------------------------------
-\subsubsection*{Wording and Postprocessing}
+\paragraph*{Wording and Postprocessing}
 
 Use single tenses (i.e. the present or present perfect) as much as possible when describing your design, technical or algorithmic solutions. Generally use present perfect for describing implementations and results which were completed, as this implies something that happened as part of this work in the past but continues to be valid in the present as a result of this paper.
 
@@ -1537,7 +1580,7 @@ Further LaTeX coding guidelines and recommendations:
 \item Use (our math.tex) style file for math formula consistency
 \item Use \verb!\mathrm{function()}!  for function names
 \item Use consistent section, equation and figure labelling
-\verb!\label{sec:introduction}! as well as \texttt{eq:rendering, fig:system}
+\verb!\label{sec:introduction}! as well as \textit{eq:rendering, fig:system}
 \item Do not liberally introduce manual horizontal or vertical spacings
 \item In particular do not use comment codes \% to control spacing or indentation before or after elements, e.g. arounc equations, figures or tables
 \end{itemize}
@@ -1545,7 +1588,7 @@ Further LaTeX coding guidelines and recommendations:
 %-------------------------------------------------------------------------------------------------------------------------
 \subsection*{Mathematical Formulas and Equations}
 
-Mathematical expressions should follow a consistent set of rules, symbols and formatting as indicated in our \texttt{math.tex} style file. LaTeXiT can be used for consistent symbols and formulas in figures. Apply the same scalar, vector and matrix styles as well as use the same variables consistently throughout your text, see also the predefined styles and specific variables in \texttt{math.tex}. A few guidelines that are useful are given below, use them as much as possible (but adjust as necessary to make formulas clear):
+Mathematical expressions should follow a consistent set of rules, symbols and formatting as indicated in our \textit{math.tex} style file. LaTeXiT can be used for consistent symbols and formulas in figures. Apply the same scalar, vector and matrix styles as well as use the same variables consistently throughout your text, see also the predefined styles and specific variables in \textit{math.tex}. A few guidelines that are useful are given below, use them as much as possible (but adjust as necessary to make formulas clear):
 
 \begin{itemize}
 \item use (lower-case) italic letters for normal (scalar) variables such as $x$ or $t$
