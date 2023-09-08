@@ -130,7 +130,7 @@
 \chapter{Abstract} \label{chp:abstract}
 %=====================================================================
 
-This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there's a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation softwares like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene is inversely proportional to the quality of semantic segmentation. This finding is crucial for advancing the state of the art in semantic segmentation and for paving the way for more robust applications in autonomous driving, robotics, and 3D scene analysis.
+This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there's a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation software like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene is inversely proportional to the quality of semantic segmentation. This finding is crucial for advancing the state of the art in semantic segmentation and for paving the way for more robust applications in 3D scene analysis.
 
 \tableofcontents
 
@@ -161,16 +161,16 @@ This paper presents the OGSF-Net, a novel architecture designed to address the c
 
 \paragraph{OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion.} \label{par:OcCo occlusion completion}
 
-In this work, the authors proposed ${Occlusion Completion}$, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weights for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
+In this work, the authors proposed \textit{Occlusion Completion}, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weights for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
 
 \section{Positioning and Contributions}
 
 Previous work has shown that occlusion of a point cloud can be estimated based on ground truth occlusion information. However, in our work we have to estimate occlusion level of a scene without knowing such information. To achieve this, we will define 
-occlusion in a similar way to the Art gallery problem, in which we want to know the minimal number of viewpoints are needed to cover the whole scene. If we don't have enough viewpoints, then there's occlusion in the scene, which is the part that cannot be seen by any viewpoints. To estimate occlusion we defined, we propose the metric \textit{Non-visible area ratio} to represent occlusion level in the scene which is represented by a triangulated mesh. 
+occlusion in a similar way to the Art gallery problem,\FIXME{not art gallery} in which we want to know the minimal number of viewpoints are needed to cover the whole scene. If we don't have enough viewpoints, then there's occlusion in the scene, which is the part that cannot be seen by any viewpoints. To estimate occlusion we defined, we propose the metric \textit{occluded area ratio} to represent occlusion level in the scene which is represented by a triangulated mesh. 
 
 \vspace{10pt}
 
-This work is focusing on the data set of point cloud. Since there's no property can quantify area in point cloud we cannot directly extend the metric \textit{Non-visible area ratio} to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose \textit{Boundary ray ratio} which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
+This work is focusing on the data set of point cloud. Since there's no property can quantify area in point cloud we cannot directly extend the metric \textit{occluded area ratio} to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose \textit{Boundary ray ratio} which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
 
 %=====================================================================
 \section{Technical Background}
@@ -225,28 +225,28 @@ For this thesis it's crucial to present our experimental results in a meaningful
 \chapter{Problem Statement} \label{chp:problem}
 %=====================================================================
 
-In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that \textit{Non-visible area ratio} can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its Non-visible area ratio. From the computation of invisibility we should be able to generate a new cloud from visible area. With this point cloud we can apply the metric \textit{Boundary ray ratio} to estimate level of occlusion. To validate \textit{Boundary ray ratio} is a reliable metric in estimation, its value should be close to the value of \textit{Non-visible area ratio}. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
+In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that \textit{occluded area ratio} can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its occluded area ratio. From the computation of invisibility we should be able to generate a new cloud from visible area. With this point cloud we can apply the metric \textit{Boundary ray ratio} to estimate level of occlusion. To validate \textit{Boundary ray ratio} is a reliable metric in estimation, its value should be close to the value of \textit{occluded area ratio}. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
 
 \vspace{10pt}
 
 These problems are addressed in following points. Each of them will be provided with more detailed explanation in the next chapter where our technical solutions are given.
 
 \begin{itemize}
-    \item Compute \textit{Non-visible area ratio} of mesh.
+    \item Compute \textit{occluded area ratio} of mesh.
     \item Estimate a mesh from the given point cloud.
-    \item Compute the \textit{Non-visible area ratio} for the estimated mesh and generate a new point cloud from the visible area of the mesh.
-    \item Apply the \textit{Boundary ray ratio} metric to the new point cloud to estimate the level of occlusion and validate the reliability of the \textit{Boundary ray ratio} metric by comparing its value with the \textit{Non-visible area ratio}
+    \item Compute the \textit{occluded area ratio} for the estimated mesh and generate a new point cloud from the visible area of the mesh.
+    \item Apply the \textit{Boundary ray ratio} metric to the new point cloud to estimate the level of occlusion and validate the reliability of the \textit{Boundary ray ratio} metric by comparing its value with the \textit{occluded area ratio}
     \item Compute the occlusion level and the performance of semantic segmentation of the point cloud, then compare these metrics between different clouds to find correlation. 
 \end{itemize}
 
 
-\section{Non-visible Area Ratio of Mesh} \label{sec:Non-visible area ratio of mesh}
+\section{Occluded Area Ratio of Mesh} \label{sec:occluded area ratio of mesh}
 
 In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, there's less invisible region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender[Blender], the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
 
 \vspace{10pt}
 
-To determine which area is visible and which is not is the key point here to compute Non-visible area ratio correctly. Obviously, the visible region to a viewpoint is where rays from viewpoint can reach. Hence, ray-tracing based algorithm will play an important role in computation of occlusion level.  
+To determine which area is visible and which is not is the key point here to compute occluded area ratio correctly. Obviously, the visible region to a viewpoint is where rays from viewpoint can reach. Hence, ray-tracing based algorithm will play an important role in computation of occlusion level.  
 
 \begin{figure}[H]
     \centering
@@ -258,7 +258,7 @@ To determine which area is visible and which is not is the key point here to com
 
 \section{Mesh Estimation from Point Cloud} \label{mesh estimation of point cloud}
 
-If we want to apply \textit{Non-visible area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it's crucial for us to improve the result of mesh estimation. 
+If we want to apply \textit{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it's crucial for us to improve the result of mesh estimation. 
 
 \vspace{10pt}
 
@@ -278,7 +278,7 @@ In case of region growing, we need to tweak its input parameters. An example of 
 
 \section{Generate Point Cloud from Estimated Mesh} \label{generate point cloud from estimated mesh}
 
-Once we have a mesh, we can directly generate points from each face of it. One way to do that is sampling points on polygon, which is normally triangle. We have to make the distribution of points as uniform as possible so that the structural information of mesh can be kept precisely. Otherwise, the generated point cloud will give us distorted information which may lead to significantly biased result of computation. The other way to have points from mesh could be related to ray in the scene. As we mentioned in section \ref{sec:Non-visible area ratio of mesh}, ray-tracing based mesh can be applied to our pipeline. When there's ray in the scene, we can compute intersections between ray and triangle. These intersections can present structural information of mesh as well, in case of first hit intersection point, we know that the region surrounding this point is visible. This information of visibility may contribute to subsequent computations. 
+Once we have a mesh, we can directly generate points from each face of it. One way to do that is sampling points on polygon, which is normally triangle. We have to make the distribution of points as uniform as possible so that the structural information of mesh can be kept precisely. Otherwise, the generated point cloud will give us distorted information which may lead to significantly biased result of computation. The other way to have points from mesh could be related to ray in the scene. As we mentioned in section \ref{sec:occluded area ratio of mesh}, ray-tracing based mesh can be applied to our pipeline. When there's ray in the scene, we can compute intersections between ray and triangle. These intersections can present structural information of mesh as well, in case of first hit intersection point, we know that the region surrounding this point is visible. This information of visibility may contribute to subsequent computations. 
 
 
 \section{Boundary Ray Ratio of Point Cloud}
@@ -314,15 +314,15 @@ In this chapter we will introduce our technical solution to the problem stated i
     \label{fig:overall flowchart of technical solution}
 \end{figure}
 
-\section{Compute Non-visible Area Ratio} \label{sec:compute non-visible area ratio}
+\section{Compute occluded Area Ratio} \label{sec:compute occluded area ratio}
 
-It's difficult to accurately compute non-visible area of a triangle, since we don't exactly know which part is visible or invisible geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are invisible. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing non-visible area ratio}.
+It's difficult to accurately compute occluded area of a triangle, since we don't exactly know which part is visible or invisible geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are invisible. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing occluded area ratio}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/Compute Non-visible Area Ratio.png}
-    \caption{Flowchart of Computing Non-visible Area Ratio}
-    \label{fig:flowchart of computing non-visible area ratio}
+    \includegraphics*[width=1.0\textwidth]{figures/Compute occluded Area Ratio.png}
+    \caption{Flowchart of Computing occluded Area Ratio}
+    \label{fig:flowchart of computing occluded area ratio}
 \end{figure}
 
 \subsection{Sample Triangles} \label{subsec:sample triangle}
@@ -481,9 +481,9 @@ One of the most efficient and widely used algorithms for this purpose is the \te
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Non-Visible Area Ratio}
+\subsection{occluded Area Ratio}
 
-From previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the viewpoints. As opposed to directly compute non-visible area, we detect visible samplings here. We use visible weight represents the ratio of visible samplings to the total number of samplings on the triangle. With this weight we compute visible area for each triangle, then we sum up them to get the total visible area, and the ratio can be easily calculated with total area. Mathematically, the visibility weight, \( w \), can be defined as:
+From previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the viewpoints. As opposed to directly compute occluded area, we detect visible samplings here. We use visible weight represents the ratio of visible samplings to the total number of samplings on the triangle. With this weight we compute visible area for each triangle, then we sum up them to get the total visible area, and the ratio can be easily calculated with total area. Mathematically, the visibility weight, \( w \), can be defined as:
 \[ 
     w = \frac{\textit{Number of visible samplings per triangle}}{\textit{Total number of samplings per triangle}}
 \]
@@ -498,9 +498,9 @@ The visible area ratio, denoted as \( R_{\textit{visible}} \), is calculated as 
     R_{\textit{visible}} = \frac{A_{\textit{total visible}}}{A_{\textit{total}}}
 \]
 
-Conversely, the non-visible area ratio, denoted as \( R_{\textit{non-visible}} \), can be calculated as the complement of the visible area ratio. It is given by:
+Conversely, the occluded area ratio, denoted as \( R_{\textit{occluded}} \), can be calculated as the complement of the visible area ratio. It is given by:
 \[ 
-    R_{\textit{non-visible}} = 1 - R_{\textit{visible}}
+    R_{\textit{occluded}} = 1 - R_{\textit{visible}}
 \]
 
 A sampling is deemed visible if at least one ray originating from it does not intersect any triangle between its origin and the viewpoint other than the one from which the sampling was generated. To ascertain this, we should examine all first hit intersection related to the ray cast from the sampling. If the distance from origin to viewpoint is shorter than the distance between origin and first hit intersection, which means no intersection can obscure the viewpoint, then this sampling is considered visible. 
@@ -534,7 +534,7 @@ A sampling is deemed visible if at least one ray originating from it does not in
  
 \section{Estimate Mesh and Generate Point Cloud} \label{sec:estimate mesh and generate point cloud}
 
-In this part we estimate mesh for subsequent computation of non-visible area ratio. Since we want to make comparison between this ratio and occlusion level of point cloud, the cloud should be generated from this mesh. 
+In this part we estimate mesh for subsequent computation of occluded area ratio. Since we want to make comparison between this ratio and occlusion level of point cloud, the cloud should be generated from this mesh. 
 
 \subsection{Estimate Mesh from Point Cloud} \label{par:estimate mesh from point cloud}
 
@@ -548,11 +548,11 @@ As discussed in \ref{mesh estimation of point cloud}, region growing is an optio
     \label{segmentation results}
 \end{figure}
 
-We use the same pipeline introduced in \ref{sec:compute non-visible area ratio} to compute its non-visible area ratio to represent occlusion level. The result depends on which strategy we use to place viewpoints. We can randomly place them in the scene or with fixed position such as center of the scene's bounding box, this will be explained more detailed in \ref{chp:experimental results}.
+We use the same pipeline introduced in \ref{sec:compute occluded area ratio} to compute its occluded area ratio to represent occlusion level. The result depends on which strategy we use to place viewpoints. We can randomly place them in the scene or with fixed position such as center of the scene's bounding box, this will be explained more detailed in \ref{chp:experimental results}.
 
 \subsection{Generate Point Cloud from Estimated Mesh} \label{par:generate point cloud from estimated mesh}
 
-The computation of non-visible area of a mesh is based on visible samples on each triangle. Since we want to make comparison on occlusion level between mesh and point cloud, the cloud should reflect the information about visibility. Hence, here we directly create the visible point cloud from visible samplings.
+The computation of occluded area of a mesh is based on visible samples on each triangle. Since we want to make comparison on occlusion level between mesh and point cloud, the cloud should reflect the information about visibility. Hence, here we directly create the visible point cloud from visible samplings.
 
 \section{Compute Boundary Ray Ratio of Point Cloud} \label{compute boundary ray ratio of point cloud} 
 
@@ -804,7 +804,11 @@ Given a segmented point cloud, we can evaluate the segmentation by calculating v
 
 \paragraph{Metrics} \label{par:metrics}
 
-To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \textit{Accuracy}, \textit{IoU}, \textit{Precision}, \textit{Recall} and \textit{F1 Score}. These metrics provide different perspectives on the model's capabilities and are computed using the values of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN) which are obtained for each class through the algorithm described earlier. Below, we detail these metrics along with their respective mathematical formulations:
+To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \textit{Accuracy}, \textit{IoU}, \textit{Precision}, \textit{Recall} and \textit{F1 Score}. 
+
+\vspace{10pt}
+
+These metrics provide different perspectives on the model's capabilities and are computed using the values of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN) which are obtained for each class through the algorithm described earlier. Below, we detail these metrics along with their respective mathematical formulations:
 
 \vspace{10pt}
 
@@ -915,7 +919,7 @@ Computation of ray-opening intersection plays an crucial role in calculating bou
 
 \paragraph{Plane Estimation}
 
-The initial step revolves around fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. The function \textit{computePlaneCoefficients} captures this essence:
+The initial step is fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. In the code snippet shown below, PCL's \textit{SACSegmentation} is configured to detect planar models. If successful, it retrieves the plane's coefficients.
 
 \begin{lstlisting}[language=C++, caption=Compute Plane Coefficients]
 pcl::ModelCoefficients::Ptr coefficients(new pcl::ModelCoefficients);
@@ -929,20 +933,25 @@ seg.setInputCloud(cloud);
 seg.segment(*inliers, *coefficients);
 \end{lstlisting}
 
-In this snippet, PCL's \textit{SACSegmentation} is configured to detect planar models. If successful, it retrieves the plane's coefficients.
+\paragraph{Formation of Polygon}
 
-\paragraph{Projection onto Plane}
-
-Armed with the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. The function \textit{estimatePolygon} accomplishes this feat:
+With the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. Once our points sharing a planar space, we compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points.
 
 \begin{lstlisting}[language=C++, caption=Projecting Points onto Plane]
-pcl::PointCloud<pcl::PointXYZ>::Ptr polygon_cloud = estimatePolygon(points, coefficients);
+pcl::ProjectInliers<pcl::PointXYZ> proj;
+proj.setModelType(pcl::SACMODEL_PLANE);
+proj.setInputCloud(cloud);
+proj.setModelCoefficients(coefficients);
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_projected(new pcl::PointCloud<pcl::PointXYZ>);
+proj.filter(*cloud_projected);
+pcl::ConvexHull<pcl::PointXYZ> chull;
+pcl::PointCloud<pcl::PointXYZ>::Ptr cloud_hull(new pcl::PointCloud<pcl::PointXYZ>);
+chull.setDimension(2);
+chull.setInputCloud(cloud_projected);
+chull.reconstruct(*cloud_hull);
 \end{lstlisting}
 
-Here, PCL's \textit{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \textit{cloud projected}.
-
-\paragraph{Convex Hull Computation} 
-With our points now sharing a planar space, we strive to compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points. The usage of PCL's \textit{ConvexHull} class, as seen in the \textit{estimatePolygon} function, is pivotal in this stage.
+Here, PCL's \textit{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \textit{cloud projected}. The usage of PCL's \textit{ConvexHull} class create a cloud representing the polygon.
 
 
 \subsection{Ray Tracing Based Intersection Computation} \label{sec:ray tracing}
@@ -951,7 +960,7 @@ Ray tracing based methods are pivotal to our computational pipeline. We use ray 
 
 \paragraph{Database-like Structure}
 
-To compute and record all intersections between all rays and all elements in the scene, we build different structure for each type of element. Their interactions are also recorded, which makes the system looks like a database. We can query the database to get all the information we need.  
+To compute and record all intersections between all rays and all elements in the scene, we build different structure for each type of element. Their interactions are also stored, which makes the system appears to be a relational database. We can query this database to get all the information we need.  
 
 \begin{lstlisting} [language=C++, caption=Data Structures, label=lst:database]
 struct Ray3D {      // ray structure used for point cloud ray tracing
@@ -960,30 +969,25 @@ struct Ray3D {      // ray structure used for point cloud ray tracing
     pcl::PointXYZ direction;
     std::vector<size_t> first_dir_bound_intersection_idx;
     std::vector<size_t> second_dir_bound_intersection_idx;
-    std::vector<size_t> clutter_intersection_idx;
-    bool first_dir_intersect_bound = false;
-    bool second_dir_intersect_bound = false;
-    bool intersect_clutter = false;
+    ...
 };
 struct Intersection {
     size_t index;
     size_t triangle_index;
     size_t ray_index;
     Eigen::Vector3d point;
-    double distance_to_look_at_point;
-    double distance_to_origin;
     bool is_first_hit;
+    ...
 };
 struct Ray { 
     size_t index;
-    size_t source_triangle_index;
-    size_t source_sample_index;
     size_t first_hit_intersection_idx;
     Eigen::Vector3d origin;
     Eigen::Vector3d look_at_point;
     Eigen::Vector3d direction;
     std::vector<size_t> intersection_idx;
     std::vector<size_t> triangle_idx;
+    ...
 };
 struct Sample {
     size_t index;
@@ -997,11 +1001,10 @@ struct Triangle {
     Eigen::Vector3d v1;
     Eigen::Vector3d v2;
     Eigen::Vector3d v3;
-    Eigen::Vector3d center;
-    double area;
     std::vector<size_t> sample_idx;
     std::vector<size_t> intersection_idx;
     std::vector<size_t> ray_idx;
+    ...
 };
 
 \end{lstlisting}
@@ -1068,15 +1071,13 @@ Establishing connections between parent and child nodes is paramount. This phase
 
 Following is a simplistic example with a tree depth of three. Though an octree typically has eight children for every node, for the sake of clarity, we've reduced its size in this explanation. 
 
-\noindent
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=1.0\textwidth]{figures/octree.png}
-		\caption{Octree Structure}
-		\label{fig:octree structure}
-	\end{figure}
-\end{minipage}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/octree.png}
+    \caption{Octree Structure}
+    \label{fig:octree structure}
+\end{figure}
+
 
 The node index, placed at the upper left corner of each box, equates to its traversal order in a depth-first pattern. Using node 1 as a reference, all its children indices are lesser than 5. Such observations facilitate the accurate linkage of children to their parent nodes.
 
@@ -1140,7 +1141,7 @@ It is pivotal to highlight the adoption of a threshold value (in this context, \
 
 \subsection{Computation of Evaluation Metrics}
 
-There's also some implementation detail in this part worth to mention.
+There's also some implementation detail in this part worth to mention. Maps are built based on ground truth label and semantics applied in Minkowski Engine.
 
 \section{Auxiliary Components} \label{subsec:supporting libraries}
 
@@ -1161,26 +1162,6 @@ JsonCpp is a C++ library that allows for the parsing of JSON files. In our syste
         "samples_per_unit_area": 100,
         "use_ply": true
     },
-    "point_cloud": {
-        "path": "../files/conf1.pcd",
-        "num_rays_per_vp": 30000, 
-        "num_vp": 9, 
-        "point_radius": 0.01,
-        "polygon_path": "../files/polygon_conf.txt",
-        "octree_resolution": 0.5
-    },
-    "boundary_cloud": {
-        "use_estimated_cloud": true,
-        "path": "../files/copy_bound.pcd",
-        "sample_cloud_path": "../files/visible_sample_cloud.pcd",
-        "num_rays": 5000,
-        "point_radius": 0.2,
-        "polygon_path": "../files/copy_poly.txt",
-        "octree_resolution": 1.0,
-        "use_openings": true,
-        "K_nearest": 10
-    }
-},
 \end{lstlisting}
 
 \paragraph{Websocketpp - Communication Channel} \label{par:websocketpp}
@@ -1190,7 +1171,7 @@ Websocketpp is a C++ library that facilitates the establishment of a communicati
 \begin{lstlisting}[language=C++, caption=Websocket Server]
 typedef websocketpp::server<websocketpp::config::asio> server;
 void on_message(server& s, websocketpp::connection_hdl hdl, server::message_ptr msg, DataHolder& data_holder) {
-	try {
+        ...
 		s.send(hdl, msg->get_payload(), msg->get_opcode());
 		std::string payload = msg->get_payload();
 		if (payload.substr(0, 3) == "-i=") {
@@ -1198,15 +1179,12 @@ void on_message(server& s, websocketpp::connection_hdl hdl, server::message_ptr 
 			data_holder.setInputPath("../files/" + payload.substr(3, payload.length()));
 		}
 		...
-	}
- 
 int main{
 	print_server.set_message_handler([&print_server, &data_holder](websocketpp::connection_hdl hdl, server::message_ptr msg) {
             on_message(print_server, hdl, msg, data_holder);
         });
-	print_server.init_asio();
+        ...
 	print_server.listen(8080);
-	print_server.start_accept();
 	print_server.run();
 	...	
 }
@@ -1261,14 +1239,12 @@ Stats panel is located at the top left corner of the user interface. It shows th
 \end{itemize}
 
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-        \centering
-        \includegraphics*[width=0.75\textwidth]{figures/stats panel.png}
-        \caption{Stats Panel}
-        \label{fig:stats panel}
-    \end{figure}
-\end{minipage}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.75\textwidth]{figures/stats panel.png}
+    \caption{Stats Panel}
+    \label{fig:stats panel}
+\end{figure}
 
 \paragraph{GUI}
 
@@ -1355,39 +1331,38 @@ This project is designated to be used in a web application. However, we also pro
 \chapter{Experimental Results} \label{chp:experimental results}
 %=====================================================================
 
+Experiment is one of the most important steps to evaluate the approaches presented in Chapter \ref{chp:solution}. In this chapter we will first validate the reliability of our proposed metrics, then we apply them to subsequent workflow to investigate the impact of occlusion on semantic segmentation of point cloud.
+
 \section{Validation}
 
-\subsection{Occlusion Level of Ground Truth Mesh}
+The validation phase start by computing occlusion level of ground truth mesh. Different strategy of the placement of viewpoints will be applied to this scene. After that we compare the occlusion between estimated mesh and visible sampling cloud.
+
+\subsection{Occlusion Level of Ground Truth Mesh} \label{exp:occlusion of ground truth mesh}
 
 \paragraph{Setup}
 
 We prepare a ground truth mesh which shows a conference room[McGuire Archives] as our input. We have 3 viewpoints in this scene, their positions are center of the scene, midpoint between center and maximal point and midpoint between center and minimal point. The mesh scene is shown in Figure \ref{fig:mesh with viewpoints} where all viewpoints are marked with red box. 
 
-\noindent
-\begin{minipage}{\textwidth}
-    \begin{figure}[H]
-        \centering
-        \includegraphics*[width=1.0\textwidth]{figures/mesh with vps.png}
-        \caption{Mesh with Viewpoints}
-        \label{fig:mesh with viewpoints}
-    \end{figure}
-\end{minipage}
-\hfill
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=1.0\textwidth]{figures/mesh with vps.png}
+    \caption{Mesh with Viewpoints}
+    \label{fig:mesh with viewpoints}
+\end{figure}
 
-We will conduct this experiment on different pattern of viewpoints as shown in Figure~\ref{fig:pattern of viewpoints}. Each time we will apply different pattern of viewpoints on the same mesh scene. There are 124277 triangles in this scene, to simplify the computation, we set sample per unit area to be 0.01, which result in 125752 samples as well as rays in total.
-\noindent
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.35\textwidth]{figures/experiment mesh.png}
-		\caption{Pattern of Viewpoints}
-		\label{fig:pattern of viewpoints}
-	\end{figure}
-\end{minipage} 
+We will conduct this experiment on different pattern of viewpoints as shown in Figure \ref{fig:pattern of viewpoints}. 
+There are around 10000 triangles in this scene, to simplify the computation, we set sample per unit area to be 10, which result in around 20000 samples as well as rays in total. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.45\textwidth]{figures/pattern of viewpoints.png}
+    \caption{Pattern of Viewpoints}
+    \label{fig:pattern of viewpoints}
+\end{figure}
 
 \paragraph{Results}
 
-Our results are shown in Table \ref{tab:result of each experiment}. We can see that the occlusion level decreases as the number of viewpoints increases. This is because more viewpoints can cover more area of the scene, which results in less occlusion.
+Our results are shown in Table \ref{tab:result of each experiment}. We can see that the occlusion level decreases as the number of viewpoints increases. This is because with more viewpoints we can cover more area of the scene, which results in less occlusion.
 
 \begin{table}[h]
     \centering
@@ -1395,24 +1370,34 @@ Our results are shown in Table \ref{tab:result of each experiment}. We can see t
         \hline
         \textbf{Experiment No.} & \textbf{Occlusion Level} \\
         \hline
-        1st & 0.493 \\
-        2nd & ----- \\
-		3rd & ----- \\
-		4th & 0.376 \\
-		5th & ----- \\
-		6th & ----- \\
-		7th & 0.287 \\
+        1st & 0.570 \\
+        2nd & 0.484 \\
+		3rd & 0.453 \\
+		4th & 0.391 \\
+        Corner case 1 & 0.914 \\
+
         \hline
     \end{tabular}
     \caption{Result of Ground Truth Mesh}
     \label{tab:result of each experiment}
 \end{table}
 
-\section{Estimated Mesh and Visible Sampling Cloud}
+Except for patterns we mentioned above, we also added one corner case where we put one viewpoint right below the center as shown in Figure \ref{fig:corner case}. The only difference is that the Z-value of this viewpoint is equal to the minimal vertex of the scene. The center viewpoint is also shown since we want to display the relative position of the viewpoint used in corner case to it, but we don't consider it for computation. Based on its special position, most of the rays cast from samplings should be blocked by the table. And the value 0.914 can verify that in this case most samplings are unseen by this viewpoint, which makes the metric \textit{occluded area ratio} more reliable.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.6\textwidth]{figures/edge case-under table.png}
+    \caption{Corner Case}
+    \label{fig:corner case}
+\end{figure}
+
+\subsection{Estimated Mesh and Visible Sampling Cloud}
 
 Here we want to validate that the difference of occlusion level between the estimated mesh and visible sampling cloud should be within a relative small range. 
 
 \paragraph{Setup}
+
+We prepare 3 original point clouds with name \textit{conference room 1}, \textit{conference room 2} and \textit{copy room} respectively. For each of them, we estimate a mesh via \textit{GoCoPP}. Then for each mesh, we conduct the same workflow in Section \ref{exp:occlusion of ground truth mesh}.
 
 \paragraph{Results}
 
@@ -1422,13 +1407,22 @@ Here we want to validate that the difference of occlusion level between the esti
 
 \paragraph{Setup}
 
+Scan original cloud with different viewpoints.
+
 \paragraph{Results}
+
+
 
 \subsection{Result of Metrics for Segmented Cloud}
 
+
+
 \paragraph{Setup}
 
+
+
 \paragraph{Results}
+
 
 
 
@@ -1436,19 +1430,17 @@ Here we want to validate that the difference of occlusion level between the esti
 \chapter{Conclusion and Discussion} \label{chp:conclusion}
 %=====================================================================
 
-The last section puts the results in perspective, discussing it in relationship to other related work in one or maximum two pages. Indicate possible (side-)effects and eventual limitations due to the evaluation, but try to keep yourself short and clear. Give a short discussion about your results where you focus on what your findings mean. E.g., show how your results and interpretations agree with the original problem question and with other published work or if there are any other practical applications for your work.
+\section{Conclusion}
 
-State the \emph{take home message} of the paper that the reader should remember and provide an outlook on possible future work that extends the given solution or fixes specific limitations. Close with a brief description (that is different from the Abstract) of the proposed solution.
+From the results we get from last section, we can find correlation between level of occlusion and segmentation performance.
 
-\paragraph{Conclusion}
+\section{Discussion}
 
-From the results we get from last section, we ca nfind correlation bewtween level of occlusion and segmentation performance.
+\subsection{Limitation}
 
-\paragraph{Limitation}
+However, there are also many limitations on our work. We cannot assess the occlusion level of a scene very accurately.
 
-However, there're also many limitations on our work. We cannot assess the occlusion level of a scene very accurately.
-
-\paragraph{Future Work}
+\subsection{Future Work}
 
 Some future work can be done to improve our work.
 
