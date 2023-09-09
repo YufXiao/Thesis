@@ -17,6 +17,7 @@
 \usepackage{listings}
 \usepackage{hyperref}
 \usepackage{xargs}
+\usepackage{pgfplots}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
 
 
@@ -591,7 +592,7 @@ In our work, it's more feasible for us to create rays within the room which is a
 \begin{figure}[H]
     \centering
     \includegraphics*[width=0.5\textwidth]{figures/ray with two directions.png}
-    \caption{Ray With 2 Directions}
+    \caption{Ray with 2 Directions}
     \label{fig:ray with 2 directions}
 \end{figure}
 
@@ -1289,12 +1290,16 @@ The validation phase start by computing occlusion level of ground truth mesh. Di
 
 We prepare a ground truth mesh which shows a conference room[McGuire Archives] as our input. We have 3 viewpoints in this scene, their positions are center of the scene, midpoint between center and maximal point and midpoint between center and minimal point. The mesh scene is shown in Figure \ref{fig:mesh with viewpoints} where all viewpoints are marked with red box. 
 
+\vspace{20pt}
+
 \begin{figure}[H]
     \centering
     \includegraphics*[width=1.0\textwidth]{figures/mesh with vps.png}
     \caption{Mesh with Viewpoints}
     \label{fig:mesh with viewpoints}
 \end{figure}
+
+\vspace{10pt}
 
 We will conduct this experiment on different pattern of viewpoints as shown in Figure \ref{fig:pattern of viewpoints}. 
 There are around 10000 triangles in this scene, to simplify the computation, we set sample per unit area to be 10, which result in around 20000 samples as well as rays in total. 
@@ -1309,6 +1314,8 @@ There are around 10000 triangles in this scene, to simplify the computation, we 
 \paragraph{Results}
 
 Our results are shown in Table \ref{tab:result of each experiment}. We can see that the occlusion level decreases as the number of viewpoints increases. This is because with more viewpoints we can cover more area of the scene, which results in less occlusion.
+
+\vspace{10pt}
 
 \begin{table}[h]
     \centering
@@ -1329,6 +1336,8 @@ Our results are shown in Table \ref{tab:result of each experiment}. We can see t
     \label{tab:result of each experiment}
 \end{table}
 
+\vspace{10pt}
+
 Except for patterns we mentioned above, we also added 2 corner cases where in the first case we put one viewpoint right below the center as shown in Figure \ref{fig:corner case under table}. The only difference is that the Z-value of this viewpoint is equal to the minimal vertex of the scene. The center viewpoint is also shown since we want to display the relative position of the viewpoint used in corner case to it, but we don't consider it for computation. Based on its special position, most of the rays cast from samplings should be blocked by the table. The value \textbf{0.914} can verify that in this case most samplings are occluded to this viewpoint, 
 
 \begin{figure}[H]
@@ -1339,6 +1348,8 @@ Except for patterns we mentioned above, we also added 2 corner cases where in th
 \end{figure}
 
 In the other corner case we change the scene to a pure cube where there's no clutter inside it. Thus, all samplings should be visible to a viewpoint inside the cube regardless of its position. The resulting visible sampling cloud is shown in Figure \ref{fig:corner case pure cube}. Our pipeline output the value \textbf{0}, which can also validate the correctness of computation. 
+
+\vspace{10pt}
 
 \begin{figure}[H]
     \centering
@@ -1359,12 +1370,14 @@ We prepare 3 original point clouds with name \textit{conference room 1}, \textit
 
 \paragraph{Conference Room 1} \label{par:conf1 result}
 
-We present the visualization of the scene \textit{Conference Room 1} in each step. Figure \ref{fig:estimate mesh from conference room 1} shows the result of mesh estimation. To detect boundary ray 
-we have to estimate each point's category in terms of boundary from visible sampling cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in the left part pf Figure \ref{fig:conf1 0}. To better deliver the structure of the visible sampling cloud, in the right part there's a cloud with estimated ground truth RGB information.
+We present the visualization of the scene \textit{Conference Room 1} in each step. Figure \ref{fig:estimate mesh from conference room 1} shows the result of mesh estimation, where point clouds was transferred into a set of alpha-shape triangulated planar primitives.
 
 \vspace{10pt}
 
-In the end of this part, result of computation for \textit{Occluded Area Ratio} and \textit{Boundary Ray Ratio} is shown in Table \ref{tab:result of conference room 1}.
+To detect boundary ray 
+we have to estimate each point's category in terms of boundary from visible sampling cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in the left part pf Figure \ref{fig:conf1 0}. To better deliver the structure of the visible sampling cloud, in the right part there's a cloud with estimated ground truth RGB information. The resulting visualization will be displayed for each viewpoint pattern.
+
+\vspace{30pt}
 
 \begin{figure}[H]
     \centering
@@ -1373,33 +1386,48 @@ In the end of this part, result of computation for \textit{Occluded Area Ratio} 
     \label{fig:estimate mesh from conference room 1}
 \end{figure}
 
+\vspace{30pt}
+
+In the end of this part, result of computation for \textit{Occluded Area Ratio} and \textit{Boundary Ray Ratio} is shown in Table \ref{tab:result of conference room 1} together with line graph illustrated in Figure \ref{fig:result of conference room 1}.
+
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf1 0.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 0.png}}  \label{fig:conf1 b 200 0} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 0.png}} \label{fig:conf1 s 200 0}
     \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 1}
     \label{fig:conf1 0}
 \end{figure}
 
+\vspace{75pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf1 4.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 4.png}}  \label{fig:conf1 b 200 4} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 4.png}} \label{fig:conf1 s 200 4}
     \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 2}
     \label{fig:conf1 4}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf1 5.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 5.png}}  \label{fig:conf1 b 200 5} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 5.png}} \label{fig:conf1 s 200 5}
     \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 3}
     \label{fig:conf1 5}
 \end{figure}
 
+\vspace{75pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf1 6.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 6.png}}  \label{fig:conf1 b 200 6} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 6.png}} \label{fig:conf1 s 200 6}
     \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 4}
     \label{fig:conf1 6}
 \end{figure}
+
+\vspace{75pt}
 
 \begin{table}[H]
     \centering
@@ -1417,9 +1445,55 @@ In the end of this part, result of computation for \textit{Occluded Area Ratio} 
     \label{tab:result of conference room 1}
 \end{table}
 
+The result shows that as the number of viewpoints increase, the \textit{Occluded Area Ratio} decrease. There are 2 viewpoints in both pattern 2 and 3, thus the increase of data in pattern 3 is not against our conclusion. Values of \textit{Boundary Ray Ratio} describe the same tendency, and they do not differ too much from data in \textit{Occluded Area Ratio}. Therefore, based on the result we consider \textit{Boundary Ray Ratio} as a reliable metric to represent the occlusion level of the scene presented by point cloud \textit{Conference Room 1}.       
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            title={Ratio in Different Patterns},
+            xlabel={Pattern},
+            ylabel={Ratio},
+            grid=both,
+            minor tick num=1,
+            major grid style={lightgray},
+            minor grid style={lightgray!25},
+            legend pos=north east,
+            legend style={cells={anchor=west}},
+            xtick=data,  % Only show integer values on the x axis
+            xticklabels={1,2,3,4},  % Specify the labels for the x axis
+            ymin=0.05
+        ]
+        
+        % Occluded Area Ratio Line
+        \addplot[color=blue,mark=square*] coordinates {
+            (1, 0.291)
+            (2, 0.108)
+            (3, 0.153)
+            (4, 0.071)
+        };
+        \addlegendentry{Occluded Area Ratio}
+        
+        % Boundary Ray Ratio Line
+        \addplot[color=red,mark=triangle*] coordinates {
+            (1, 0.271)
+            (2, 0.172)
+            (3, 0.211)
+            (4, 0.165)
+        };
+        \addlegendentry{Boundary Ray Ratio}
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Result of Conference Room 1}
+    \label{fig:result of conference room 1}
+\end{figure}
+
 \paragraph{Conference Room 2}
 
-We present the visualization of the scene \textit{Conference Room 2} in each step as explained in \ref{par:conf1 result}. Result is shown in Table \ref{tab:result of conference room 2}.
+We present the visualization of the scene \textit{Conference Room 2} in each step as explained in \ref{par:conf1 result}. Result is shown in Table \ref{tab:result of conference room 2} and Figure \ref{fig:result of conference room 2}.
+
+\vspace{10pt}
 
 \begin{figure}[H]
     \centering
@@ -1430,31 +1504,41 @@ We present the visualization of the scene \textit{Conference Room 2} in each ste
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf2 0.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 0.png}}  \label{fig:conf2 b 200 0} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 0.png}} \label{fig:conf2 s 200 0}
     \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 1}
     \label{fig:conf2 0}
 \end{figure}
 
+\vspace{90pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf2 4.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 4.png}}  \label{fig:conf2 b 200 4} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 4.png}} \label{fig:conf2 s 200 4}
     \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 2}
     \label{fig:conf2 4}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf2 5.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 5.png}}  \label{fig:conf2 b 200 5} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 5.png}} \label{fig:conf2 s 200 5}
     \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 3}
     \label{fig:conf2 5}
 \end{figure}
 
+\vspace{90pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/conf2 6.png}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 6.png}}  \label{fig:conf2 b 200 6} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 6.png}} \label{fig:conf2 s 200 6}
     \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 4}
     \label{fig:conf2 6}
 \end{figure}
+
+\vspace{90pt}
 
 \begin{table}[H]
     \centering
@@ -1472,44 +1556,103 @@ We present the visualization of the scene \textit{Conference Room 2} in each ste
     \label{tab:result of conference room 2}
 \end{table}
 
+Both ratios display the same trend, thus we can conclude that \textit{Boundary Ray Ratio} is able to assess the occlusion level of \textit{Conference Room 2}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            title={Ratio in Different Patterns},
+            xlabel={Pattern},
+            ylabel={Ratio},
+            grid=both,
+            minor tick num=1,
+            major grid style={lightgray},
+            minor grid style={lightgray!25},
+            legend pos=north east,
+            legend style={cells={anchor=west}},
+            xtick=data,  % Only show integer values on the x axis
+            xticklabels={1,2,3,4},  % Specify the labels for the x axis
+            ymin=0.2
+        ]
+        
+        % Occluded Area Ratio Line
+        \addplot[color=blue,mark=square*] coordinates {
+            (1, 0.371)
+            (2, 0.294)
+            (3, 0.264)
+            (4, 0.218)
+        };
+        \addlegendentry{Occluded Area Ratio}
+        
+        % Boundary Ray Ratio Line
+        \addplot[color=red,mark=triangle*] coordinates {
+            (1, 0.329)
+            (2, 0.258)
+            (3, 0.255)
+            (4, 0.224)
+        };
+        \addlegendentry{Boundary Ray Ratio}
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Result of Conference Room 2}
+    \label{fig:result of conference room 2}
+\end{figure}
+
+
 \paragraph{Copy Room}
 
-We present the visualization of the scene \textit{Copy Room} in each step as explained in \ref{par:conf1 result}. Result is shown in Table \ref{tab:result of copy room}.
+We follow the same workflow as shown before to present the visualization of the scene \textit{Copy Room} in each step. Result is shown in Table \ref{tab:result of copy room} and Figure \ref{fig:result of copy room}.
 
 \begin{figure}[H]
     \centering
     \includegraphics*[width=1.0\textwidth]{figures/estimate copy.png}
-    \caption{Estimate Mesh from Conference Room 1}
+    \caption{Estimate Mesh from Copy Room}
     \label{fig:estimate mesh from copy room}
 \end{figure}
 
+\vspace{40pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/copy 0.png}
+    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 0.png}}  \label{fig:copy b 200 0} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 0.png}} \label{fig:copy s 200 0}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 1}
     \label{fig:copy 0}
 \end{figure}
 
+\vspace{30pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/copy 4.png}
+    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 4.png}}  \label{fig:copy b 200 4} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 4.png}} \label{fig:copy s 200 4}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 2}
     \label{fig:copy 4}
 \end{figure}
 
+\vspace{30pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/copy 5.png}
+    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 5.png}}  \label{fig:copy b 200 5} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 5.png}} \label{fig:copy s 200 5}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 3}
     \label{fig:copy 5}
 \end{figure}
 
+\vspace{30pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/copy 6.png}
+    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 6.png}}  \label{fig:copy b 200 6} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 6.png}} \label{fig:copy s 200 6}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 4}
     \label{fig:copy 6}
 \end{figure}
+
+\vspace{90pt}
 
 \begin{table}[H]
     \centering
@@ -1527,13 +1670,63 @@ We present the visualization of the scene \textit{Copy Room} in each step as exp
     \label{tab:result of copy room}
 \end{table}
 
-\section{Evaluate Segmentation Performance of Point Cloud}
+Although the result between 2 ratios has more difference than the data presented in previous experiments, it shows the same trend as we change pattern of viewpoint again. Hence, we think that \textit{Boundary Ray Ratio} can still represent the occlusion level of \textit{Copy Room}. 
 
-\subsection{Occlusion Level of Sub-sampled Point Cloud}
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            title={Ratio in Different Patterns},
+            xlabel={Pattern},
+            ylabel={Ratio},
+            grid=both,
+            minor tick num=1,
+            major grid style={lightgray},
+            minor grid style={lightgray!25},
+            legend pos=north east,
+            legend style={cells={anchor=west}},
+            xtick=data,  % Only show integer values on the x axis
+            xticklabels={1,2,3,4},  % Specify the labels for the x axis
+            ymax=0.55,
+        ]
+        
+        % Occluded Area Ratio Line
+        \addplot[color=blue,mark=square*] coordinates {
+            (1, 0.156)
+            (2, 0.090)
+            (3, 0.070)
+            (4, 0.040)
+        };
+        \addlegendentry{Occluded Area Ratio}
+        
+        % Boundary Ray Ratio Line
+        \addplot[color=red,mark=triangle*] coordinates {
+            (1, 0.366)
+            (2, 0.343)
+            (3, 0.337)
+            (4, 0.331)
+        };
+        \addlegendentry{Boundary Ray Ratio}
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Result of Copy Room}
+    \label{fig:result of copy room}
+\end{figure}
+
+In this section we conducted 3 experiments to compute and compare occlusion of level for different scenes. The result proves that \textit{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
+
+\section{Correlation}
+
+The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it's obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point cloud and do the comparison within the same scene.
+
+\subsection{Occlusion Level of Point Cloud}
+
+To generate occluded point cloud, we place spherical light sources in different locations of the scene. Each light source cast a set of rays based on the result of halton sampling on its surface. We will then record the point hit by rays for the first time to generate occluded point cloud.
 
 \paragraph{Setup}
 
-Scan original cloud with different viewpoints.
+We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of viewpoints} to place our sphere lights in the scene. We sample 20 thousands points on each sphere.
 
 \paragraph{Results}
 
