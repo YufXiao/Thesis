@@ -884,7 +884,7 @@ An F1 Score closer to 1 indicates better performance, while a score closer to 0 
 \chapter{Implementation}\label{chp:implementation}
 %=====================================================================
 
-In this chapter, we first delve deeper into the core part of implementation of our computational pipeline as presented in Chapter\ref{chp:solution}. Then we go through the overall structure of the software which is ready for user to interact with.
+In this chapter, we first delve deeper into the core part of implementation of our computational pipeline as presented in Chapter \ref{chp:solution}. Then we go through the overall structure of the software which is ready for user to interact with.
 
 \section{PCL and Eigen Serves for Computation}\label{sec:pcl and eigen}
 
@@ -1221,14 +1221,12 @@ Stats panel is located at the top left corner of the user interface. It shows th
 
 GUI is located at the top right corner of the user interface. It shows different parameters of the scene.
 
-\begin{minipage}{\textwidth}
-	\begin{figure}[H]
-		\centering
-		\includegraphics*[width=0.35\textwidth]{figures/GUI.png}
-		\caption{GUI}
-		\label{fig:gui}
-	\end{figure}
-\end{minipage}
+\begin{figure}[H]
+    \centering
+    \includegraphics*[width=0.35\textwidth]{figures/GUI.png}
+    \caption{GUI}
+    \label{fig:gui}
+\end{figure}
 
 \begin{itemize}
 	\item \textbf{Light Intensity} - Control the intensity of the light source.
@@ -1306,10 +1304,12 @@ There are around 10000 triangles in this scene, to simplify the computation, we 
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.55\textwidth]{figures/pattern of viewpoints.png}
+    \includegraphics*[width=0.52\textwidth]{figures/pattern of viewpoints.png}
     \caption{Pattern of Viewpoints}
     \label{fig:pattern of viewpoints}
 \end{figure}
+
+\vspace{20pt}
 
 \paragraph{Results}
 
@@ -1366,7 +1366,7 @@ In this section we are going to compute occlusion level of estimated mesh and vi
 
 \paragraph{Setup}
 
-We prepare 3 original point clouds with name \textit{conference room 1}, \textit{conference room 2} and \textit{copy room} respectively. For each of them, we estimate a mesh via \textit{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{exp:occlusion of ground truth mesh} and we can get the \textit{Occluded Area Ratio}. Since we have computed the ratio, the visible sampling cloud was also generated. The next step is to apply the computation pipeline for \textit{Boundary Ray Ratio}. Above workflow will be conducted for each scene 4 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}.    
+We prepare 3 original point clouds with name \textit{conference room 1}, \textit{conference room 2} and \textit{copy room} respectively. For each of them, we estimate a mesh via \textit{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{exp:occlusion of ground truth mesh} and we can get the \textit{Occluded Area Ratio}. Since we have computed the ratio, the visible sampling cloud was also generated. The next step is to apply the computation pipeline for \textit{Boundary Ray Ratio}. Above workflow will be conducted for each scene 4 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}, and each time we cast 10000 rays in the scene randomly.    
 
 \paragraph{Conference Room 1} \label{par:conf1 result}
 
@@ -1399,8 +1399,6 @@ In the end of this part, result of computation for \textit{Occluded Area Ratio} 
     \label{fig:conf1 0}
 \end{figure}
 
-\vspace{75pt}
-
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 4.png}}  \label{fig:conf1 b 200 4} \hfill
@@ -1417,8 +1415,6 @@ In the end of this part, result of computation for \textit{Occluded Area Ratio} 
     \label{fig:conf1 5}
 \end{figure}
 
-\vspace{75pt}
-
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 6.png}}  \label{fig:conf1 b 200 6} \hfill
@@ -1426,8 +1422,6 @@ In the end of this part, result of computation for \textit{Occluded Area Ratio} 
     \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 4}
     \label{fig:conf1 6}
 \end{figure}
-
-\vspace{75pt}
 
 \begin{table}[H]
     \centering
@@ -1462,7 +1456,9 @@ The result shows that as the number of viewpoints increase, the \textit{Occluded
             legend style={cells={anchor=west}},
             xtick=data,  % Only show integer values on the x axis
             xticklabels={1,2,3,4},  % Specify the labels for the x axis
-            ymin=0.05
+            ymin=0.05,
+            width=10cm,
+            height=8cm
         ]
         
         % Occluded Area Ratio Line
@@ -1510,8 +1506,6 @@ We present the visualization of the scene \textit{Conference Room 2} in each ste
     \label{fig:conf2 0}
 \end{figure}
 
-\vspace{90pt}
-
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 4.png}}  \label{fig:conf2 b 200 4} \hfill
@@ -1528,8 +1522,6 @@ We present the visualization of the scene \textit{Conference Room 2} in each ste
     \label{fig:conf2 5}
 \end{figure}
 
-\vspace{90pt}
-
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 6.png}}  \label{fig:conf2 b 200 6} \hfill
@@ -1537,8 +1529,6 @@ We present the visualization of the scene \textit{Conference Room 2} in each ste
     \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 4}
     \label{fig:conf2 6}
 \end{figure}
-
-\vspace{90pt}
 
 \begin{table}[H]
     \centering
@@ -1573,7 +1563,9 @@ Both ratios display the same trend, thus we can conclude that \textit{Boundary R
             legend style={cells={anchor=west}},
             xtick=data,  % Only show integer values on the x axis
             xticklabels={1,2,3,4},  % Specify the labels for the x axis
-            ymin=0.2
+            ymin=0.2,
+            width=10cm,
+            height=8cm
         ]
         
         % Occluded Area Ratio Line
@@ -1600,59 +1592,52 @@ Both ratios display the same trend, thus we can conclude that \textit{Boundary R
     \label{fig:result of conference room 2}
 \end{figure}
 
+\vspace{30pt}
 
 \paragraph{Copy Room}
 
 We follow the same workflow as shown before to present the visualization of the scene \textit{Copy Room} in each step. Result is shown in Table \ref{tab:result of copy room} and Figure \ref{fig:result of copy room}.
 
+\vspace{30pt}
+
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=1.0\textwidth]{figures/estimate copy.png}
+    \includegraphics*[width=1.0\textwidth, height=0.4\textwidth]{figures/estimate copy.png}
     \caption{Estimate Mesh from Copy Room}
     \label{fig:estimate mesh from copy room}
 \end{figure}
 
-\vspace{40pt}
-
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 0.png}}  \label{fig:copy b 200 0} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 0.png}} \label{fig:copy s 200 0}
+    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 0.png}}  \label{fig:copy b 200 0} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 0.png}} \label{fig:copy s 200 0}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 1}
     \label{fig:copy 0}
 \end{figure}
 
-\vspace{30pt}
-
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 4.png}}  \label{fig:copy b 200 4} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 4.png}} \label{fig:copy s 200 4}
+    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 4.png}}  \label{fig:copy b 200 4} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 4.png}} \label{fig:copy s 200 4}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 2}
     \label{fig:copy 4}
 \end{figure}
 
-\vspace{30pt}
-
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 5.png}}  \label{fig:copy b 200 5} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 5.png}} \label{fig:copy s 200 5}
+    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 5.png}}  \label{fig:copy b 200 5} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 5.png}} \label{fig:copy s 200 5}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 3}
     \label{fig:copy 5}
 \end{figure}
 
-\vspace{30pt}
-
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.42\textwidth]{figures/copy b 200 6.png}}  \label{fig:copy b 200 6} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.42\textwidth]{figures/copy s 200 6.png}} \label{fig:copy s 200 6}
+    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 6.png}}  \label{fig:copy b 200 6} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 6.png}} \label{fig:copy s 200 6}
     \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 4}
     \label{fig:copy 6}
 \end{figure}
-
-\vspace{90pt}
 
 \begin{table}[H]
     \centering
@@ -1688,6 +1673,8 @@ Although the result between 2 ratios has more difference than the data presented
             xtick=data,  % Only show integer values on the x axis
             xticklabels={1,2,3,4},  % Specify the labels for the x axis
             ymax=0.55,
+            width=10cm,
+            height=8cm
         ]
         
         % Occluded Area Ratio Line
@@ -1714,36 +1701,406 @@ Although the result between 2 ratios has more difference than the data presented
     \label{fig:result of copy room}
 \end{figure}
 
-In this section we conducted 3 experiments to compute and compare occlusion of level for different scenes. The result proves that \textit{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
+In this section we conducted 3 experiments to compute and compare occlusion level for different scenes. The result proves that \textit{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
 
 \section{Correlation}
 
-The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it's obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point cloud and do the comparison within the same scene.
+The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it's obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \textit{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
 
-\subsection{Occlusion Level of Point Cloud}
+\subsection{Setup}
 
 To generate occluded point cloud, we place spherical light sources in different locations of the scene. Each light source cast a set of rays based on the result of halton sampling on its surface. We will then record the point hit by rays for the first time to generate occluded point cloud.
 
-\paragraph{Setup}
+\vspace{10pt}
 
-We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of viewpoints} to place our sphere lights in the scene. We sample 20 thousands points on each sphere.
+We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of viewpoints} to place our sphere lights in the scene. We sample 20 thousands points on each sphere and we thus generate 20 thousands rays per spherical light source.
 
-\paragraph{Results}
+\vspace{10pt}
 
-
-
-\subsection{Result of Metrics for Segmented Cloud}
+Data with semantic information is then generated for each occluded point cloud via \textit{Minkowski Engine}. We calculate values of evaluation metrics in a pair-wise manner.
 
 
+\subsection{Results}
 
-\paragraph{Setup}
+In this part, we display visualization for each pair of clouds which includes one occluded cloud with ground truth RGB information and one cloud with semantic label represented by specific colors. In the end of each part, output of the computational pipeline will be shown in tables and graphs where we can compare data more conveniently.
+
+\paragraph{Conference Room 1}
+
+We first exhibit visual output of generated point cloud and corresponding segmentation of \textit{Conference Room 1}.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 0.png}}  \label{fig:conf1 0 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 0 seg.png}} \label{fig:conf1 0 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 1 of Conference Room 1}
+    \label{fig:conf1 0 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 4.png}}  \label{fig:conf1 4 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 4 seg.png}} \label{fig:conf1 4 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Conference Room 1}
+    \label{fig:conf1 4 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 5.png}}  \label{fig:conf1 5 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 5 seg.png}} \label{fig:conf1 5 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 1}
+    \label{fig:conf1 5 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 6.png}}  \label{fig:conf1 6 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 6 seg.png}} \label{fig:conf1 6 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Conference Room 1}
+    \label{fig:conf1 6 occ and seg}
+\end{figure}
+
+The result is shown in Table \ref{tab:evaluation metrics of conference room 1} and Figure \ref{fig:evaluation metrics of conference room 1}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Pattern & Occlusion & Accuracy & IoU & Precision & Recall & F1 Score \\
+        \hline
+        1 & 0.241 & 0.893 & 0.497 & 0.652 & 0.675 & 0.664 \\
+        2 & 0.168 & 0.912 & 0.585 & 0.736 & 0.741 & 0.738 \\
+        3 & 0.197 & 0.878 & 0.461 & 0.655 & 0.609 & 0.631 \\
+        4 & 0.161 & 0.894 & 0.524 & 0.707 & 0.669 & 0.687 \\
+        \hline
+    \end{tabular}
+    \caption{Evaluation Metrics of Conference Room 1}
+    \label{tab:evaluation metrics of conference room 1}
+\end{table}
+
+\vspace{20pt}
+
+From the graph it's obvious that occlusion level is inversely related to these metrics.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+        title={Evaluation Metrics in Different Patterns},
+        xlabel={Pattern},
+        ylabel={Value},
+        legend pos=outer north east,
+        ymajorgrids=true,
+        grid style=dashed,
+        xtick=data,
+        symbolic x coords={1,2,3,4},
+        width=12cm,
+        height=8cm,
+    ]
+    
+    \addplot[mark=square*,blue] coordinates {
+        (1, 0.241)
+        (2, 0.168)
+        (3, 0.197)
+        (4, 0.161)
+    };
+    \addlegendentry{Occlusion}
+    
+    \addplot[mark=*,red] coordinates {
+        (1, 0.893)
+        (2, 0.912)
+        (3, 0.878)
+        (4, 0.894)
+    };
+    \addlegendentry{Accuracy}
+    
+    \addplot[mark=*,brown] coordinates {
+        (1, 0.497)
+        (2, 0.585)
+        (3, 0.461)
+        (4, 0.524)
+    };
+    \addlegendentry{IoU}
+    
+    \addplot[mark=*,green] coordinates {
+        (1, 0.652)
+        (2, 0.736)
+        (3, 0.655)
+        (4, 0.707)
+    };
+    \addlegendentry{Precision}
+    
+    \addplot[mark=*,orange] coordinates {
+        (1, 0.675)
+        (2, 0.741)
+        (3, 0.609)
+        (4, 0.669)
+    };
+    \addlegendentry{Recall}
+    
+    \addplot[mark=*,purple] coordinates {
+        (1, 0.664)
+        (2, 0.738)
+        (3, 0.631)
+        (4, 0.687)
+    };
+    \addlegendentry{F1 Score}
+    
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Evaluation Metrics of Conference Room 1}
+    \label{fig:evaluation metrics of conference room 1}
+\end{figure}
 
 
+\paragraph{Conference Room 2}
 
-\paragraph{Results}
+Same workflow here to present our results.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 0.png}}  \label{fig:conf2 0 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 0 seg.png}} \label{fig:conf2 0 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 1 of Conference Room 2}
+    \label{fig:conf2 0 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 4.png}}  \label{fig:conf2 4 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 4 seg.png}} \label{fig:conf2 4 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation  under Light Pattern 2 of Conference Room 2}
+    \label{fig:conf2 4 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 5.png}}  \label{fig:conf2 5 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 5 seg.png}} \label{fig:conf2 5 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 2}
+    \label{fig:conf2 5 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 6.png}}  \label{fig:conf2 6 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 6 seg.png}} \label{fig:conf2 6 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Conference Room 2}
+    \label{fig:conf2 6 occ and seg}
+\end{figure}
+
+The result is shown in \ref{tab:evaluation metrics of conference room 2} and \ref{fig:evaluation metrics of conference room 2}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Pattern & Occlusion & Accuracy & IoU & Precision & Recall & F1 Score \\
+        \hline
+        1 & 0.319 & 0.882 & 0.44 & 0.58 & 0.645 & 0.611 \\
+        2 & 0.279 & 0.923 & 0.595 & 0.721 & 0.772 & 0.746 \\
+        3 & 0.259 & 0.879 & 0.452 & 0.632 & 0.614 & 0.622 \\
+        4 & 0.227 & 0.901 & 0.522 & 0.685 & 0.687 & 0.686 \\
+        \hline
+    \end{tabular}
+    \caption{Evaluation Metrics of Conference Room 2}
+    \label{tab:evaluation metrics of conference room 2}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+        title={Evaluation Metrics in Different Patterns},
+        xlabel={Occlusion Level},
+        ylabel={Value},
+        legend pos=outer north east,
+        ymajorgrids=true,
+        grid style=dashed,
+        xtick=data,
+        symbolic x coords={1,2,3,4},
+        width=12cm,
+        height=8cm,
+    ]
+    
+    \addplot[mark=square*,blue] coordinates {
+        (1, 0.319)
+        (2, 0.279)
+        (3, 0.259)
+        (4, 0.227)
+    };
+    \addlegendentry{Occlusion}
+    
+    \addplot[mark=*,red] coordinates {
+        (1, 0.882)
+        (2, 0.923)
+        (3, 0.879)
+        (4, 0.901)
+    };
+    \addlegendentry{Accuracy}
+    
+    \addplot[mark=*,brown] coordinates {
+        (1, 0.44)
+        (2, 0.595)
+        (3, 0.452)
+        (4, 0.522)
+    };
+    \addlegendentry{IoU}
+    
+    \addplot[mark=*,green] coordinates {
+        (1, 0.58)
+        (2, 0.721)
+        (3, 0.632)
+        (4, 0.685)
+    };
+    \addlegendentry{Precision}
+    
+    \addplot[mark=*,orange] coordinates {
+        (1, 0.645)
+        (2, 0.772)
+        (3, 0.614)
+        (4, 0.687)
+    };
+    \addlegendentry{Recall}
+
+    \addplot[mark=*,yellow] coordinates {
+        (1, 0.611)
+        (2, 0.746)
+        (3, 0.622)
+        (4, 0.686)
+    };
+    \addlegendentry{F1 Score}
+    
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Evaluation Metrics of Conference Room 2}
+    \label{fig:evaluation metrics of conference room 2}
+\end{figure}
+
+\paragraph{Copy Room}
+
+We show the resulting visualization first.
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 0.png}}  \label{fig:copy 0 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 0 seg.png}} \label{fig:copy 0 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 1 of Copy Room}
+    \label{fig:copy 0 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 4.png}}  \label{fig:copy 4 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 4 seg.png}} \label{fig:copy 4 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Copy Room}
+    \label{fig:copy 4 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 5.png}}  \label{fig:copy 5 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 5 seg.png}} \label{fig:copy 5 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Copy Room}
+    \label{fig:copy 5 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 6.png}}  \label{fig:copy 6 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 6 seg.png}} \label{fig:copy 6 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Copy Room}
+    \label{fig:copy 6 occ and seg}
+\end{figure}
 
 
+The result is shown in \ref{tab:evaluation metrics of copy room} and \ref{fig:evaluation metrics of copy room}.
 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+        \hline
+        Pattern & Occlusion & Accuracy & IoU & Precision & Recall & F1 Score \\
+        \hline
+        1 & 0.349 & 0.897 & 0.498 & 0.707 & 0.627 & 0.665 \\
+        2 & 0.303 & 0.907 & 0.504 & 0.737 & 0.615 & 0.670 \\
+        3 & 0.314 & 0.855 & 0.361 & 0.566 & 0.499 & 0.530 \\
+        4 & 0.292 & 0.871 & 0.385 & 0.606 & 0.514 & 0.556 \\
+        \hline
+    \end{tabular}
+    \caption{Evaluation Metrics of Copy Room}
+    \label{tab:evaluation metrics of copy room}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+        title={Evaluation Metrics in Different Patterns},
+        xlabel={Pattern},
+        ylabel={Value},
+        legend pos=outer north east,
+        ymajorgrids=true,
+        grid style=dashed,
+        xtick=data,
+        symbolic x coords={1,2,3,4},
+        width=12cm,
+        height=8cm,
+    ]
+    
+    \addplot[mark=square*,blue] coordinates {
+        (1, 0.349)
+        (2, 0.303)
+        (3, 0.314)
+        (4, 0.292)
+    };
+    \addlegendentry{Occlusion}
+    
+    \addplot[mark=*,red] coordinates {
+        (1, 0.897)
+        (2, 0.907)
+        (3, 0.855)
+        (4, 0.871)
+    };
+    \addlegendentry{Accuracy}
+    
+    \addplot[mark=*,brown] coordinates {
+        (1, 0.498)
+        (2, 0.504)
+        (3, 0.361)
+        (4, 0.385)
+    };
+    \addlegendentry{IoU}
+    
+    \addplot[mark=*,green] coordinates {
+        (1, 0.707)
+        (2, 0.737)
+        (3, 0.566)
+        (4, 0.606)
+    };
+    \addlegendentry{Precision}
+    
+    \addplot[mark=*,orange] coordinates {
+        (1, 0.627)
+        (2, 0.615)
+        (3, 0.499)
+        (4, 0.514)
+    };
+    \addlegendentry{Recall}
+    
+    \addplot[mark=*,yellow] coordinates {
+        (1, 0.665)
+        (2, 0.670)
+        (3, 0.530)
+        (4, 0.556)
+    };
+    \addlegendentry{F1 Score}
+    
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Evaluation Metrics of Copy Room}
+    \label{fig:evaluation metrics of copy room}
+\end{figure}
 
 %=====================================================================
 \chapter{Conclusion and Discussion} \label{chp:conclusion}
