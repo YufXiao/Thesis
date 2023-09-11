@@ -131,7 +131,7 @@
 \chapter{Abstract} \label{chp:abstract}
 %=====================================================================
 
-This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there's a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation software like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene is inversely proportional to the quality of semantic segmentation. This finding is crucial for advancing the state of the art in semantic segmentation and for paving the way for more robust applications in 3D scene analysis.
+This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there's a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation software like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene \FIXME{not inverse} is inversely proportional to the quality of semantic segmentation.
 
 \tableofcontents
 
@@ -162,16 +162,15 @@ This paper presents the OGSF-Net, a novel architecture designed to address the c
 
 \paragraph{OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion.} \label{par:OcCo occlusion completion}
 
-In this work, the authors proposed \textit{Occlusion Completion}, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weights for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
+In this work, the authors proposed \emph{Occlusion Completion}, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weights for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
 
 \section{Positioning and Contributions}
 
-Previous work has shown that occlusion of a point cloud can be estimated based on ground truth occlusion information. However, in our work we have to estimate occlusion level of a scene without knowing such information. To achieve this, we will define 
-occlusion in a similar way to the Art gallery problem,\FIXME{not art gallery} in which we want to know the minimal number of viewpoints are needed to cover the whole scene. If we don't have enough viewpoints, then there's occlusion in the scene, which is the part that cannot be seen by any viewpoints. To estimate occlusion we defined, we propose the metric \textit{occluded area ratio} to represent occlusion level in the scene which is represented by a triangulated mesh. 
+Previous work has shown that occlusion of a point cloud can be estimated based on ground truth occlusion information. However, in our work we have to estimate occlusion level of a scene without knowing such information. To achieve this, we will define occlusion as the amount of area occluded from a particular scan viewpoint. To estimate occlusion we defined, we propose the metric \emph{occluded area ratio} to represent occlusion level in the scene which is represented by a triangulated mesh. 
 
 \vspace{10pt}
 
-This work is focusing on the data set of point cloud. Since there's no property can quantify area in point cloud we cannot directly extend the metric \textit{occluded area ratio} to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose \textit{Boundary ray ratio} which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
+This work is focusing on the data set of point cloud. Since there's no property can quantify area in point cloud we cannot directly extend the metric \emph{occluded area ratio} to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose \emph{Boundary ray ratio} which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
 
 %=====================================================================
 \section{Technical Background}
@@ -210,8 +209,7 @@ The Minkowski Engine is an auto-differentiation library specifically designed fo
 
 \section{Motivation} \label{sec:motivation}
 
-Among the many factors influencing the semantic segmentation of point cloud data, the level of occlusion stands as one of the major 
-challenges. Occlusions, a prevalent phenomenon in 3D scenes, can significantly compromise the quality and integrity of data. When objects are partially or entirely obscured by others, semantic segmentation might lead to inaccuracies in segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation remains fragmented. Specifically, there's a palpable gap in understanding how to quantify occlusion levels and how these levels influence the performance of advanced tools like the Minkowski Engine. Thus, the primary motivation behind this research is to systematically evaluate level of occlusion and delve deep into their impact on point cloud data semantic segmentation. Through this work,
+Among the many factors influencing the semantic segmentation of point cloud data, the level of occlusion stands as one of the major challenges. Occlusions, a prevalent phenomenon in 3D scenes, can significantly compromise the quality and integrity of data. When objects are partially or entirely obscured by others, semantic segmentation might lead to inaccuracies in segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation remains fragmented. Specifically, there's a palpable gap in understanding how to quantify occlusion levels and how these levels influence the performance of advanced tools like the Minkowski Engine. Thus, the primary motivation behind this research is to systematically evaluate level of occlusion and delve deep into their impact on point cloud data semantic segmentation.
 
 \section{Outline} \label{sec:outline}
 
@@ -226,24 +224,24 @@ For this thesis it's crucial to present our experimental results in a meaningful
 \chapter{Problem Statement} \label{chp:problem}
 %=====================================================================
 
-In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that \textit{occluded area ratio} can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its occluded area ratio. From the computation of invisibility we should be able to generate a new cloud from visible area. With this point cloud we can apply the metric \textit{Boundary ray ratio} to estimate level of occlusion. To validate \textit{Boundary ray ratio} is a reliable metric in estimation, its value should be close to the value of \textit{occluded area ratio}. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
+In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that \emph{occluded area ratio} can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its occluded area ratio. From the computation of invisibility we should be able to generate a new cloud from visible area. With this point cloud we can apply the metric \emph{Boundary ray ratio} to estimate level of occlusion. To validate \emph{Boundary ray ratio} is a reliable metric in estimation, its value should be close to the value of \emph{occluded area ratio}. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
 
 \vspace{10pt}
 
 These problems are addressed in following points. Each of them will be provided with more detailed explanation in the next chapter where our technical solutions are given.
 
 \begin{itemize}
-    \item Compute \textit{occluded area ratio} of mesh.
+    \item Compute \emph{occluded area ratio} of mesh.
     \item Estimate a mesh from the given point cloud.
-    \item Compute the \textit{occluded area ratio} for the estimated mesh and generate a new point cloud from the visible area of the mesh.
-    \item Apply the \textit{Boundary ray ratio} metric to the new point cloud to estimate the level of occlusion and validate the reliability of the \textit{Boundary ray ratio} metric by comparing its value with the \textit{occluded area ratio}
+    \item Compute the \emph{occluded area ratio} for the estimated mesh and generate a new point cloud from the visible area of the mesh.
+    \item Apply the \emph{Boundary ray ratio} metric to the new point cloud to estimate the level of occlusion and validate the reliability of the \emph{Boundary ray ratio} metric by comparing its value with the \emph{occluded area ratio}
     \item Compute the occlusion level and the performance of semantic segmentation of the point cloud, then compare these metrics between different clouds to find correlation. 
 \end{itemize}
 
 
 \section{Occluded Area Ratio of Mesh} \label{sec:occluded area ratio of mesh}
 
-In this part we have to prove that as the number of viewpoints increase, there will be more visible area. \FIXME{rephrase}In another word, there's less invisible region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender[Blender], the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
+In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, there's less occluded region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender[Blender], the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
 
 \vspace{10pt}
 
@@ -259,7 +257,7 @@ To determine which area is visible and which is not is the key point here to com
 
 \section{Mesh Estimation from Point Cloud} \label{mesh estimation of point cloud}
 
-If we want to apply \textit{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it's crucial for us to improve the result of mesh estimation. 
+If we want to apply \emph{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it's crucial for us to improve the result of mesh estimation. 
 
 \vspace{10pt}
 
@@ -296,7 +294,7 @@ A common way to generate point cloud is conducted by casting lasers from scanner
 
 \vspace{10pt}
 
-Based on what we stated above, we choose \textit{Boundary ray ratio} as the metric to estimate occlusion in point cloud. A set of rays will be cast to detect if it intersect with points identified as exterior structure, in this work we define these external points as boundary. With ground truth labeling of points, the classification of points can easily be done. Finally, we can compute a ratio related to ray that intersects boundary to represent occlusion level of a point cloud. 
+Based on what we stated above, we choose \emph{Boundary ray ratio} as the metric to estimate occlusion in point cloud. A set of rays will be cast to detect if it intersect with points identified as exterior structure, in this work we define these external points as boundary. With ground truth labeling of points, the classification of points can easily be done. Finally, we can compute a ratio related to ray that intersects boundary to represent occlusion level of a point cloud. 
 
 \section{Performance Evaluation of Semantic Segmentation} \label{sec:performance evaluation}
 
@@ -401,13 +399,13 @@ Rays simulate the path of light as it interacts with objects in a scene. In our 
 
 The direction vector can be calculated using the formula 
 \[
-\textit{Direction} = \frac{\textit{viewpoint} - \textit{Origin}}{\|\textit{viewpoint} - \textit{Origin}\|}
+\emph{Direction} = \frac{\emph{viewpoint} - \emph{Origin}}{\|\emph{viewpoint} - \emph{Origin}\|}
 \]
 
 Where:
 \begin{itemize}
-    \item \(\textit{Origin}\) is the starting point of the ray, which in our case is the sampled point on the triangle.
-    \item \(\textit{Destination}\) is the end point of the ray, typically representing the viewpoint or light source.
+    \item \(\emph{Origin}\) is the starting point of the ray, which in our case is the sampled point on the triangle.
+    \item \(\emph{Destination}\) is the end point of the ray, typically representing the viewpoint or light source.
 \end{itemize}
 
 \begin{figure}[H]
@@ -424,7 +422,7 @@ When there are multiple viewpoints in the scene, we have to generate same amount
 Ray-triangle intersection is a fundamental operation in computer graphics, especially in the context of ray tracing. Determining whether a ray intersects a triangle and finding the intersection point are crucial for rendering scenes composed of triangular meshes.
 \vspace{10pt}
 
-One of the most efficient and widely used algorithms for this purpose is the \textit{Möller–Trumbore} intersection algorithm. It operates by representing the triangle in barycentric coordinates, which allows it to avoid the computation of explicit plane equations. It then uses these coordinates to find the intersection point of the ray and the triangle, if it exists. The algorithm performs a series of vector operations including dot products and cross products to compute the barycentric coordinates and the distance from the ray's origin to the intersection point. More detail is shown below:
+One of the most efficient and widely used algorithms for this purpose is the \emph{Möller–Trumbore} intersection algorithm. It operates by representing the triangle in barycentric coordinates, which allows it to avoid the computation of explicit plane equations. It then uses these coordinates to find the intersection point of the ray and the triangle, if it exists. The algorithm performs a series of vector operations including dot products and cross products to compute the barycentric coordinates and the distance from the ray's origin to the intersection point. More detail is shown below:
 
 \vspace{10pt}
 
@@ -486,22 +484,22 @@ One of the most efficient and widely used algorithms for this purpose is the \te
 
 From previous steps, we have computed samplings on each triangle and generated rays originating from these samplings directed towards the viewpoints. As opposed to directly compute occluded area, we detect visible samplings here. We use visible weight represents the ratio of visible samplings to the total number of samplings on the triangle. With this weight we compute visible area for each triangle, then we sum up them to get the total visible area, and the ratio can be easily calculated with total area. Mathematically, the visibility weight, \( w \), can be defined as:
 \[ 
-    w = \frac{\textit{Number of visible samplings per triangle}}{\textit{Total number of samplings per triangle}}
+    w = \frac{\emph{Number of visible samplings per triangle}}{\emph{Total number of samplings per triangle}}
 \]
 
-The visible area \( A_{\textit{visible}} \) of the triangle can then be computed as:
+The visible area \( A_{\emph{visible}} \) of the triangle can then be computed as:
 \[ 
-    A_{\textit{visible}} = w \times A_{\textit{total}}
+    A_{\emph{visible}} = w \times A_{\emph{total}}
 \]
 
-The visible area ratio, denoted as \( R_{\textit{visible}} \), is calculated as the ratio of the total visible area \( A_{\textit{total visible}} \) to the total area \( A_{\textit{total}} \) of the triangle. It can be mathematically represented as:
+The visible area ratio, denoted as \( R_{\emph{visible}} \), is calculated as the ratio of the total visible area \( A_{\emph{total visible}} \) to the total area \( A_{\emph{total}} \) of the triangle. It can be mathematically represented as:
 \[ 
-    R_{\textit{visible}} = \frac{A_{\textit{total visible}}}{A_{\textit{total}}}
+    R_{\emph{visible}} = \frac{A_{\emph{total visible}}}{A_{\emph{total}}}
 \]
 
-Conversely, the occluded area ratio, denoted as \( R_{\textit{occluded}} \), can be calculated as the complement of the visible area ratio. It is given by:
+Conversely, the occluded area ratio, denoted as \( R_{\emph{occluded}} \), can be calculated as the complement of the visible area ratio. It is given by:
 \[ 
-    R_{\textit{occluded}} = 1 - R_{\textit{visible}}
+    R_{\emph{occluded}} = 1 - R_{\emph{visible}}
 \]
 
 A sampling is deemed visible if at least one ray originating from it does not intersect any triangle between its origin and the viewpoint other than the one from which the sampling was generated. To ascertain this, we should examine all first hit intersection related to the ray cast from the sampling. If the distance from origin to viewpoint is shorter than the distance between origin and first hit intersection, which means no intersection can obscure the viewpoint, then this sampling is considered visible. 
@@ -539,7 +537,7 @@ In this part we estimate mesh for subsequent computation of occluded area ratio.
 
 \subsection{Estimate Mesh from Point Cloud} \label{par:estimate mesh from point cloud}
 
-As discussed in \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the work has been done by Mulin and Florent[GoCoPP], they proposed a method \textit{GoCoPP} to find good configurations of planar primitives in unorganized point cloud. Regarding their experiments, \textit{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \textit{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \textit{GoCoPP} to generate mesh from point cloud.
+As discussed in \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the work has been done by Mulin and Florent[GoCoPP], they proposed a method \emph{GoCoPP} to find good configurations of planar primitives in unorganized point cloud. Regarding their experiments, \emph{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \emph{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \emph{GoCoPP} to generate mesh from point cloud.
 
 \begin{figure}[H]
     \centering
@@ -569,12 +567,12 @@ We define the boundary ray as the ray which intersects with boundary point. Alth
 \subsection{Estimate Semantics}
 
 We have to first categorize point of the original ground truth cloud into either boundary or non-boundary. 
-Then we put the point of visible sampling cloud inside the pre-processed boundary cloud. To determine the category we compute nearest neighbours of a point, if there are more boundary points we classify it as boundary as well, and vice versa. The computation of nearest neighbours is realized through \textit{K-D Tree} algorithm, which offers us an efficient way to get a search point's \textit{K} nearest neighbour points, where \textit{K} indicate the number of neighbours.
+Then we put the point of visible sampling cloud inside the pre-processed boundary cloud. To determine the category we compute nearest neighbours of a point, if there are more boundary points we classify it as boundary as well, and vice versa. The computation of nearest neighbours is realized through \emph{K-D Tree} algorithm, which offers us an efficient way to get a search point's \emph{K} nearest neighbour points, where \emph{K} indicate the number of neighbours.
 
 
 \subsection{Generate Random Rays}
 
-We want to use a ray from outside of the scene and directed towards the cloud, then we check how many boundaries the ray can intersects with, since this indicate how much occlusion a ray can contribute to the overall occlusion level. In case of a room, its boundary can be represented as a cuboid, which can at most has 2 faces intersect with one ray. Based on that, our rays can be classified as \textit{non-boundary ray}, \textit{1-boundary ray} and \textit{2-boundary ray} as shown in Figure \ref{classification of bound ray}
+We want to use a ray from outside of the scene and directed towards the cloud, then we check how many boundaries the ray can intersects with, since this indicate how much occlusion a ray can contribute to the overall occlusion level. In case of a room, its boundary can be represented as a cuboid, which can at most has 2 faces intersect with one ray. Based on that, our rays can be classified as \emph{non-boundary ray}, \emph{1-boundary ray} and \emph{2-boundary ray} as shown in Figure \ref{classification of bound ray}
 
 \begin{figure}[H]
     \centering
@@ -678,21 +676,21 @@ The ray within a scene may intersect with multiple boundary points or openings. 
 After classifying all rays in the scene, we compute the boundary ray ratio, which exactly represents the occlusion level of a point cloud, using the following formula:
 
 \[
-\textit{{Boundary Ray Ratio}} = \frac{{\textit{{occlusion}}}}{{\textit{{occlusion}} + \textit{{visibility}}}} = \textit{{Occlusion Level}}
+\emph{{Boundary Ray Ratio}} = \frac{{\emph{{occlusion}}}}{{\emph{{occlusion}} + \emph{{visibility}}}} = \emph{{Occlusion Level}}
 \]
 
 Where:
 \begin{itemize}
-    \item \textbf{{Occlusion}}: The number of rays that do not intersect with any boundary, denoted as \textit{{non-boundary ray count}}.
-    \item \textbf{{Visibility}}: A measure calculated as the sum of \textit{{1-boundary ray count}} and twice the \textit{{2-boundary ray count}}.
+    \item \textbf{{Occlusion}}: The number of rays that do not intersect with any boundary, denoted as \emph{{non-boundary ray count}}.
+    \item \textbf{{Visibility}}: A measure calculated as the sum of \emph{{1-boundary ray count}} and twice the \emph{{2-boundary ray count}}.
 \end{itemize}
 
 The quantities in the formula are calculated as follows:
 \[
-    \textit{{occlusion}} = \textit{{non-boundary ray count}}
+    \emph{{occlusion}} = \emph{{non-boundary ray count}}
 \]
 \[
-    \textit{{visibility}} = \textit{{1-boundary ray count}} + 2 \cdot \textit{{2-boundary ray count}} \FIXME{change the formula}
+    \emph{{visibility}} = \emph{{1-boundary ray count}} + 2 \cdot \emph{{2-boundary ray count}} \FIXME{change the formula}
 \]
 
 By evaluating the occlusion level with the above formula, we can analyze the proportion of rays that are obstructed versus those that are not, providing insight into the level of visibility within the scene.
@@ -805,7 +803,7 @@ Given a segmented point cloud, we can evaluate the segmentation by calculating v
 
 \paragraph{Metrics} \label{par:metrics}
 
-To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \textit{Accuracy}, \textit{IoU}, \textit{Precision}, \textit{Recall} and \textit{F1 Score}. 
+To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \emph{Accuracy}, \emph{IoU}, \emph{Precision}, \emph{Recall} and \emph{F1 Score}. 
 
 \vspace{10pt}
 
@@ -815,11 +813,11 @@ These metrics provide different perspectives on the model's capabilities and are
 
 \textbf{Accuracy} is a fundamental metric that quantifies the proportion of correctly predicted points out of the total number of points. It is given by the formula:
 \[
-    \textit{Accuracy} = \frac{\textit{Number of Correct Predictions}}{\textit{Total Number of Predictions}}
+    \emph{Accuracy} = \frac{\emph{Number of Correct Predictions}}{\emph{Total Number of Predictions}}
 \]
 which can also be formulated in terms of TP, FP, TN and FN as:
 \[
-    \textit{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+    \emph{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
 \]
 
 Though a useful metric, accuracy can sometimes be misleading, particularly when the classes are imbalanced.
@@ -828,7 +826,7 @@ Though a useful metric, accuracy can sometimes be misleading, particularly when 
 
 \textbf{IoU (Intersection over Union)}, also known as the Jaccard Index, measures the overlap between the predicted segmentation and the ground truth. It is calculated as the area of overlap divided by the area of union of the two sets, as given by:
 \[
-    IoU = \frac{\textit{Intersection}}{\textit{Union}}
+    IoU = \frac{\emph{Intersection}}{\emph{Union}}
 \]
 or equivalently,
 \[
@@ -845,11 +843,11 @@ A higher IoU value signifies better segmentation accuracy.
 
 \textbf{Precision} quantifies the proportion of positive identifications that were actually correct, as given by:
 \[
-    \textit{Precision} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Positives}}
+    \emph{Precision} = \frac{\emph{True Positives}}{\emph{True Positives} + \emph{False Positives}}
 \]
 or equivalently,
 \[
-    \textit{Precision} = \frac{TP}{TP + FP}
+    \emph{Precision} = \frac{TP}{TP + FP}
 \]
 
 A higher precision indicates a larger percentage of the model's positive predictions were correct.
@@ -858,11 +856,11 @@ A higher precision indicates a larger percentage of the model's positive predict
 
 \textbf{Recall}, on the other hand, measures the proportion of actual positives that were identified correctly, as given by:
 \[
-    \textit{Recall} = \frac{\textit{True Positives}}{\textit{True Positives} + \textit{False Negatives}}
+    \emph{Recall} = \frac{\emph{True Positives}}{\emph{True Positives} + \emph{False Negatives}}
 \]
 or equivalently,
 \[
-    \textit{Recall} = \frac{TP}{TP + FN}
+    \emph{Recall} = \frac{TP}{TP + FN}
 \]
 
 A higher recall indicates that fewer actual positives were missed by the model.
@@ -871,7 +869,7 @@ A higher recall indicates that fewer actual positives were missed by the model.
 
 \textbf{F1 Score} is the harmonic mean of precision and recall, providing a balance between the two and ensuring that both false positives and false negatives are considered. It is calculated as:
 \[
-    F1 = 2 \times \frac{\textit{Precision} \times \textit{Recall}}{\textit{Precision} + \textit{Recall}}
+    F1 = 2 \times \frac{\emph{Precision} \times \emph{Recall}}{\emph{Precision} + \emph{Recall}}
 \]
 or equivalently,
 \[
@@ -920,13 +918,13 @@ Computation of ray-opening intersection plays an crucial role in calculating bou
 
 \paragraph{Plane Estimation}
 
-The initial step is fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. In the code snippet shown below, PCL's \textit{SACSegmentation} is configured to detect planar models. If successful, it retrieves the plane's coefficients.
+The initial step is fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. In the code snippet shown below, PCL's \emph{SACSegmentation} is configured to detect planar models. If successful, it retrieves the plane's coefficients.
 
 \paragraph{Formation of Polygon}
 
 With the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. Once our points sharing a planar space, we compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points.
 
-Here, PCL's \textit{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \textit{cloud projected}. The usage of PCL's \textit{ConvexHull} class create a cloud representing the polygon.
+Here, PCL's \emph{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \emph{cloud projected}. The usage of PCL's \emph{ConvexHull} class create a cloud representing the polygon.
 
 
 \subsection{Ray Tracing Based Intersection Computation} \label{sec:ray tracing}
@@ -1058,7 +1056,7 @@ The node index, placed at the upper left corner of each box, equates to its trav
 
 \paragraph{Compute Bounding Box of Each Node}
 
-With the connections established, we can now compute the bounding box for each node from leaf level. Although the bounding box for points of a leaf node is readily available, here we have to consider triangles. Each point is stored in form of \textit{pcl::PointXYZI}, where \textit{I} represent its intensity field. In our case we use this field to store the index of triangle. If we iterate over all points, we can iterate over all triangles. The $min_pt$ and $max_pt$ can be obtained from the minimal and maximal vertex of all triangles. Once we have built bounding box for each leaf node, we can traverse upwards to compute bounding box for each branch node and root node. 
+With the connections established, we can now compute the bounding box for each node from leaf level. Although the bounding box for points of a leaf node is readily available, here we have to consider triangles. Each point is stored in form of \emph{pcl::PointXYZI}, where \emph{I} represent its intensity field. In our case we use this field to store the index of triangle. If we iterate over all points, we can iterate over all triangles. The $min_pt$ and $max_pt$ can be obtained from the minimal and maximal vertex of all triangles. Once we have built bounding box for each leaf node, we can traverse upwards to compute bounding box for each branch node and root node. 
 
 \paragraph{Partition Point Cloud}
 
@@ -1077,7 +1075,7 @@ The underlying principle is to inspect how the ray interacts with the bounding b
 
 \vspace{10pt}
 
-The method is materialized in the \textit{rayIntersectOctreeNode} function. The procedure commences by verifying if the ray's origin is nestled within the bounding box by leveraging the `min\_pt\_triangle` and `max\_pt\_triangle` attributes of the octree node. If the origin is confirmed to be within the bounds, the function instantly returns true.
+The method is materialized in the \emph{rayIntersectOctreeNode} function. The procedure commences by verifying if the ray's origin is nestled within the bounding box by leveraging the `min\_pt\_triangle` and `max\_pt\_triangle` attributes of the octree node. If the origin is confirmed to be within the bounds, the function instantly returns true.
 
 \vspace{10pt}
 
@@ -1358,7 +1356,7 @@ In the other corner case we change the scene to a pure cube where there's no clu
     \label{fig:corner case pure cube}
 \end{figure}
 
-Based on results presented above, we can take the \textit{Occluded Area Ratio} as a reliable metric to represent the occlusion level of a mesh.
+Based on results presented above, we can take the \emph{Occluded Area Ratio} as a reliable metric to represent the occlusion level of a mesh.
 
 \subsection{Estimated Mesh and Visible Sampling Cloud}
 
@@ -1366,11 +1364,11 @@ In this section we are going to compute occlusion level of estimated mesh and vi
 
 \paragraph{Setup}
 
-We prepare 3 original point clouds with name \textit{conference room 1}, \textit{conference room 2} and \textit{copy room} respectively. For each of them, we estimate a mesh via \textit{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{exp:occlusion of ground truth mesh} and we can get the \textit{Occluded Area Ratio}. Since we have computed the ratio, the visible sampling cloud was also generated. The next step is to apply the computation pipeline for \textit{Boundary Ray Ratio}. Above workflow will be conducted for each scene 4 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}, and each time we cast 10000 rays in the scene randomly.    
+We prepare 3 original point clouds with name \emph{conference room 1}, \emph{conference room 2} and \emph{copy room} respectively. For each of them, we estimate a mesh via \emph{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{exp:occlusion of ground truth mesh} and we can get the \emph{Occluded Area Ratio}. Since we have computed the ratio, the visible sampling cloud was also generated. The next step is to apply the computation pipeline for \emph{Boundary Ray Ratio}. Above workflow will be conducted for each scene 4 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}, and each time we cast 10000 rays in the scene randomly.    
 
 \paragraph{Conference Room 1} \label{par:conf1 result}
 
-We present the visualization of the scene \textit{Conference Room 1} in each step. Figure \ref{fig:estimate mesh from conference room 1} shows the result of mesh estimation, where point clouds was transferred into a set of alpha-shape triangulated planar primitives.
+We present the visualization of the scene \emph{Conference Room 1} in each step. Figure \ref{fig:estimate mesh from conference room 1} shows the result of mesh estimation, where point clouds was transferred into a set of alpha-shape triangulated planar primitives.
 
 \vspace{10pt}
 
@@ -1388,7 +1386,7 @@ we have to estimate each point's category in terms of boundary from visible samp
 
 \vspace{30pt}
 
-In the end of this part, result of computation for \textit{Occluded Area Ratio} and \textit{Boundary Ray Ratio} is shown in Table \ref{tab:result of conference room 1} together with line graph illustrated in Figure \ref{fig:result of conference room 1}.
+In the end of this part, result of computation for \emph{Occluded Area Ratio} and \emph{Boundary Ray Ratio} is shown in Table \ref{tab:result of conference room 1} together with line graph illustrated in Figure \ref{fig:result of conference room 1}.
 
 
 \begin{figure}[H]
@@ -1439,7 +1437,7 @@ In the end of this part, result of computation for \textit{Occluded Area Ratio} 
     \label{tab:result of conference room 1}
 \end{table}
 
-The result shows that as the number of viewpoints increase, the \textit{Occluded Area Ratio} decrease. There are 2 viewpoints in both pattern 2 and 3, thus the increase of data in pattern 3 is not against our conclusion. Values of \textit{Boundary Ray Ratio} describe the same tendency, and they do not differ too much from data in \textit{Occluded Area Ratio}. Therefore, based on the result we consider \textit{Boundary Ray Ratio} as a reliable metric to represent the occlusion level of the scene presented by point cloud \textit{Conference Room 1}.       
+The result shows that as the number of viewpoints increase, the \emph{Occluded Area Ratio} decrease. There are 2 viewpoints in both pattern 2 and 3, thus the increase of data in pattern 3 is not against our conclusion. Values of \emph{Boundary Ray Ratio} describe the same tendency, and they do not differ too much from data in \emph{Occluded Area Ratio}. Therefore, based on the result we consider \emph{Boundary Ray Ratio} as a reliable metric to represent the occlusion level of the scene presented by point cloud \emph{Conference Room 1}.       
 
 \begin{figure}[H]
     \centering
@@ -1487,7 +1485,7 @@ The result shows that as the number of viewpoints increase, the \textit{Occluded
 
 \paragraph{Conference Room 2}
 
-We present the visualization of the scene \textit{Conference Room 2} in each step as explained in \ref{par:conf1 result}. Result is shown in Table \ref{tab:result of conference room 2} and Figure \ref{fig:result of conference room 2}.
+We present the visualization of the scene \emph{Conference Room 2} in each step as explained in \ref{par:conf1 result}. Result is shown in Table \ref{tab:result of conference room 2} and Figure \ref{fig:result of conference room 2}.
 
 \vspace{10pt}
 
@@ -1546,7 +1544,7 @@ We present the visualization of the scene \textit{Conference Room 2} in each ste
     \label{tab:result of conference room 2}
 \end{table}
 
-Both ratios display the same trend, thus we can conclude that \textit{Boundary Ray Ratio} is able to assess the occlusion level of \textit{Conference Room 2}.
+Both ratios display the same trend, thus we can conclude that \emph{Boundary Ray Ratio} is able to assess the occlusion level of \emph{Conference Room 2}.
 
 \begin{figure}[H]
     \centering
@@ -1596,7 +1594,7 @@ Both ratios display the same trend, thus we can conclude that \textit{Boundary R
 
 \paragraph{Copy Room}
 
-We follow the same workflow as shown before to present the visualization of the scene \textit{Copy Room} in each step. Result is shown in Table \ref{tab:result of copy room} and Figure \ref{fig:result of copy room}.
+We follow the same workflow as shown before to present the visualization of the scene \emph{Copy Room} in each step. Result is shown in Table \ref{tab:result of copy room} and Figure \ref{fig:result of copy room}.
 
 \vspace{30pt}
 
@@ -1655,7 +1653,7 @@ We follow the same workflow as shown before to present the visualization of the 
     \label{tab:result of copy room}
 \end{table}
 
-Although the result between 2 ratios has more difference than the data presented in previous experiments, it shows the same trend as we change pattern of viewpoint again. Hence, we think that \textit{Boundary Ray Ratio} can still represent the occlusion level of \textit{Copy Room}. 
+Although the result between 2 ratios has more difference than the data presented in previous experiments, it shows the same trend as we change pattern of viewpoint again. Hence, we think that \emph{Boundary Ray Ratio} can still represent the occlusion level of \emph{Copy Room}. 
 
 \begin{figure}[H]
     \centering
@@ -1701,11 +1699,11 @@ Although the result between 2 ratios has more difference than the data presented
     \label{fig:result of copy room}
 \end{figure}
 
-In this section we conducted 3 experiments to compute and compare occlusion level for different scenes. The result proves that \textit{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
+In this section we conducted 3 experiments to compute and compare occlusion level for different scenes. The result proves that \emph{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
 
 \section{Correlation}
 
-The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it's obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \textit{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
+The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it's obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \emph{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
 
 \subsection{Setup}
 
@@ -1717,7 +1715,7 @@ We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of
 
 \vspace{10pt}
 
-Data with semantic information is then generated for each occluded point cloud via \textit{Minkowski Engine}. We calculate values of evaluation metrics in a pair-wise manner.
+Data with semantic information is then generated for each occluded point cloud via \emph{Minkowski Engine}. We calculate values of evaluation metrics in a pair-wise manner.
 
 
 \subsection{Results}
@@ -1726,7 +1724,7 @@ In this part, we display visualization for each pair of clouds which includes on
 
 \paragraph{Conference Room 1}
 
-We first exhibit visual output of generated point cloud and corresponding segmentation of \textit{Conference Room 1}.
+We first exhibit visual output of generated point cloud and corresponding segmentation of \emph{Conference Room 1}.
 
 \begin{figure}[H]
     \centering
@@ -1760,7 +1758,7 @@ We first exhibit visual output of generated point cloud and corresponding segmen
     \label{fig:conf1 6 occ and seg}
 \end{figure}
 
-The result is shown in Table \ref{tab:evaluation metrics of conference room 1} and Figure \ref{fig:evaluation metrics of conference room 1}.
+The result is shown below in Table \ref{tab:evaluation metrics of conference room 1} and Figure \ref{fig:evaluation metrics of conference room 1}.
 
 \begin{table}[H]
     \centering
@@ -1780,7 +1778,7 @@ The result is shown in Table \ref{tab:evaluation metrics of conference room 1} a
 
 \vspace{20pt}
 
-From the graph it's obvious that occlusion level is inversely related to these metrics.
+From the graph we can see opposite trends between occlusion level and evaluation metrics. 
 
 \begin{figure}[H]
     \centering
@@ -2032,6 +2030,8 @@ The result is shown in \ref{tab:evaluation metrics of copy room} and \ref{fig:ev
     \label{tab:evaluation metrics of copy room}
 \end{table}
 
+This graph also shows opposite trends between occlusion and metrics.
+
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
@@ -2108,13 +2108,25 @@ The result is shown in \ref{tab:evaluation metrics of copy room} and \ref{fig:ev
 
 \section{Conclusion}
 
-From the results we get from last section, we can find correlation between level of occlusion and segmentation performance.
+From the results of experiments we conducted in last section, it's hard to find correlation between level of occlusion and segmentation performance. An overall opposite tendency can be found in each scene, but we have to compare clouds pair-wisely to validate that the cloud with higher occlusion performs worse on semantic segmentation, which is apparently not always the case.
 
 \section{Discussion}
 
 \subsection{Limitation}
 
-However, there are also many limitations on our work. We cannot assess the occlusion level of a scene very accurately.
+There are some limitations on our work. Although we can estimate occlusion level of point cloud in a relative reliable way, the correlation cannot be validated properly. 
+
+\paragraph{Minkowski Engine}
+
+The ability to segment point cloud accurately is limited by this software. Every step in making this tool can affect the final output, such as data collection, data labeling and model applied for training etc. The whole process is difficult to control and thus the output can be unstable. 
+
+\paragraph{Estimation of Occlusion Level}
+
+We are estimating occlusion level through random rays intersecting boundary points. Due to the lack of ground truth occlusion information, despite the high reliability of this metric, we cannot compute the real occlusion level of a point cloud.
+
+\paragraph{Occluded Point Cloud Generation}
+
+The way to generate point cloud can also affect the final result. In the part of experiments, we noticed that the value of point cloud under certain light pattern shows different correlation to others. Since the placement of light sources will result in producing occluded point clouds with different structures and complexities.
 
 \subsection{Future Work}
 
@@ -2130,7 +2142,7 @@ Acknowledge any data and code sources you used or for help you received.
 \chapter*{Document, Writing and Formatting Guidelines}
 %=====================================================================
 
-This part of the document uses non-numbered chapter and section headings as they are not part of a regular report structure. In a regular report, \textit{chapters}, \textit{sections} and \textit{subsections} should normally be numbered. Note the use of comment lines and spacings to give more structure to the ASCII text LaTeX document.
+This part of the document uses non-numbered chapter and section headings as they are not part of a regular report structure. In a regular report, \emph{chapters}, \emph{sections} and \emph{subsections} should normally be numbered. Note the use of comment lines and spacings to give more structure to the ASCII text LaTeX document.
 
 In this appendix like part we discuss the structure and formatting rules and guidelines to follow for a written project, research paper, Bachelor or Master thesis report.
 
@@ -2179,7 +2191,7 @@ Do not abruptly jump topics but motivate topic changes. If the topics of text pa
 %--------------------------------------------------------
 \paragraph*{Sections and Paragraphs}
 
-Use \textit{sections}, \textit{subsections} and \textit{paragraphs} to structure your ideas and content into meaningful parts, and make a clear and meaningful order of them. Each section, subsection or paragraph must cover a clearly delineated topic or idea.
+Use \emph{sections}, \emph{subsections} and \emph{paragraphs} to structure your ideas and content into meaningful parts, and make a clear and meaningful order of them. Each section, subsection or paragraph must cover a clearly delineated topic or idea.
 
 Every section must first introduce to the reader what to expect and then tell the details, following the principles of repetition and parallelism. An introductory paragraph is also a good approach to fill the space between the section heading and the first sub heading if subsections are used. The last paragraph of a section can summarize the concepts and lead over to the next topic or section.
 
@@ -2217,7 +2229,7 @@ The main body text is typeset in 11pt Times font (serif font family). Text body 
 \begin{itemize}
 \item Avoid extensive and manual spacing
 \item Use font modifications carefully
-%\item Use the \verb!\emph{}! command fo emphasizing/italicizing not \verb!\textit()!
+%\item Use the \verb!\emph{}! command fo emphasizing/italicizing not \verb!\emph()!
 \item Use proper math and symbol styles
 %\item Use (our math.tex) style file for consistency
 \end{itemize}
@@ -2244,11 +2256,11 @@ If separate .tex files are used for the main report text body, then include them
 Further LaTeX coding guidelines and recommendations:
 
 \begin{itemize}
-\item Use the \verb!\emph{}! command fo emphasizing/italicizing not \verb!\textit()!
+\item Use the \verb!\emph{}! command fo emphasizing/italicizing not \verb!\emph()!
 \item Use (our math.tex) style file for math formula consistency
 \item Use \verb!\mathrm{function()}!  for function names
 \item Use consistent section, equation and figure labelling
-\verb!\label{sec:introduction}! as well as \textit{eq:rendering, fig:system}
+\verb!\label{sec:introduction}! as well as \emph{eq:rendering, fig:system}
 \item Do not liberally introduce manual horizontal or vertical spacings
 \item In particular do not use comment codes \% to control spacing or indentation before or after elements, e.g. arounc equations, figures or tables
 \end{itemize}
@@ -2256,7 +2268,7 @@ Further LaTeX coding guidelines and recommendations:
 %-------------------------------------------------------------------------------------------------------------------------
 \subsection*{Mathematical Formulas and Equations}
 
-Mathematical expressions should follow a consistent set of rules, symbols and formatting as indicated in our \textit{math.tex} style file. LaTeXiT can be used for consistent symbols and formulas in figures. Apply the same scalar, vector and matrix styles as well as use the same variables consistently throughout your text, see also the predefined styles and specific variables in \textit{math.tex}. A few guidelines that are useful are given below, use them as much as possible (but adjust as necessary to make formulas clear):
+Mathematical expressions should follow a consistent set of rules, symbols and formatting as indicated in our \emph{math.tex} style file. LaTeXiT can be used for consistent symbols and formulas in figures. Apply the same scalar, vector and matrix styles as well as use the same variables consistently throughout your text, see also the predefined styles and specific variables in \emph{math.tex}. A few guidelines that are useful are given below, use them as much as possible (but adjust as necessary to make formulas clear):
 
 \begin{itemize}
 \item use (lower-case) italic letters for normal (scalar) variables such as $x$ or $t$
