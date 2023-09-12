@@ -15,7 +15,7 @@
 \usepackage{float}
 \usepackage{cite}
 \usepackage{listings}
-\usepackage{hyperref}
+\usepackage[colorlinks=true, allcolors=black]{hyperref}
 \usepackage{xargs}
 \usepackage{pgfplots}
 \usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
@@ -69,11 +69,6 @@
 \definecolor{string}{RGB}{0,128,0}
 \definecolor{comment}{RGB}{128,128,128}
 
-\lstdefinestyle{terminal}{
-    backgroundcolor=\color{black},
-    basicstyle=\ttfamily\color{white}\small,
-    breaklines=true
-}
 
 \begin{document}
 
@@ -131,7 +126,7 @@
 \chapter{Abstract} \label{chp:abstract}
 %=====================================================================
 
-This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there's a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation software like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene \FIXME{not inverse} is inversely proportional to the quality of semantic segmentation.
+This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there is a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation software like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene \FIXME{not inverse} is inversely proportional to the quality of semantic segmentation.
 
 \tableofcontents
 
@@ -158,7 +153,7 @@ To the best of our knowledge currently there is not explicit works that compute 
 
 \paragraph{Occlusion Guided Scene Flow Estimation on 3D Point Clouds.} \label{par:scene flow}
 
-This paper presents the OGSF-Net, a novel architecture designed to address the challenges of occlusions in 3D scene flow estimation. Occlusions, where certain regions in one frame are hidden in another, can hinder accurate flow estimation. The OGSF-Net uniquely integrates the learning of flow and occlusions, using an occlusion handling mechanism in its Cost Volume layer to measure frame correlations. This approach aims to enhance both flow accuracy and the understanding of occluded regions, marking a pioneering effort in 3D scene flow estimation on point clouds. To make this method robust, it's important to make an accurate occlusion prediction. Therefore, they evaluate the performance of occlusion estimation on data set FlyingThings3D, which provides the ground truth occlusion mask of point cloud. For evaluation, they use accuracy and F1 score as metrics. This inspires us to apply similar metrics to evaluate the result of semantic segmentation.
+This paper presents the OGSF-Net, a novel architecture designed to address the challenges of occlusions in 3D scene flow estimation. Occlusions, where certain regions in one frame are hidden in another, can hinder accurate flow estimation. The OGSF-Net uniquely integrates the learning of flow and occlusions, using an occlusion handling mechanism in its Cost Volume layer to measure frame correlations. This approach aims to enhance both flow accuracy and the understanding of occluded regions, marking a pioneering effort in 3D scene flow estimation on point clouds. To make this method robust, it is important to make an accurate occlusion prediction. Therefore, they evaluate the performance of occlusion estimation on data set FlyingThings3D, which provides the ground truth occlusion mask of point cloud. For evaluation, they use accuracy and F1 score as metrics. This inspires us to apply similar metrics to evaluate the result of semantic segmentation.
 
 \paragraph{OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion.} \label{par:OcCo occlusion completion}
 
@@ -170,7 +165,7 @@ Previous work has shown that occlusion of a point cloud can be estimated based o
 
 \vspace{10pt}
 
-This work is focusing on the data set of point cloud. Since there's no property can quantify area in point cloud we cannot directly extend the metric \emph{occluded area ratio} to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose \emph{Boundary ray ratio} which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
+This work is focusing on the data set of point cloud. Since there is no property can quantify area in point cloud we cannot directly extend the metric \emph{occluded area ratio} to point-based data structure. Therefore, we have to use a different metric to estimate occlusion level, here we propose \emph{Boundary ray ratio} which is the ray that intersect with boundary points in point cloud. We also defined boundary points based on their semantic labels.
 
 %=====================================================================
 \section{Technical Background}
@@ -209,15 +204,15 @@ The Minkowski Engine is an auto-differentiation library specifically designed fo
 
 \section{Motivation} \label{sec:motivation}
 
-Among the many factors influencing the semantic segmentation of point cloud data, the level of occlusion stands as one of the major challenges. Occlusions, a prevalent phenomenon in 3D scenes, can significantly compromise the quality and integrity of data. When objects are partially or entirely obscured by others, semantic segmentation might lead to inaccuracies in segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation remains fragmented. Specifically, there's a palpable gap in understanding how to quantify occlusion levels and how these levels influence the performance of advanced tools like the Minkowski Engine. Thus, the primary motivation behind this research is to systematically evaluate level of occlusion and delve deep into their impact on point cloud data semantic segmentation.
+Among the many factors influencing the semantic segmentation of point cloud data, the level of occlusion stands as one of the major challenges. Occlusions, a prevalent phenomenon in 3D scenes, can significantly compromise the quality and integrity of data. When objects are partially or entirely obscured by others, semantic segmentation might lead to inaccuracies in segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation remains fragmented. Specifically, there is a palpable gap in understanding how to quantify occlusion levels and how these levels influence the performance of advanced tools like the Minkowski Engine. Thus, the primary motivation behind this research is to systematically evaluate level of occlusion and delve deep into their impact on point cloud data semantic segmentation.
 
 \section{Outline} \label{sec:outline}
 
-In this thesis we first briefly mentioned related works and discussed the part which bring us inspirations. We also introduced related technical concepts to give reader richer background information. Then our contributions and motivations were stated. In the next Chapter we elaborated on problems which we have to solve in order to compute metrics proposed before correctly. Our technical solution are listed and explained in detail with figures and formulas in Chapter 3. Once we have the solution, we can start to implement concrete codes. Thus, in Chapter 4 some key details of our algorithm's implementation are explained together with the technical stack applied to support computation. In the end of this part we introduced the structure of our software to give insights on how the whole pipeline works.
+In this thesis we will first briefly mention related works and discuss the part which bring us inspirations. We will also introduce related technical concepts to give reader richer background information. Then our contributions and motivations will be stated. In the next Chapter we elaborate on problems which we have to solve in order to compute metrics proposed before correctly. Our technical solution are listed and explained in detail with figures and formulas in Chapter 3. Once we have the solution, we will start to implement concrete codes. Thus, in Chapter 4 implementation details of our algorithm are explained together with the technical stack applied to support our computational pipeline. In the end of this part we will introduce the structure of our software to give insights on how the whole pipeline works.
 
 \vspace{10pt}
 
-For this thesis it's crucial to present our experimental results in a meaningful way. Hence, in Chapter 5 we first need to validate that those metrics we proposed can truly reflect the level of occlusion in a point cloud. With successful validation we can then apply them to correlate with the performance of semantic segmentation. Finally, we discussed the result of correlation and concluded the thesis.
+For this thesis it is crucial to present our experimental results in a meaningful way. Hence, in Chapter 5 we need to first validate that those metrics we proposed can accurately reflect the level of occlusion of a point cloud. With successful validation we can then apply them to correlate with the performance of semantic segmentation. In the final step, we discuss the result of experiments and conclude the thesis.
 
 
 %=====================================================================
@@ -241,7 +236,7 @@ These problems are addressed in following points. Each of them will be provided 
 
 \section{Occluded Area Ratio of Mesh} \label{sec:occluded area ratio of mesh}
 
-In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, there's less occluded region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender[Blender], the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
+In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, there is less occluded region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender[Blender], the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
 
 \vspace{10pt}
 
@@ -257,11 +252,11 @@ To determine which area is visible and which is not is the key point here to com
 
 \section{Mesh Estimation from Point Cloud} \label{mesh estimation of point cloud}
 
-If we want to apply \emph{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it's crucial for us to improve the result of mesh estimation. 
+If we want to apply \emph{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it is crucial for us to improve the result of mesh estimation. 
 
 \vspace{10pt}
 
-In case of region growing, we need to tweak its input parameters. An example of a code snippet is shown in list \ref{lst:region_growing}, with so many parameters to adjust, the result of region growing can be unstable, which also makes subsequent process difficult to control. Therefore, it's essential to find a more accurate way to estimate mesh.   
+In case of region growing, we need to tweak its input parameters. An example of a code snippet is shown in list \ref{lst:region_growing}, with so many parameters to adjust, the result of region growing can be unstable, which also makes subsequent process difficult to control. Therefore, it is essential to find a more accurate way to estimate mesh.   
 \begin{lstlisting}[language=C++, caption=region growing, label=lst:region_growing]
     pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
     reg.setMinClusterSize(min_cluster_size);
@@ -277,12 +272,12 @@ In case of region growing, we need to tweak its input parameters. An example of 
 
 \section{Generate Point Cloud from Estimated Mesh} \label{generate point cloud from estimated mesh}
 
-Once we have a mesh, we can directly generate points from each face of it. One way to do that is sampling points on polygon, which is normally triangle. We have to make the distribution of points as uniform as possible so that the structural information of mesh can be kept precisely. Otherwise, the generated point cloud will give us distorted information which may lead to significantly biased result of computation. The other way to have points from mesh could be related to ray in the scene. As we mentioned in section \ref{sec:occluded area ratio of mesh}, ray-tracing based mesh can be applied to our pipeline. When there's ray in the scene, we can compute intersections between ray and triangle. These intersections can present structural information of mesh as well, in case of first hit intersection point, we know that the region surrounding this point is visible. This information of visibility may contribute to subsequent computations. 
+Once we have a mesh, we can directly generate points from each face of it. One way to do that is sampling points on polygon, which is normally triangle. We have to make the distribution of points as uniform as possible so that the structural information of mesh can be kept precisely. Otherwise, the generated point cloud will give us distorted information which may lead to significantly biased result of computation. The other way to have points from mesh could be related to ray in the scene. As we mentioned in section \ref{sec:occluded area ratio of mesh}, ray-tracing based mesh can be applied to our pipeline. When there is ray in the scene, we can compute intersections between ray and triangle. These intersections can present structural information of mesh as well, in case of first hit intersection point, we know that the region surrounding this point is visible. This information of visibility may contribute to subsequent computations. 
 
 
 \section{Boundary Ray Ratio of Point Cloud}
 
-A common way to generate point cloud is conducted by casting lasers from scanner. Since lasers cannot pass through objects, occlusion is then generated on those obscured surfaces. And they are mostly shown on the exterior structure of an indoor scene such as walls, floors and ceilings etc, as they are located in the outermost layer of the room. Items such as chairs and tables, they can also be obscured by other things, but it's difficult to estimate how much they are occluded since their structure is more complex compared to large structures like walls. An example of exterior and interior structure of point cloud is shown in figure \ref{fig:Exterior and interior structure of a point cloud}
+A common way to generate point cloud is conducted by casting lasers from scanner. Since lasers cannot pass through objects, occlusion is then generated on those obscured surfaces. And they are mostly shown on the exterior structure of an indoor scene such as walls, floors and ceilings etc, as they are located in the outermost layer of the room. Items such as chairs and tables, they can also be obscured by other things, but it is difficult to estimate how much they are occluded since their structure is more complex compared to large structures like walls. An example of exterior and interior structure of point cloud is shown in Figure \ref{fig:Exterior and interior structure of a point cloud}.
 
 \begin{figure}[H]
     \centering
@@ -315,7 +310,7 @@ In this chapter we will introduce our technical solution to the problem stated i
 
 \section{Compute occluded Area Ratio} \label{sec:compute occluded area ratio}
 
-It's difficult to accurately compute occluded area of a triangle, since we don't exactly know which part is visible or invisible geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are invisible. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing occluded area ratio}.
+it is difficult to accurately compute occluded area of a triangle, since we don't exactly know which part is visible or invisible geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are invisible. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing occluded area ratio}.
 
 \begin{figure}[H]
     \centering
@@ -393,7 +388,7 @@ Using this method, we generate two sequences of Halton numbers with different ba
 
 \subsection{Generate Rays}
 
-Rays simulate the path of light as it interacts with objects in a scene. In our approach, while it's an usual case to cast ray from viewpoint, here we generate them from the sampled points on the triangle to the light source as shown in Figure \ref{fig:generate ray from sampling to viewpoint}, we need to pay attention that the viewpoint is abstracted as a point instead of an object with volume. The sampled points serve as the origin of each ray, while the view point (or light source) acts as the look-at point. The direction of each ray is computed based on the difference between the viewpoint and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
+Rays simulate the path of light as it interacts with objects in a scene. In our approach, while it is an usual case to cast ray from viewpoint, here we generate them from the sampled points on the triangle to the light source as shown in Figure \ref{fig:generate ray from sampling to viewpoint}, we need to pay attention that the viewpoint is abstracted as a point instead of an object with volume. The sampled points serve as the origin of each ray, while the view point (or light source) acts as the look-at point. The direction of each ray is computed based on the difference between the viewpoint and the origin. The direction vector is then normalized to ensure its magnitude is 1, which simplifies subsequent calculations.
 
 \vspace{10pt}
 
@@ -585,7 +580,7 @@ We want to use a ray from outside of the scene and directed towards the cloud, t
 
 \vspace{10pt}
 
-In our work, it's more feasible for us to create rays within the room which is always presented as point cloud. We first randomly generate two points within the bounding box of the scene. One as origin of the ray and the other is the look-at direction. To simulate a ray originates from outside and pass through the room we also take its opposite direction into consideration. Namely, for one ray we have to compute its intersection with points in both directions. 
+In our work, it is more feasible for us to create rays within the room which is always presented as point cloud. We first randomly generate two points within the bounding box of the scene. One as origin of the ray and the other is the look-at direction. To simulate a ray originates from outside and pass through the room we also take its opposite direction into consideration. Namely, for one ray we have to compute its intersection with points in both directions. 
 
 \begin{figure}[H]
     \centering
@@ -633,7 +628,7 @@ To determine if a ray intersects with a sphere, we follow algorithm stated below
 
 \subsection{Ray Openings Intersection}
 
-Openings or gaps in the scene, such as windows or doors, should not contribute to occlusion. In the context of boundary rays, we regard openings as boundary. To account for these openings, we need an efficient method to determine if a ray intersects with any of the openings in the scene. Given the typically limited number of openings in a scene, it's feasible to manually select a few points that represent the boundary of each opening. Using these points, we can construct a polygonal representation of the opening. The ray-openings intersection check can then be performed by testing if the ray intersects with any of these polygons.
+Openings or gaps in the scene, such as windows or doors, should not contribute to occlusion. In the context of boundary rays, we regard openings as boundary. To account for these openings, we need an efficient method to determine if a ray intersects with any of the openings in the scene. Given the typically limited number of openings in a scene, it is feasible to manually select a few points that represent the boundary of each opening. Using these points, we can construct a polygonal representation of the opening. The ray-openings intersection check can then be performed by testing if the ray intersects with any of these polygons.
 
 \vspace{10pt}
 
@@ -676,22 +671,10 @@ The ray within a scene may intersect with multiple boundary points or openings. 
 After classifying all rays in the scene, we compute the boundary ray ratio, which exactly represents the occlusion level of a point cloud, using the following formula:
 
 \[
-\emph{{Boundary Ray Ratio}} = \frac{{\emph{{occlusion}}}}{{\emph{{occlusion}} + \emph{{visibility}}}} = \emph{{Occlusion Level}}
+\emph{{Occlusion Level}} = \sqrt{\frac{{\left(\frac{2}{3}\right) \cdot \emph{{non-boundary ray count}} + \left(\frac{1}{3}\right) \cdot \emph{{1-boundary ray count}}}}{{\emph{{total rays}}}}}
 \]
 
-Where:
-\begin{itemize}
-    \item \textbf{{Occlusion}}: The number of rays that do not intersect with any boundary, denoted as \emph{{non-boundary ray count}}.
-    \item \textbf{{Visibility}}: A measure calculated as the sum of \emph{{1-boundary ray count}} and twice the \emph{{2-boundary ray count}}.
-\end{itemize}
-
-The quantities in the formula are calculated as follows:
-\[
-    \emph{{occlusion}} = \emph{{non-boundary ray count}}
-\]
-\[
-    \emph{{visibility}} = \emph{{1-boundary ray count}} + 2 \cdot \emph{{2-boundary ray count}} \FIXME{change the formula}
-\]
+\vspace{5pt}
 
 By evaluating the occlusion level with the above formula, we can analyze the proportion of rays that are obstructed versus those that are not, providing insight into the level of visibility within the scene.
 
@@ -742,7 +725,7 @@ Evaluating the performance of semantic segmentation is crucial to ensure its rel
 
 \paragraph{Semantic Classes}
 
-Semantic segmentation requires a clear definition of the classes that are to be identified within the data set. Due to discrepancies between the ground truth point cloud data set, denoted as [S3dis], and the data set used for the pre-trained model, we have extracted those common semantic classes for our segmentation task in Table \ref{tab:semantic_classes}:
+Semantic segmentation requires a clear definition of the classes that are to be identified within the data set. Due to discrepancies between the ground truth point cloud data set, denoted as [S3dis], and the data set used for the pre-trained model, we have extracted those common semantic classes for our segmentation task in Table \ref{tab:semantic_classes}.
 
 \begin{table}[H]
     \centering
@@ -765,7 +748,7 @@ Semantic segmentation requires a clear definition of the classes that are to be 
         Column & 26 \\
         \hline
     \end{tabular}
-    \caption{Mapping of semantic classes to their respective class IDs.}
+    \caption{Mapping of semantic classes to their respective class IDs.} \FIXME{Change class}
     \label{tab:semantic_classes}
 \end{table}
 
@@ -803,7 +786,7 @@ Given a segmented point cloud, we can evaluate the segmentation by calculating v
 
 \paragraph{Metrics} \label{par:metrics}
 
-To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \emph{Accuracy}, \emph{IoU}, \emph{Precision}, \emph{Recall} and \emph{F1 Score}. 
+To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \emph{Precision}, \emph{Recall} and \emph{F1 Score}. 
 
 \vspace{10pt}
 
@@ -811,31 +794,31 @@ These metrics provide different perspectives on the model's capabilities and are
 
 \vspace{10pt}
 
-\textbf{Accuracy} is a fundamental metric that quantifies the proportion of correctly predicted points out of the total number of points. It is given by the formula:
-\[
-    \emph{Accuracy} = \frac{\emph{Number of Correct Predictions}}{\emph{Total Number of Predictions}}
-\]
-which can also be formulated in terms of TP, FP, TN and FN as:
-\[
-    \emph{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
-\]
+% \textbf{Accuracy} is a fundamental metric that quantifies the proportion of correctly predicted points out of the total number of points. It is given by the formula:
+% \[
+%     \emph{Accuracy} = \frac{\emph{Number of Correct Predictions}}{\emph{Total Number of Predictions}}
+% \]
+% which can also be formulated in terms of TP, FP, TN and FN as:
+% \[
+%     \emph{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+% \]
 
-Though a useful metric, accuracy can sometimes be misleading, particularly when the classes are imbalanced.
+% Though a useful metric, accuracy can sometimes be misleading, particularly when the classes are imbalanced.
 
-\vspace{10pt}
+% \vspace{10pt}
 
-\textbf{IoU (Intersection over Union)}, also known as the Jaccard Index, measures the overlap between the predicted segmentation and the ground truth. It is calculated as the area of overlap divided by the area of union of the two sets, as given by:
-\[
-    IoU = \frac{\emph{Intersection}}{\emph{Union}}
-\]
-or equivalently,
-\[
-    IoU = \frac{TP}{TP + FP + FN}
-\]
+% \textbf{IoU (Intersection over Union)}, also known as the Jaccard Index, measures the overlap between the predicted segmentation and the ground truth. It is calculated as the area of overlap divided by the area of union of the two sets, as given by:
+% \[
+%     IoU = \frac{\emph{Intersection}}{\emph{Union}}
+% \]
+% or equivalently,
+% \[
+%     IoU = \frac{TP}{TP + FP + FN}
+% \]
 
-A higher IoU value signifies better segmentation accuracy.
+% A higher IoU value signifies better segmentation accuracy.
 
-\vspace{10pt}
+% \vspace{10pt}
 
 \textbf{Precision and Recall} are two complementary metrics that provide insights into the model's performance regarding false positives and false negatives. 
 
@@ -867,7 +850,7 @@ A higher recall indicates that fewer actual positives were missed by the model.
 
 \vspace{10pt}
 
-\textbf{F1 Score} is the harmonic mean of precision and recall, providing a balance between the two and ensuring that both false positives and false negatives are considered. It is calculated as:
+\textbf{F1 Score} is the harmonic mean of \emph{precision} and \emph{recall}, providing a balance between the two and ensuring that both false positives and false negatives are considered. It is calculated as:
 \[
     F1 = 2 \times \frac{\emph{Precision} \times \emph{Recall}}{\emph{Precision} + \emph{Recall}}
 \]
@@ -922,9 +905,7 @@ The initial step is fitting a plane to each cluster's point data. For this, we r
 
 \paragraph{Formation of Polygon}
 
-With the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. Once our points sharing a planar space, we compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points.
-
-Here, PCL's \emph{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \emph{cloud projected}. The usage of PCL's \emph{ConvexHull} class create a cloud representing the polygon.
+With the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. Once our points sharing a planar space, we compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points. Here, PCL's \emph{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \emph{cloud projected}. The usage of PCL's \emph{ConvexHull} class create a cloud representing the polygon.
 
 
 \subsection{Ray Tracing Based Intersection Computation} \label{sec:ray tracing}
@@ -956,7 +937,6 @@ struct Ray {
     size_t index;
     size_t first_hit_intersection_idx;
     Eigen::Vector3d origin;
-    Eigen::Vector3d look_at_point;
     Eigen::Vector3d direction;
     std::vector<size_t> intersection_idx;
     std::vector<size_t> triangle_idx;
@@ -976,7 +956,6 @@ struct Triangle {
     Eigen::Vector3d v3;
     std::vector<size_t> sample_idx;
     std::vector<size_t> intersection_idx;
-    std::vector<size_t> ray_idx;
     ...
 };
 
@@ -984,18 +963,11 @@ struct Triangle {
 
 \paragraph{Octree Partitioning}
 
-In the context of our pipeline, the sheer magnitude of input data can be quite overwhelming. It's not uncommon for us to deal with data sets comprising millions of points and thousands of intersecting rays. A naive approach, iterating through each data point and ray, would be computationally taxing. Recognizing this challenge, it becomes imperative to partition our data into more manageable chunks. Commonly, data structures such as BVH, KD-Tree, and octree are used for this purpose. Leveraging the existing octree implementation in PCL, we employ it for partitioning our data.
+In the context of our pipeline, it can be quite overwhelming to iterate over all points for rat-tracing computation. A naive approach, iterating through each data point and ray, would be computationally taxing. Recognizing this challenge, it becomes imperative to partition our data into more manageable chunks. Commonly, data structures such as BVH, KD-Tree, and octree are used for this purpose. Since there existing an octree implementation in PCL, we employ it for partitioning our data.
 
 \vspace{10pt}
 
-The outcome of octree partitioning is a structured tree. Within this tree, there are three distinct types of nodes: leaf nodes, branch nodes, and the root node. Leaf nodes serve as storage units for data, branch nodes encapsulate the bounding box for their respective child nodes, and the root node safeguards the bounding box encompassing the entire tree. Navigating this structure, if a ray originates inside the root node, we examine its intersection with the root's child nodes. Typically, if our tree depth surpasses two, this should return a branch node. The procedure recursively continues until we pinpoint a leaf node, at which point we verify the ray's intersection with the data housed in the leaf. If there's a data intersection, the intersection point is duly returned.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics*[width=1.0\textwidth]{figures/Minkowski Engine.png}
-    \caption{Flowchart of the Octree Partitioning Process}
-    \label{fig:flowchart of the octree partitioning process}
-\end{figure}
+The outcome of octree partitioning is a structured tree. Within this tree, there are three types of nodes: leaf nodes, branch nodes, and the root node. Leaf nodes serve as storage units for data, branch nodes encapsulate the bounding box for their respective child nodes, and the root node includes the bounding box of the entire tree. Navigating this structure, if a ray originates inside the root node, we examine its intersection with the root's child nodes. The procedure recursively continues until we reach a leaf node, at which point we verify the ray's intersection with the points stored in the leaf. If there is a data intersection, the intersected point is returned. 
 
 \paragraph{Octree Data Structure}
 
@@ -1021,28 +993,28 @@ struct OctreeNode {
 };
 \end{lstlisting}
 
-\paragraph{Partition Mesh} \label{subsec:mesh octree}
+\paragraph{Partition Mesh} \label{par:mesh octree}
 
-Harnessing PCL's octree class, we facilitate mesh partitioning. However, this requires a preliminary step: the extraction of a point which epitomizes the triangle. To achieve this, we use the triangle's center of gravity as its representative point. By gathering these representative points, an octree can be constructed. PCL offers versatility with traversal methods – we have the liberty to opt for either a depth-first or breadth-first approach. Our actual implementation favors the depth-first traversal. The ensuing steps outline our tree-building process:
+We can partition mesh with the help of PCL' octree class. However, this requires a preliminary step where the extraction of a point which represent the triangle. To achieve this, we use the triangle's center of gravity as its representative point. By making these points a cloud, an octree can be constructed. PCL offers several traversal methods for octree, here the depth-first iterator is applied by default.
 
 \paragraph{Build Depth-Size Map}
 
-Recognizing that nodes at the same depth exhibit identical bounding box sizes, a traversal of the tree allows us to construct a size-depth map. Here, the bounding box's size (denoted by the distance between \( min\_pt \) and \( max\_pt \)) acts as the key, while the node's depth is the associated value. Post traversal, the map elucidates which sizes correlate to specific depths.
+Recognizing that nodes at the same depth exhibit identical bounding box sizes, a traversal of the tree allows us to construct a size-depth map. Here, the bounding box's size (denoted by the distance between \emph{maximal point} and \emph{minimal point}) acts as the key, while the depth is the associated value.
 
 \paragraph{Build Depth-Node Map}
 
-For individual nodes, a quick reference to the size-depth map reveals their respective depth. We then proceed to compile a map to document nodes within each depth level. Here, the depth is the key, and a vector, comprising node indices at that depth, forms the value. The order of these nodes in the vector mirrors the depth-first traversal sequence.
+For each node in the tree, we can now find its corresponding depth through \emph{Depth-Size Map} built in former step. Then we build the \emph{Depth-Node Map} where depth is the key and value is composed of indexes of nodes belong to this level.
 
 \paragraph{Build Connections Between Nodes}
 
-Establishing connections between parent and child nodes is paramount. This phase involves a traversal of the depth-node map, starting from the root and working through to the penultimate leaf node level. Certain nuances are worth highlighting:
+Establishing connections between parent and child nodes is an essential step. This phase involves a traversal of the depth-node map, starting from the root and working through to the leaf node level. There are some points are worth highlighting:
 
 \begin{itemize}
-	\item The root node stands alone without a parent, but nodes at level 1 unanimously share the root as their parent.
-	\item For branch nodes, the traversal of their child nodes occurs post the traversal of the left sibling's children but prior to the right sibling's children. This traversal pattern aids in effectively mapping the parent-child relationships.
+	\item The root node stands alone without a parent, but nodes at level 1 always share the root as their parent.
+	\item For branch nodes, the traversal of their child nodes occurs after the traversal of the left sibling's children but prior to the right sibling's children. This traversal pattern help us in effectively mapping the parent-child relationships.
 \end{itemize}
 
-Following is a simplistic example with a tree depth of three. Though an octree typically has eight children for every node, for the sake of clarity, we've reduced its size in this explanation. 
+Following is an example with a tree depth of three. Though an octree typically has eight children for every node, for the sake of clarity, we've reduced its size in this explanation. 
 
 \begin{figure}[H]
     \centering
@@ -1052,15 +1024,19 @@ Following is a simplistic example with a tree depth of three. Though an octree t
 \end{figure}
 
 
-The node index, placed at the upper left corner of each box, equates to its traversal order in a depth-first pattern. Using node 1 as a reference, all its children indices are lesser than 5. Such observations facilitate the accurate linkage of children to their parent nodes.
+The node index, placed at the upper left corner of each box, equates to its traversal order in a depth-first pattern. Using node 1 as a reference, all its children indices are lesser than 5. Such observations facilitate the accurate connection of children to their parent nodes.
 
 \paragraph{Compute Bounding Box of Each Node}
 
-With the connections established, we can now compute the bounding box for each node from leaf level. Although the bounding box for points of a leaf node is readily available, here we have to consider triangles. Each point is stored in form of \emph{pcl::PointXYZI}, where \emph{I} represent its intensity field. In our case we use this field to store the index of triangle. If we iterate over all points, we can iterate over all triangles. The $min_pt$ and $max_pt$ can be obtained from the minimal and maximal vertex of all triangles. Once we have built bounding box for each leaf node, we can traverse upwards to compute bounding box for each branch node and root node. 
+For each leaf node, its bounding box can be directly returned from methods implemented by PCL's octree class. But inside the box, there only stores center point of triangle. Hence, we have to compute the bounding box based on the real geometry of triangle. Each point is stored in form of \emph{pcl::PointXYZI}, where \emph{I} represent its intensity field. In our case we use this field to store the index of triangle. If we iterate over all points, we are actually iterating over all triangles. 
+
+\vspace{10pt}
+
+The \emph{minimal point} and \emph{maximal point} can be obtained from the minimal and maximal vertex of all triangles. Once we have built bounding box for each leaf node, we can traverse upwards to compute bounding box for each branch node and root node. 
 
 \paragraph{Partition Point Cloud}
 
-For partitioning the point cloud, most steps are the same as mentioned in Section \ref{subsec:mesh octree}. The only difference is that we don't need to compute bounding box based on triangle for each node, bounding box offered by PCL should be enough for this part.
+For partitioning the point cloud, most steps are the same as mentioned in \ref{par:mesh octree}. The only difference is that we don't need to compute bounding box based on triangle for each node, bounding box offered by PCL should be enough for this part.
 
 \paragraph{Ray Intersecting with Bounding Box}
 
@@ -1073,44 +1049,6 @@ To determine whether a ray intersects with a bounding box, there are two primary
 
 The underlying principle is to inspect how the ray interacts with the bounding box by calculating potential intersection points for each dimension (i.e., x, y, and z). This method of computation involves the Slab technique, which calculates the intersection of the ray with the planes that define the bounding box.
 
-\vspace{10pt}
-
-The method is materialized in the \emph{rayIntersectOctreeNode} function. The procedure commences by verifying if the ray's origin is nestled within the bounding box by leveraging the `min\_pt\_triangle` and `max\_pt\_triangle` attributes of the octree node. If the origin is confirmed to be within the bounds, the function instantly returns true.
-
-\vspace{10pt}
-
-Nevertheless, if the origin is exterior, the function gauges potential intersection points (or \( t \)-values) for each of the x, y, and z axes. It inspects the intersection of the ray with the 'slabs' (or bounding faces) of the bounding box. The terminal phase ensures that these intersection points lie within a consistent range across all three dimensions, thereby validating the intersection of the ray with the bounding box.
-
-\vspace{10pt}
-
-A distilled representation of the function is provided below:
-
-\begin{lstlisting}[language=C++, caption=Simplified Ray Intersect Bounding Box]
-bool Occlusion::rayIntersectOctreeNode(Ray& ray, OctreeNode& node) {
-    ...
-    // Check if ray's origin is within bounding box
-    if (...) return true;
-    
-    // Compute intersection points (t-values) for x, y, and z dimensions
-    double tmin, tmax, tymin, tymax, tzmin, tzmax;
-    ...
-    // Check intersection with x slabs
-    ...
-    // Check intersection with y slabs
-    ...
-    // Check intersection with z slabs
-    ...
-
-    // Ensure intersection points are within a valid range for all dimensions
-    if ((tmin > tzmax) || (tzmin > tmax)) return false;
-    
-    return true;
-}
-\end{lstlisting}
-
-\paragraph{Recursive Computation}
-
-It is pivotal to highlight the adoption of a threshold value (in this context, \(1e-8\)) to ascertain numerical stability. When the ray's directional component for a distinct axis approaches zero, the ray becomes nearly parallel to the planes of the bounding box on that specific axis. This peculiarity is addressed by the function by attributing `t-values` to positive or negative infinity as required. This algorithm is optimized for efficiency and enables swift determinations of ray-bounding box intersections, a property that's indispensable for maintaining high performance in graphical applications.
 
 \section{Auxiliary Components} \label{subsec:supporting libraries}
 
@@ -1175,7 +1113,7 @@ The user interface's visual representation is captured in Figure \ref{fig:web us
 	\label{fig:web user interface}
 \end{figure}
 
-\subsection{Three.js Serve for Visualization}
+\subsection{Three.js Serves for Visualization}
 
 Three.js emerges as a versatile, cross-browser JavaScript library, complemented with an API designed to craft and exhibit animated 3D computer graphics directly in a web browser. This dynamic library provides the interactive visualization pivotal for our application.
 
@@ -1221,7 +1159,7 @@ GUI is located at the top right corner of the user interface. It shows different
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.35\textwidth]{figures/GUI.png}
+    \includegraphics*[width=0.25\textwidth]{figures/GUI.png}
     \caption{GUI}
     \label{fig:gui}
 \end{figure}
@@ -1229,7 +1167,7 @@ GUI is located at the top right corner of the user interface. It shows different
 \begin{itemize}
 	\item \textbf{Light Intensity} - Control the intensity of the light source.
 	\item \textbf{Show Cloud} - Show the point cloud.
-	\item \textbf{Use Shader Material} - Use shader material to visualize the sphere generated by point picker in a different way. Here it's blinking between white and black.
+	\item \textbf{Use Shader Material} - Use shader material to visualize the sphere generated by point picker in a different way. Here it is blinking between white and black.
 	\item \textbf{Center} - Center viewpoint.
 	\item \textbf{Viewpoint Max} - Max viewpoint.
 	\item \textbf{Viewpoint Min} - Min viewpoint.
@@ -1345,7 +1283,7 @@ Except for patterns we mentioned above, we also added 2 corner cases where in th
     \label{fig:corner case under table}
 \end{figure}
 
-In the other corner case we change the scene to a pure cube where there's no clutter inside it. Thus, all samplings should be visible to a viewpoint inside the cube regardless of its position. The resulting visible sampling cloud is shown in Figure \ref{fig:corner case pure cube}. Our pipeline output the value \textbf{0}, which can also validate the correctness of computation. 
+In the other corner case we change the scene to a pure cube where there is no clutter inside it. Thus, all samplings should be visible to a viewpoint inside the cube regardless of its position. The resulting visible sampling cloud is shown in Figure \ref{fig:corner case pure cube}. Our pipeline output the value \textbf{0}, which can also validate the correctness of computation. 
 
 \vspace{10pt}
 
@@ -1373,7 +1311,7 @@ We present the visualization of the scene \emph{Conference Room 1} in each step.
 \vspace{10pt}
 
 To detect boundary ray 
-we have to estimate each point's category in terms of boundary from visible sampling cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in the left part pf Figure \ref{fig:conf1 0}. To better deliver the structure of the visible sampling cloud, in the right part there's a cloud with estimated ground truth RGB information. The resulting visualization will be displayed for each viewpoint pattern.
+we have to estimate each point's category in terms of boundary from visible sampling cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in the left part pf Figure \ref{fig:conf1 0}. To better deliver the structure of the visible sampling cloud, in the right part there is a cloud with estimated ground truth RGB information. The resulting visualization will be displayed for each viewpoint pattern.
 
 \vspace{30pt}
 
@@ -1653,7 +1591,7 @@ We follow the same workflow as shown before to present the visualization of the 
     \label{tab:result of copy room}
 \end{table}
 
-Although the result between 2 ratios has more difference than the data presented in previous experiments, it shows the same trend as we change pattern of viewpoint again. Hence, we think that \emph{Boundary Ray Ratio} can still represent the occlusion level of \emph{Copy Room}. 
+Although the result between 2 ratios has more difference than the data presented in previous experiments, it shows the same trend as we change pattern of viewpoint again. Hence, we think that \emph{Boundary Ray Ratio} still represents the occlusion level of \emph{Copy Room}. 
 
 \begin{figure}[H]
     \centering
@@ -1703,7 +1641,7 @@ In this section we conducted 3 experiments to compute and compare occlusion leve
 
 \section{Correlation}
 
-The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it's obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \emph{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
+The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it is obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \emph{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
 
 \subsection{Setup}
 
@@ -2108,7 +2046,7 @@ This graph also shows opposite trends between occlusion and metrics.
 
 \section{Conclusion}
 
-From the results of experiments we conducted in last section, it's hard to find correlation between level of occlusion and segmentation performance. An overall opposite tendency can be found in each scene, but we have to compare clouds pair-wisely to validate that the cloud with higher occlusion performs worse on semantic segmentation, which is apparently not always the case.
+From the results of experiments we conducted in last section, it is hard to find correlation between level of occlusion and segmentation performance. An overall opposite tendency can be found in each scene, but we have to compare clouds pair-wisely to validate that the cloud with higher occlusion performs worse on semantic segmentation, which is apparently not always the case.
 
 \section{Discussion}
 
@@ -2180,7 +2118,7 @@ It is important to get your text exactly clear to the reader and to avoid the im
 %-------------------------------------------------------------------------------------------------------------------------
 \subsection*{Writting and Structure}
 
-Writing is difficult work and usually takes more time than expected. It's beneficial to formalize and write down your progress as early as possible. Generally \emph{you cannot really be sure that you know something until you are able to explain it} well in writing. Hence conveying ideas exactly but in a concise and compact manner is very important and a key to successful writing. Preciseness and compactness are key to be able to describe a large amount of work and results that you have.
+Writing is difficult work and usually takes more time than expected. it is beneficial to formalize and write down your progress as early as possible. Generally \emph{you cannot really be sure that you know something until you are able to explain it} well in writing. Hence conveying ideas exactly but in a concise and compact manner is very important and a key to successful writing. Preciseness and compactness are key to be able to describe a large amount of work and results that you have.
 
 Your text must be smooth, forming a clear and logical order of your thoughts and arguments. Use \emph{parallelism} to introduce a set of topics, questions or issues and then elaborate on them subsequently in sections and paragraphs.
 
@@ -2439,12 +2377,12 @@ This will result in a nice and consistent reference:
 \vspace{5mm}
 More bad examples include the following
 \begin{quotation}
-\cite{HWH:10bad,Suss:10bad,HXS:09bad,CH:09bad,Strugar:10bad,Fout:07bad,WGS:07bad,CMF:05bad,AGLMR:02bad,Koltun:00bad,CYHPK:97bad}, 
+\cite{HWH:10bad,Suss:10bad,HXS:09bad,CH:09bad,Strugar:10bad,Fout:07bad,WGS:07bad,CMF:05bad,AGLMR:02bad,Koltun:00bad,CYHPK:97bad,YL:22}, 
 \end{quotation}
 
 and the good ones are these here
 \begin{quotation}
-\cite{HWH:10,SWF:10,HXS:09,CH:09,Strugar:10,FM:07,WGS:07,CMF:05,AGLMR:02,KCC:00,CYHPK:97}.
+\cite{HWH:10,SWF:10,HXS:09,CH:09,Strugar:10,FM:07,WGS:07,CMF:05,AGLMR:02,KCC:00,CYHPK:97,YL:22}.
 \end{quotation}
 
 
