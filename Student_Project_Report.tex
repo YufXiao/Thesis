@@ -89,7 +89,7 @@
 	\vfill \vfill \vfill
 	\begin{figure}[h]
 		\centering
-		\includegraphics*[width=0.6\textwidth]{figures/titleimage_yf.png}
+		\includegraphics*[width=1.0\textwidth]{figures/cover.png}
 	\end{figure}
 
 	\vfill
@@ -126,7 +126,7 @@
 \chapter{Abstract} \label{chp:abstract}
 %=====================================================================
 
-This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there is a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation software like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene with viewpoint information. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene \FIXME{not inverse} is inversely proportional to the quality of semantic segmentation.
+This thesis aims to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Occlusion is a prevalent phenomenon in 3D scenes, where objects often overlap or obstruct each other. This can significantly compromise the quality and integrity of data, leading to inaccuracies in semantic segmentation. While the issue of occlusion has garnered attention in 3D data processing, current research on how different occlusion levels impact the quality of semantic segmentation is rare. Specifically, there is a palpable gap in understanding how to quantify occlusion in the scene and how this characteristic influence the performance of advanced semantic segmentation software like the Minkowski Engine. To bridge the research gap, we proposed a novel metric to quantify the occlusion level of a scene. We then applied this metric to analyze the impact of occlusion on the quality of semantic segmentation methods for point cloud data. Our results show that the occlusion level of a scene has limited impact to the quality of semantic segmentation.
 
 \tableofcontents
 
@@ -212,18 +212,18 @@ Among the many factors influencing the semantic segmentation of point cloud data
 
 \section{Outline} \label{sec:outline}
 
-In this thesis we will first briefly mention related works and discuss the part which bring us inspirations. We will also introduce related technical concepts to give reader richer background information. Then our contributions and motivations will be stated. In the next Chapter we elaborate on problems which we have to solve in order to compute metrics proposed before correctly. Our technical solution are listed and explained in detail with figures and formulas in Chapter 3. Once we have the solution, we will start to implement concrete codes. Thus, in Chapter 4 implementation details of our algorithm are explained together with the technical stack applied to support our computational pipeline. In the end of this part we will introduce the structure of our software to give insights on how the whole pipeline works.
+In this thesis we will first briefly mention related works and discuss the part which bring us inspirations. We will also introduce related technical concepts to give reader richer background information. Then our contributions and motivations will be stated. In the next Chapter we elaborate on problems which we have to solve in order to compute metrics proposed before correctly. Our technical solution are listed and explained in detail with figures and formulas in Chapter \ref{chp:solution}. Once we have the solution, we will start to implement concrete codes. Thus, in Chapter \ref{chp:implementation} implementation details of our algorithm are explained together with the technical stack applied to support our computational pipeline. In the end of this part we will introduce the structure of our software to give insights on how the whole pipeline works.
 
 \vspace{10pt}
 
-For this thesis it is crucial to present our experimental results in a meaningful way. Hence, in Chapter 5 we need to first validate that those metrics we proposed can accurately reflect the level of occlusion of a point cloud. With successful validation we can then apply them to correlate with the performance of semantic segmentation. In the final step, we discuss the result of experiments and conclude the thesis.
+For this thesis it is crucial to present our experimental results in a meaningful way. Hence, in Chapter \ref{chp:experimental results} we need to first validate that those metrics we proposed can accurately reflect the level of occlusion of a point cloud. With successful validation we can then apply them to correlate with the performance of semantic segmentation. In the final step, we discuss the result of experiments and conclude this thesis.
 
 
 %=====================================================================
 \chapter{Problem Statement} \label{chp:problem}
 %=====================================================================
 
-In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that \emph{occluded area ratio} can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its occluded area ratio. From the computation of invisibility we should be able to generate a new cloud from visible area. With this point cloud we can apply the metric \emph{Boundary ray ratio} to estimate level of occlusion. To validate \emph{Boundary ray ratio} is a reliable metric in estimation, its value should be close to the value of \emph{occluded area ratio}. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
+In this thesis we aim to find the correlation between occlusion level and performance of semantic segmentation. Given a data set include mesh and point cloud, we have to first prove that \emph{occluded area ratio} can be computed correctly in a mesh. To extend this metric to point cloud, we would estimate a mesh from the cloud and we compute its occluded area ratio. Then we would directly generate a set of occluded point clouds to apply the \emph{Boundary ray ratio} to estimate level of occlusion. To validate \emph{Boundary ray ratio} is a reliable metric in estimation, its value should be close to the value of \emph{occluded area ratio}. After the validation we can compute occlusion level of point cloud together with the performance of semantic segmentation, then we compare performance of point cloud with different occlusion level to see if these metrics can correlated with each other.
 
 \vspace{10pt}
 
@@ -256,11 +256,11 @@ To determine which area is visible and which is not is the key point here to com
 
 \section{Mesh Estimation from Point Cloud} \label{mesh estimation of point cloud}
 
-If we want to apply \emph{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing \cite{pcl_tutorial_2023_rg} can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it is crucial for us to improve the result of mesh estimation. 
+If we want to compute \emph{occluded area ratio} from a point cloud, we have to first generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing \cite{pcl_tutorial_2023_rg} can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it is crucial for us to improve the result of mesh estimation. 
 
 \vspace{10pt}
 
-In case of region growing, we need to tweak its input parameters. An example of a code snippet is shown in List \ref{lst:region_growing}, with so many parameters to adjust, the result of region growing can be unstable, which also makes subsequent process difficult to control. Therefore, it is essential to find a more accurate way to estimate mesh.   
+In case of region growing, we need to tweak its input parameters. An example of a code snippet is shown in List \ref{lst:region_growing}, with many parameters to adjust, the result of region growing can be unstable, which also makes subsequent process difficult to control. Therefore, it is essential to find a more accurate way to estimate mesh.   
 \begin{lstlisting}[language=C++, caption=Region Growing, label=lst:region_growing]
     pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
     reg.setMinClusterSize(min_cluster_size);
@@ -303,7 +303,7 @@ This step is to find correlation between occlusion level and performance of sema
 \chapter{Technical Solution} \label{chp:solution}
 %=====================================================================
 
-In this chapter we will introduce our technical solution to the problem stated in \ref{chp:problem} in a detailed way. The overall workflow is shown below in Figure \ref{fig:overall flowchart of technical solution}.
+In this chapter we will introduce our technical solution to the problem stated in Chapter \ref{chp:problem} in a detailed way. The overall workflow is shown below in Figure \ref{fig:overall flowchart of technical solution}.
 
 \begin{figure}[H]
     \centering
@@ -312,7 +312,7 @@ In this chapter we will introduce our technical solution to the problem stated i
     \label{fig:overall flowchart of technical solution}
 \end{figure}
 
-\section{Compute occluded Area Ratio} \label{sec:compute occluded area ratio}
+\section{Compute Occluded Area Ratio} \label{sec:compute occluded area ratio}
 
 It is difficult to accurately compute occluded area of a triangle, since we don't exactly know which part is visible or occluded geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of the area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are occluded. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing occluded area ratio}.
 
@@ -530,13 +530,9 @@ A sampling is deemed visible if at least one ray originating from it does not in
 \end{algorithmic}
 \end{algorithm}
  
-\section{Estimate Mesh and Generate Point Cloud} \label{sec:estimate mesh and generate point cloud}
+\section{Estimate Mesh from Point Cloud} \label{sec:estimate mesh from point cloud}
 
-In this part we estimate mesh for subsequent computation of occluded area ratio. Since we want to make comparison between this ratio and occlusion level of point cloud, the cloud should be generated from this mesh. 
-
-\subsection{Estimate Mesh from Point Cloud} \label{par:estimate mesh from point cloud}
-
-As discussed in Section \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is normally difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the software \emph{GoCoPP} \cite{YL:22}, which can help us on finding good configurations of planar primitives in unorganized point cloud. Regarding the paper behind this software, algorithm in \emph{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \emph{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm \cite{Akkiraju:95}. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \emph{GoCoPP} to generate mesh from point cloud.
+In this part we estimate mesh for subsequent computation of occluded area ratio. As discussed in Section \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is normally difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the software \emph{GoCoPP} \cite{YL:22}, which can help us on finding good configurations of planar primitives in unorganized point cloud. Regarding the paper behind this software, algorithm in \emph{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \emph{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm \cite{Akkiraju:95}. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \emph{GoCoPP} to generate mesh from point cloud.
 
 \begin{figure}[H]
     \centering
@@ -698,7 +694,7 @@ After classifying all points in the scene, we compute ray-point intersection to 
 
 We assign different weights to \emph{non-boundary ray} and \emph{1-boundary ray} based on the principle that a ray with less boundary intersection contribute more to occlusion level. To make this ratio comparable with \emph{occluded area ratio}, we apply the square root here since the ray fills the volume of the space and the measurement grows at cubic rate while the area based ratio grows at quadratic rate. 
 
-\subsection{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
+\subsection{Ray Tracing Based Point Cloud Scanning} \label{subsec:ray tracing point cloud scanning}
 
 To validate that \emph{boundary ray ratio} is a reliable metric to represent occlusion level we would compare it with \emph{occluded area ratio}. Sufficient data is needed in this step as we cannot ensure the robustness of validation with only 2 or 3 comparisons. Besides, the comparison should be conducted within the same scene since the structure of different scene can differ significantly. Therefore, it is necessary to create a set of occluded point clouds for each scene.
 
@@ -1000,7 +996,7 @@ The outcome of octree partitioning is a structured tree. Within this tree, there
 
 The underlying node structure for our octree is captured succinctly in the following code representation:
 
-\begin{lstlisting} [language=C++, caption=Node Structure]
+\begin{lstlisting} [language=C++, caption=Octree Node Structure]
 struct OctreeNode {
     size_t index;
     size_t parent_index = -1;
@@ -1210,7 +1206,7 @@ Below are the buttons on the user interface.
 	\item \textbf{Ground Truth} - Specify file path of ground truth point cloud.
 	\item \textbf{Mesh} - Upload and visualize mesh.
 	\item \textbf{Compute Occlusion} - Compute occlusion of the point cloud.
-	\item \textbf{Extract Polygons} - Extract polygons from the point cloud.
+	\item \textbf{Extract Polygons} - Extract the polygon which is specified by interactively selecting points in the rendering of point cloud.
 	\item \textbf{Evaluate} - Evaluate the performance of semantic segmentation.
 \end{itemize}
 
@@ -1224,6 +1220,7 @@ This project is designated to be used in a web application. However, we can also
 Below shows arguments used for different usages. To get proper results, it is needed to modify parameters in the configuration file \emph{config.json}.
 
 \begin{itemize}
+        \item \textbf{-b} - Start the backend server.
 	\item \textbf{-moc} - Compute occluded area ratio.
 	\item \textbf{-bounoc} - Compute boundary ray ratio.
 	\item \textbf{-fscan} - Scan cloud with fixed viewpoint.
@@ -1241,13 +1238,13 @@ Experiment is one of the most important steps to evaluate the approaches present
 
 \section{Validation}
 
-The validation phase start by computing occlusion level of ground truth mesh. Different strategies of the placement of viewpoints will be applied to this scene. After that we compare the occlusion between estimated mesh and visible sampling cloud.
+The validation phase starts by computing occlusion level of ground truth mesh. Different strategies of the placement of viewpoints will be applied to this scene.
 
-\subsection{Occlusion Level of Ground Truth Mesh} \label{exp:occlusion of ground truth mesh}
+\subsection{Occlusion Level of Ground Truth Mesh} \label{subsec:occlusion of ground truth mesh}
 
 \paragraph{Setup}
 
-We prepare a ground truth mesh which shows a conference room \cite{McGuire:17} as our input. Since there are a large quantity of triangles in this mesh, this could potentially result in a significant computational workload, thus we use the software Meshlab \cite{meshlab} to help us reducing its size. We have 3 viewpoints in this scene, their positions are center of the scene, midpoint between center and maximal point and midpoint between center and minimal point. The mesh scene is shown in Figure \ref{fig:mesh with viewpoints} where all viewpoints are marked with red box. 
+We prepare a ground truth mesh which present a conference room \cite{McGuire:17} as our input. Since there are a large quantity of triangles in this mesh, this could potentially result in a significant computational workload, thus we use the software Meshlab \cite{meshlab} to help us reducing its size. We have 3 viewpoints in this scene, their positions are center of the scene, midpoint between center and maximal point and midpoint between center and minimal point. The mesh scene is shown in Figure \ref{fig:mesh with viewpoints} where all viewpoints are marked with red box. 
 
 \vspace{20pt}
 
@@ -1261,7 +1258,7 @@ We prepare a ground truth mesh which shows a conference room \cite{McGuire:17} a
 \vspace{10pt}
 
 We will conduct this experiment on different pattern of viewpoints as shown in Figure \ref{fig:pattern of viewpoints}. 
-There are around 10000 triangles in this scene, to simplify the computation, we set sample per unit area to be 10, which result in around 20000 samples as well as rays in total. 
+There are around 10000 triangles in this mesh, to simplify the computation, we set number of samples per unit area to 10, which result in around 20000 samples in total. In case there is one viewpoint in the scene, we have the same amount of rays as samples since we create rays from sampling to viewpoints. Therefore, number of rays will be doubled if we add one more viewpoint, tripled with 3 viewpoints and so on.
 
 \begin{figure}[H]
     \centering
@@ -1274,7 +1271,7 @@ There are around 10000 triangles in this scene, to simplify the computation, we 
 
 \paragraph{Results}
 
-Our results are shown in Table \ref{tab:result of each experiment}. We can see that the occlusion level decreases as the number of viewpoints increases. This is because with more viewpoints we can cover more area of the scene, which results in less occlusion.
+Our results are shown in Table \ref{tab:result of gt mesh} and Figure \ref{fig:result of gt mesh}. We can see that the occlusion level decreases as the number of viewpoints increases. This is because with more viewpoints we can cover more area of the scene, which results in less occlusion. It is important to note that there is only 1 viewpoint in pattern 1, 2 and 3, 2 viewpoints in pattern 4 and 5, and 3 viewpoints in pattern 6. 
 
 \vspace{10pt}
 
@@ -1285,17 +1282,56 @@ Our results are shown in Table \ref{tab:result of each experiment}. We can see t
         \textbf{Pattern} & \textbf{Occluded Area Ratio} \\
         \hline
         1 & 0.570 \\
-        2 & 0.484 \\
-		3 & 0.453 \\
-		4 & 0.391 \\
+        2 & 0.780 \\
+		3 & 0.571 \\
+		4 & 0.484 \\
+        5 & 0.453\\
+        6 & 0.391\\
         Under Table & 0.914 \\
         Pure Cube & 0.000 \\
 
         \hline
     \end{tabular}
     \caption{Result of Ground Truth Mesh}
-    \label{tab:result of each experiment}
+    \label{tab:result of gt mesh}
 \end{table}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=Pattern,
+            ylabel=Occluded Area Ratio,
+            xtick=data,
+            xticklabels={1, 2, 3, 4, 5, 6, "Under Table", "Pure Cube"},
+            x tick label style={rotate=45, anchor=east},
+            ytick={0,0.1,...,1},
+            ymin=0,
+            ymax=1,
+            grid=major,
+            legend entries={Occluded Area Ratio},
+            legend pos=north west,
+            width=15cm,
+            height=8cm,
+        ]
+        \addplot[
+             mark=square*,
+             blue
+        ] coordinates {
+            (1, 0.570)
+            (2, 0.780)
+            (3, 0.571)
+            (4, 0.484)
+            (5, 0.453)
+            (6, 0.391)
+            (7, 0.914)
+            (8, 0.000)
+        };
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Result of Ground Truth Mesh}
+    \label{fig:result of gt mesh}
+\end{figure}
 
 \vspace{10pt}
 
@@ -1321,13 +1357,17 @@ In the other corner case we change the scene to a pure cube where there is no cl
 
 Based on results presented above, we can take the \emph{Occluded Area Ratio} as a reliable metric to represent the occlusion level of a mesh.
 
-\subsection{Estimated Mesh and Scanned Cloud}
+\subsection{Estimated Mesh and Scanned Cloud} \label{subsec:estimate mesh and scanned cloud}
 
-In this section we are going to compute occlusion level of estimated mesh and visible sampling cloud respectively. 
+In this section we are going to compute occlusion level of estimated mesh and scanned point cloud respectively. 
 
 \paragraph{Setup}
 
-We prepare 2 original point clouds with name \emph{conference room 1} and \emph{conference room 2} respectively. For each of them, we estimate a mesh via \emph{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{exp:occlusion of ground truth mesh} and we can get the \emph{Occluded Area Ratio}. Since we have computed the ratio, the visible sampling cloud was also generated. The next step is to apply the computation pipeline for \emph{Boundary Ray Ratio}. Above workflow will be conducted for each scene 6 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}, and each time we cast 10000 rays in the scene randomly for \emph{Boundary Ray Ratio}.    
+We prepare 2 original point clouds with name \emph{Conference Room 1} and \emph{Conference Room 2} respectively. For each of them, we estimate a mesh via \emph{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{sec:compute occluded area ratio} to get \emph{Occluded Area Ratio}. The next step is to apply the computation pipeline of \emph{Boundary Ray Ratio} on scanned clouds, which will be generated by adopting the same patterns illustrated in Figure \ref{fig:pattern of viewpoints} to place spherical light sources as described in Section \ref{subsec:ray tracing point cloud scanning}.
+
+\vspace{10pt}
+
+Above workflow will be conducted for each scene 6 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}, and each time we cast 10000 rays in the scene randomly for calculating \emph{Boundary Ray Ratio}.    
 
 \paragraph{Conference Room 1} \label{par:conf1 result}
 
@@ -1335,7 +1375,7 @@ We present the visualization of the scene \emph{Conference Room 1} in each step.
 
 \vspace{10pt}
 
-To detect boundary ray we have to estimate each point's category in terms of boundary from visible sampling cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in the left part pf Figure \ref{fig:conf1 0}. To better deliver the structure of the visible sampling cloud, in the right part there is a cloud with estimated ground truth RGB information. The resulting visualization will be displayed for each viewpoint pattern.
+To detect boundary ray we have to know each point's category in terms of boundary from scanned point cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in Figure \ref{fig:conf1 0} (a). This boundary cloud is generated together with the ground truth scanned cloud displayed in Figure \ref{fig:conf1 0} (b). The resulting visualization will be displayed for clouds scanned under each pattern.
 
 \vspace{30pt}
 
@@ -1350,28 +1390,33 @@ To detect boundary ray we have to estimate each point's category in terms of bou
 
 In the end of this part, result of computation for \emph{Occluded Area Ratio} and \emph{Boundary Ray Ratio} is shown in Table \ref{tab:result of conference room 1} together with line graph illustrated in Figure \ref{fig:result of conference room 1}.
 
+\vspace{30pt}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 0 b.png}}  \label{fig:conf1 b 0} \hfill
-    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 0.png}} \label{fig:conf1 s 0}
-    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 1}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 0 b.png}}  \label{fig:conf1 0 b} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 0.png}} \label{fig:conf1 0 s}
+    \caption{Boundary and Scanning of Conference Room 1 under Pattern 1 with 38372 Points}
     \label{fig:conf1 0}
 \end{figure}
+
+\vspace{80pt}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 1 b.png}}  \label{fig:conf1 b 1} \hfill
     \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 1.png}} \label{fig:conf1 s 1}
-    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 2}
+    \caption{Boundary and Scanning of Conference Room 1 under Pattern 2 with 36152 Points}
     \label{fig:conf1 1}
 \end{figure}
+
+\vspace{80pt}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 2 b.png}}  \label{fig:conf1 b 2} \hfill
     \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 2.png}} \label{fig:conf1 s 2}
-    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 3}
+    \caption{Boundary and Scanning of Conference Room 1 under Pattern 3 with 38834 Points}
     \label{fig:conf1 2}
 \end{figure}
 
@@ -1379,15 +1424,17 @@ In the end of this part, result of computation for \emph{Occluded Area Ratio} an
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 4 b.png}}  \label{fig:conf1 b 4} \hfill
     \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 4.png}} \label{fig:conf1 s 200 4}
-    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 4}
+    \caption{Boundary and Scanning of Conference Room 1 under Pattern 4 with 74524 Points}
     \label{fig:conf1 4}
 \end{figure}
+
+\vspace{80pt}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 5 b.png}}  \label{fig:conf1 b 5} \hfill
     \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 5.png}} \label{fig:conf1 s 5}
-    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 5}
+    \caption{Boundary and Scanning of Conference Room 1 under Pattern 5 with 77206 Points}
     \label{fig:conf1 5}
 \end{figure}
 
@@ -1395,7 +1442,7 @@ In the end of this part, result of computation for \emph{Occluded Area Ratio} an
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 6 b.png}}  \label{fig:conf1 b 6} \hfill
     \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 6.png}} \label{fig:conf1 s 6}
-    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 6}
+    \caption{Boundary and Scanning of Conference Room 1 under Pattern 6 with 113358 Points}
     \label{fig:conf1 6}
 \end{figure}
 
@@ -1417,13 +1464,13 @@ In the end of this part, result of computation for \emph{Occluded Area Ratio} an
     \label{tab:result of conference room 1}
 \end{table}
 
-The result shows that as the number of viewpoints increase, the \emph{Occluded Area Ratio} decrease. There are 2 viewpoints in both pattern 2 and 3, thus the increase of data in pattern 3 is not against our conclusion. Values of \emph{Boundary Ray Ratio} describe the same tendency, and they do not differ too much from data in \emph{Occluded Area Ratio}. Therefore, based on the result we consider \emph{Boundary Ray Ratio} as a reliable metric to represent the occlusion level of the scene presented by point cloud \emph{Conference Room 1}.       
+The result shows that as the number of viewpoints increase, the \emph{Occluded Area Ratio} decrease. There are 2 viewpoints in both pattern 4 and 5, thus the increase of data in pattern 5 is not against our conclusion. Values of \emph{Boundary Ray Ratio} describe the same tendency, and they do not differ too much from data in \emph{Occluded Area Ratio}. Therefore, based on these results we consider \emph{Boundary Ray Ratio} as a reliable metric to represent the occlusion level of the scene presented by point cloud \emph{Conference Room 1}.       
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
-            title={Ratio in Different Patterns},
+            title={Ratios under Different Patterns},
             xlabel={Pattern},
             ylabel={Ratio},
             grid=both,
@@ -1467,9 +1514,11 @@ The result shows that as the number of viewpoints increase, the \emph{Occluded A
     \label{fig:result of conference room 1}
 \end{figure}
 
+\vspace{30pt}
+
 \paragraph{Conference Room 2}
 
-We present the visualization of the scene \emph{Conference Room 2} in each step as explained in \ref{par:conf1 result}. Result is shown in Table \ref{tab:result of conference room 2} and Figure \ref{fig:result of conference room 2}.
+The resulting mesh estimation is shown in Figure \ref{fig:estimate mesh from conference room 2}. Then we present the visualization of scanned point cloud together with its boundary cloud. The workflow here is the same as explained in \ref{par:conf1 result} and conducted with same patterns displayed in Figure \ref{fig:pattern of viewpoints}. Results are shown in the end of the part in Table \ref{tab:result of conference room 2} and Figure \ref{fig:result of conference room 2}.
 
 \vspace{10pt}
 
@@ -1483,48 +1532,48 @@ We present the visualization of the scene \emph{Conference Room 2} in each step 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 0 b.png}}  \label{fig:conf2 b 0} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 0.png}} \label{fig:conf2 s 0}
-    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 1}
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 0.png}} \label{fig:conf2 s 0}
+    \caption{Boundary and Scanning of Conference Room 2 under Pattern 1 with 36742 Points}
     \label{fig:conf2 0}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 1 b.png}}  \label{fig:conf2 b 1} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 1.png}} \label{fig:conf2 s 1}
-    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 2}
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 1.png}} \label{fig:conf2 s 1}
+    \caption{Boundary and Scanning of Conference Room 2 under Pattern 2 with 34270 Points}
     \label{fig:conf2 1}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 2 b.png}}  \label{fig:conf2 b 2} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 2.png}} \label{fig:conf2 s 2}
-    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 3}
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 2.png}} \label{fig:conf2 s 2}
+    \caption{Boundary and Scanning of Conference Room 2 under Pattern 3 with 35260 Points}
     \label{fig:conf2 2}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 4 b.png}}  \label{fig:conf2 b 4} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 4.png}} \label{fig:conf2 s 4}
-    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 4}
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 4.png}} \label{fig:conf2 s 4}
+    \caption{Boundary and Scanning of Conference Room 2 under Pattern 4 with 71012 Points}
     \label{fig:conf2 4}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 5 b.png}}  \label{fig:conf2 b 5} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 5.png}} \label{fig:conf2 s 5}
-    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 5}
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 5.png}} \label{fig:conf2 s 5}
+    \caption{Boundary and Scanning of Conference Room 2 under Pattern 5 with 72002 Points}
     \label{fig:conf2 5}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 6 b.png}}  \label{fig:conf2 b 6} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 6.png}} \label{fig:conf2 s 6}
-    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 6}
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 6.png}} \label{fig:conf2 s 6}
+    \caption{Boundary and Scanning of Conference Room 2 under Pattern 6 with 106272 Points}
     \label{fig:conf2 6}
 \end{figure}
 
@@ -1546,7 +1595,7 @@ We present the visualization of the scene \emph{Conference Room 2} in each step 
     \label{tab:result of conference room 2}
 \end{table}
 
-Both ratios display the same trend, thus we can conclude that \emph{Boundary Ray Ratio} is able to assess the occlusion level of \emph{Conference Room 2}.
+Both ratios display the same trend and also present a minor difference on value. Thus we can conclude that \emph{Boundary Ray Ratio} is able to assess the occlusion level of \emph{Conference Room 2}.
 
 \begin{figure}[H]
     \centering
@@ -1562,7 +1611,7 @@ Both ratios display the same trend, thus we can conclude that \emph{Boundary Ray
             legend pos=north east,
             legend style={cells={anchor=west}},
             xtick=data,  % Only show integer values on the x axis
-            xticklabels={1,2,3,4，5,6},  % Specify the labels for the x axis
+            xticklabels={1,2,3,4,5,6},  % Specify the labels for the x axis
             ymin=0.2,
             width=15cm,
             height=8cm
@@ -1599,9 +1648,9 @@ Both ratios display the same trend, thus we can conclude that \emph{Boundary Ray
 
 In this section we conducted 2 experiments to compute and compare occlusion level for different scenes. The result proves that \emph{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
 
-\section{Correlation}
+\section{Correlation} \label{sec:correlation}
 
-The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 2 scenes, it is obviously not a feasible way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \emph{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
+The major task in this part is to find correlation between occlusion level and performance of segmentation. Due to the difference in terms of complexity and structure of the 2 scenes, it is obviously not a feasible way to directly compare the metrics of them. Thus, We apply scanned point clouds generated in previous experiment as input data to \emph{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each segmented cloud. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
 
 \subsection{Setup}
 
@@ -1613,62 +1662,65 @@ We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of
 
 \vspace{10pt}
 
-Data with semantic information is then generated for each occluded point cloud via \emph{Minkowski Engine}. We calculate values of evaluation metrics in a pair-wise manner.
+Point cloud with estimated semantic information is then generated for each occluded point cloud via \emph{Minkowski Engine}. We calculate values of evaluation metrics in a pair-wise manner.
 
 
 \subsection{Results}
 
 In this part, we display visualization for each pair of clouds which includes one occluded cloud with ground truth RGB information and one cloud with semantic label represented by specific colors. In the end of each part, output of the computational pipeline will be shown in tables and graphs where we can compare data more conveniently.
 
-\paragraph{Conference Room 1}
+\paragraph{Conference Room 1} \label{par:corre conf1}
 
-We first exhibit visual output of generated point cloud and corresponding segmentation of \emph{Conference Room 1}.
+We first exhibit visual output of scanned point cloud again and then its corresponding segmentation of \emph{Conference Room 1}.
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 0.png}}  \label{fig:conf1 0 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.42\textwidth]{figures/conf1 0.png}}  \label{fig:conf1 0 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 0 seg.png}} \label{fig:conf1 0 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 1 of Conference Room 1}
+    \caption{Scanning and Corresponding Segmentation under Pattern 1 of Conference Room 1}
     \label{fig:conf1 0 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 1.png}}  \label{fig:conf1 1 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.42\textwidth]{figures/conf1 1.png}}  \label{fig:conf1 1 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 1 seg.png}} \label{fig:conf1 1 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Conference Room 1}
+    \caption{Scanning and Corresponding Segmentation under Pattern 2 of Conference Room 1}
     \label{fig:conf1 1 occ and seg}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 2.png}}  \label{fig:conf1 2 occluded} \hfill
-    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 2 seg.png}} \label{fig:conf1 2 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 1}
-    \label{fig:conf1 2 occ and seg}
-\end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 4.png}}  \label{fig:conf1 4 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.42\textwidth]{figures/conf1 2.png}}  \label{fig:conf1 2 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 2 seg.png}} \label{fig:conf1 2 seg}
+    \caption{Scanning and Corresponding Segmentation under Pattern 3 of Conference Room 1}
+    \label{fig:conf1 2 occ and seg}
+\end{figure}
+
+\vspace{80pt}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Scanning]{\includegraphics[width=0.42\textwidth]{figures/conf1 4.png}}  \label{fig:conf1 4 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 4 seg.png}} \label{fig:conf1 4 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Conference Room 1}
+    \caption{Scanning and Corresponding Segmentation under Pattern 4 of Conference Room 1}
     \label{fig:conf1 4 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 5.png}}  \label{fig:conf1 5 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.42\textwidth]{figures/conf1 5.png}}  \label{fig:conf1 5 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 5 seg.png}} \label{fig:conf1 5 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 5 of Conference Room 1}
+    \caption{Scanning and Corresponding Segmentation under Pattern 5 of Conference Room 1}
     \label{fig:conf1 5 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 6.png}}  \label{fig:conf1 6 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.42\textwidth]{figures/conf1 6.png}}  \label{fig:conf1 6 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 6 seg.png}} \label{fig:conf1 6 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 6 of Conference Room 1}
+    \caption{Scanning and Corresponding Segmentation under Pattern 6 of Conference Room 1}
     \label{fig:conf1 6 occ and seg}
 \end{figure}
 
@@ -1692,13 +1744,13 @@ The result is shown below in Table \ref{tab:evaluation metrics of conference roo
     \label{tab:evaluation metrics of conference room 1}
 \end{table}
 
-From the graph we can see opposite trends between occlusion level and evaluation metrics. 
+From the graph we can see opposite trends between occlusion level and evaluation metrics. This indicates an inversely proportional relationship. If we compare data of clouds under different patterns pair-wisely, the negative correlation does not always hold. For example, occlusion level of cloud under pattern 4 is higher than the value in pattern 6, but F1 score in pattern 4 is still higher. Based on that, we conclude that the occlusion level and performance of semantic segmentation are inversely proportional related to each other in terms of \emph{Conference Room 1}.
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
-        title={Evaluation Metrics in Different Patterns},
+        title={Occlusion and Evaluation in Different Patterns},
         xlabel={Pattern},
         ylabel={Value},
         legend pos=outer north east,
@@ -1732,60 +1784,61 @@ From the graph we can see opposite trends between occlusion level and evaluation
     
     \end{axis}
     \end{tikzpicture}
-    \caption{Evaluation Metrics of Conference Room 1}
+    \caption{Evaluation Result of Conference Room 1}
     \label{fig:evaluation metrics of conference room 1}
 \end{figure}
 
+\vspace{30pt}
 
 \paragraph{Conference Room 2}
 
-Same workflow here to present our results.
+We apply same workflow as described in \emph{Conference Room 1} to present our results.
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 0.png}}  \label{fig:conf2 0 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 0.png}}  \label{fig:conf2 0 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 0 seg.png}} \label{fig:conf2 0 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 1 of Conference Room 2}
+    \caption{Scanning and Corresponding Segmentation under Pattern 1 of Conference Room 2}
     \label{fig:conf2 0 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 1.png}}  \label{fig:conf2 1 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 1.png}}  \label{fig:conf2 1 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 1 seg.png}} \label{fig:conf2 1 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Conference Room 2}
+    \caption{Scanning and Corresponding Segmentation under Pattern 2 of Conference Room 2}
     \label{fig:conf2 1 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 2.png}}  \label{fig:conf2 2 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 2.png}}  \label{fig:conf2 2 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 2 seg.png}} \label{fig:conf2 2 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 2}
+    \caption{Scanning and Corresponding Segmentation under Pattern 3 of Conference Room 2}
     \label{fig:conf2 2 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 4.png}}  \label{fig:conf2 4 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 4.png}}  \label{fig:conf2 4 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 4 seg.png}} \label{fig:conf2 4 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation  under Light Pattern 4 of Conference Room 2}
+    \caption{Scanning and Corresponding Segmentation  under Pattern 4 of Conference Room 2}
     \label{fig:conf2 4 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 5.png}}  \label{fig:conf2 5 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 5.png}}  \label{fig:conf2 5 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 5 seg.png}} \label{fig:conf2 5 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 5 of Conference Room 2}
+    \caption{Scanning and Corresponding Segmentation under Pattern 5 of Conference Room 2}
     \label{fig:conf2 5 occ and seg}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 6.png}}  \label{fig:conf2 6 occluded} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf2 6.png}}  \label{fig:conf2 6 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 6 seg.png}} \label{fig:conf2 6 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 6 of Conference Room 2}
+    \caption{Scanning and Corresponding Segmentation under Pattern 6 of Conference Room 2}
     \label{fig:conf2 6 occ and seg}
 \end{figure}
 
@@ -1805,15 +1858,17 @@ The result is shown in Table \ref{tab:evaluation metrics of conference room 2} a
         6 & 0.223 & 0.837 \\
         \hline
     \end{tabular}
-    \caption{Evaluation Metrics of Conference Room 2}
+    \caption{Occlusion and Evaluation of Conference Room 2}
     \label{tab:evaluation metrics of conference room 2}
 \end{table}
+
+The results in pattern 1, 2 and 3 show the same trends as opposed to the result of \emph{Conference Room 1}. If we compare data in other patterns pair-wisely,  both positive and negative relationships can be found. Hence, we came to the conclusion that no obvious correlation can be found between occlusion level and performance of semantic segmentation in terms of \emph{Conference Room 2}.
 
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}
     \begin{axis}[
-        title={Evaluation Metrics in Different Patterns},
+        title={Occlusion and Evaluation in Different Patterns},
         xlabel={Pattern},
         ylabel={Value},
         legend pos=outer north east,
@@ -1847,7 +1902,7 @@ The result is shown in Table \ref{tab:evaluation metrics of conference room 2} a
     
     \end{axis}
     \end{tikzpicture}
-    \caption{Evaluation Metrics of Conference Room 2}
+    \caption{Occlusion and Evaluation of Conference Room 2}
     \label{fig:evaluation metrics of conference room 2}
 \end{figure}
 
@@ -1856,36 +1911,37 @@ The result is shown in Table \ref{tab:evaluation metrics of conference room 2} a
 \chapter{Conclusion and Discussion} \label{chp:conclusion}
 %=====================================================================
 
-\section{Conclusion}
+\section{Conclusion} \label{sec:conclusion}
 
-From the results of experiments we conducted in last section, it is hard to find correlation between level of occlusion and segmentation performance. An overall opposite tendency can be found in each scene, but we have to compare clouds pair-wisely to validate that the cloud with higher occlusion performs worse on semantic segmentation, which is apparently not always the case.
+Semantic segmentation achieved through \emph{Minkowski Engine} shows a good understanding on classification of structure and objects of the point cloud based indoor scene. But the accuracy of the output still needs to be improved in order to extend the application of semantic segmentation. Hence, in this bachelor thesis we focus on occlusion, which is a common feature to represent the loss of information of point cloud acquired by scanning, to investigate its impact on the performance of semantic segmentation. We first proposed the metric \emph{occluded area ratio} to reflect the occlusion level of mesh. Then we extend this concept to point cloud and proposed another metric \emph{boundary ray ratio}. Through the comparison of the 2 ratios of the same scene in Section \ref{subsec:estimate mesh and scanned cloud} we came to the conclusion that \emph{boundary ray ratio} is a reliable metric to estimate occlusion level of a point cloud. Based on that we applied this metric in our experiments to estimate how much the set of scanned point clouds are occluded and compare the output with the result of evaluation metric \emph{F1 score}. From the results described in Section \ref{sec:correlation}, we found that in the scene \emph{conference room 1} there exists an inversely proportional relationship between occlusion level and performance of semantic segmentation, while in \emph{Conference Room 2} there is no obvious correlation can be found. 
+
+\vspace{10pt}
+
+It is worth to mention some edge cases such as the cloud scanned under pattern 2 of \emph{conference room 2} shown in Figure \ref{fig:conf2 1 occ and seg}, where the cloud has the largest loss of information but scores highest on performance. If we inspect this cloud carefully, we can notice that despite the significant incompleteness of the whole scene, the region close to the corner exhibits a dense state, thus the segmentation method might have better understanding there due to high richness of structural information. This indicates that the performance is also affected by structure of point cloud and density of points in certain region. Therefore, occlusion alone is not enough to affect the result of semantic segmentation. It is critical to consider additional metrics to obtain a better evaluation. Other influential factors may include the complexity of the scenes being segmented, variations in placement of light sources, and the diversity of the interior items. Moreover, spatial relationship between different objects and structures may affect segmentation method's understanding on point cloud. According to these findings, we came to the conclusion that occlusion level of point cloud has limited impact on its performance of semantic segmentation.
+
+\vspace{10pt}
 
 \section{Discussion}
 
-\subsection{Limitation}
+\subsection{Limitation} \label{subsec:limit}
 
-There are some limitations on our work. Although we can estimate occlusion level of point cloud in a relative reliable way, the correlation cannot be validated properly. 
 
-\paragraph{Minkowski Engine}
+Although the reliability of the metric for estimating occlusion level has been proven, it is not computing the real occlusion of point cloud. Our way of estimation is achieved through random rays intersecting boundary points, which is highly dependent on the exterior structure of the scene. Due to the limited diversity of data used in our experiments, we cannot guarantee that our metric will remain effective on more complex structures.
 
-The ability to segment point cloud accurately is limited by this software. Every step in making this tool can affect the final output, such as data collection, data labeling and model applied for training etc. The whole process is difficult to control and thus the output can be unstable. 
+\vspace{10pt}
 
-\paragraph{Estimation of Occlusion Level}
+\subsection{Future Work} \label{subsec:futurework}
 
-We are estimating occlusion level through random rays intersecting boundary points. Due to the lack of ground truth occlusion information, despite the high reliability of this metric, we cannot compute the real occlusion level of a point cloud.
+Some future work can be done for improvements. More data with different structures and complexities can be used in experiments to improve robustness and reliability of occlusion metrics. The development of more comprehensive metrics for evaluating occlusion levels should be a priority, with a focus on considering the complex interrelations of elements within the scene. This could alternatively be done by proposing an evaluation system for assessing the completeness of the scene, where influential factors regarding semantic segmentation are assigned with certain weights for  computation.
 
-\paragraph{Occluded Point Cloud Generation}
+By addressing these aspects, we can expect advancements in devising better metrics or system to evaluate factors that may influence semantic segmentation.
 
-The way to generate point cloud can also affect the final result. In the part of experiments, we noticed that the value of point cloud under certain light pattern shows different correlation to others. Since the placement of light sources will result in producing occluded point clouds with different structures and complexities.
 
-\subsection{Future Work}
-
-Some future work can be done to improve our work.
 
 %-------------------------------------------------------------------------------------------------------------------------
 \chapter{Acknowledgements} \label{chp:acknowledgements}
 
-Acknowledge any data and code sources you used or for help you received.
+I would like to extend my heartfelt gratitude to the Visualization and MultiMedia Laboratory for providing me with the opportunity to undertake this challenging yet fascinating topic. I would also express my sincere appreciation to Prof. Dr. Renato Pajarola for the continual assistance and invaluable suggestions throughout the entire process. Special thanks go to Lizeth J. Fuentes Perez, whose detailed guidance and dedication to spending regular time discussing various aspects of this project have been instrumental. Lastly, I have to thank my family and friends, your support has allowed me to concentrate fully on completing this project. 
 
 \bibliographystyle{alpha}
 \bibliography{references}
