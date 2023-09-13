@@ -232,7 +232,7 @@ These problems are addressed in following points. Each of them will be provided 
 \begin{itemize}
     \item Compute \emph{occluded area ratio} of mesh.
     \item Estimate a mesh from the given point cloud.
-    \item Compute the \emph{occluded area ratio} for the estimated mesh and generate a new point cloud from the visible area of the mesh.
+    \item Compute the \emph{occluded area ratio} for the estimated mesh and generate a new point cloud by sub-sampling the original point cloud.
     \item Apply the \emph{Boundary ray ratio} metric to the new point cloud to estimate the level of occlusion and validate the reliability of the \emph{Boundary ray ratio} metric by comparing its value with the \emph{occluded area ratio}
     \item Compute the occlusion level and the performance of semantic segmentation of the point cloud, then compare these metrics between different clouds to find correlation. 
 \end{itemize}
@@ -274,10 +274,13 @@ In case of region growing, we need to tweak its input parameters. An example of 
     reg.extract(rg_clusters);
 \end{lstlisting}
 
-\section{Generate Point Cloud from Estimated Mesh} \label{generate point cloud from estimated mesh}
+\vspace{10pt}
 
-Once we have a mesh, we can directly generate points from each face of it. One way to do that is sampling points on polygon, which is normally triangle. We have to make the distribution of points as uniform as possible so that the structural information of mesh can be kept precisely. Otherwise, the generated point cloud will give us distorted information which may lead to significantly biased result of computation. The other way to have points from mesh could be related to ray in the scene. As we mentioned in section \ref{sec:occluded area ratio of mesh}, ray-tracing based mesh can be applied to our pipeline. When there is ray in the scene, we can compute intersections between ray and triangle. These intersections can present structural information of mesh as well, in case of first hit intersection point, we know that the region surrounding this point is visible. This information of visibility may contribute to subsequent computations. 
+\section{Sub-sample Original Point Cloud} \label{generate point cloud from estimated mesh}
 
+We would like to generate point clouds from the original cloud since for the validation of our metric we will need a set of comparable point clouds in terms of the proposed metric, where the \emph{comparable} means that these clouds come from the same scene and thus they share the same structural information, hence, it's comparable and can be used for computation of the metric. This can be done by applying different strategies to sub-sample the original point cloud.
+
+\vspace{10pt}
 
 \section{Boundary Ray Ratio of Point Cloud}
 
@@ -1375,7 +1378,7 @@ We present the visualization of the scene \emph{Conference Room 1} in each step.
 
 \vspace{10pt}
 
-To detect boundary ray we have to know each point's category in terms of boundary from scanned point cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in Figure \ref{fig:conf1 0} (a). This boundary cloud is generated together with the ground truth scanned cloud displayed in Figure \ref{fig:conf1 0} (b). The resulting visualization will be displayed for clouds scanned under each pattern.
+To detect boundary ray we have to know each point's category in terms of boundary from scanned point cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in Figure \ref{fig:conf1 0} (a). This boundary cloud is generated together with the ground truth scanned cloud displayed in Figure \ref{fig:conf1 0} (b). The resulting visualization will be displayed for scanned clouds under each pattern.
 
 \vspace{30pt}
 
@@ -1654,15 +1657,9 @@ The major task in this part is to find correlation between occlusion level and p
 
 \subsection{Setup}
 
-To generate occluded point cloud, we place spherical light sources in different locations of the scene. Each light source cast a set of rays based on the result of halton sampling on its surface. We will then record the point hit by rays for the first time to generate occluded point cloud.
+Since we have generated the set of occluded point clouds which also refer to scanned point cloud in previous experiment, we directly use it for semantic segmentation.
 
-\vspace{10pt}
-
-We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of viewpoints} to place our sphere lights in the scene. 
-
-\vspace{10pt}
-
-Point cloud with estimated semantic information is then generated for each occluded point cloud via \emph{Minkowski Engine}. We calculate values of evaluation metrics in a pair-wise manner.
+Point cloud with predicted semantic information is then generated for each occluded point cloud via \emph{Minkowski Engine}. We calculate evaluation metrics in a pair-wise manner as shown in Figure \ref{fig:conf1 0 occ and seg} as we have to check the correctness of predicted labels point by point.
 
 
 \subsection{Results}
@@ -1784,7 +1781,7 @@ From the graph we can see opposite trends between occlusion level and evaluation
     
     \end{axis}
     \end{tikzpicture}
-    \caption{Evaluation Result of Conference Room 1}
+    \caption{Occlusion and Evaluation of Conference Room 1}
     \label{fig:evaluation metrics of conference room 1}
 \end{figure}
 
