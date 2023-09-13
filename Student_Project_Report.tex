@@ -130,6 +130,10 @@ This thesis aims to analyze the impact of occlusion on the quality of semantic s
 
 \tableofcontents
 
+\listoffigures
+
+\lstlistoflistings
+
 \mainmatter
 
 %=====================================================================
@@ -137,12 +141,12 @@ This thesis aims to analyze the impact of occlusion on the quality of semantic s
 %=====================================================================
 
 
-Artificial intelligence has received significant attention in recent research. Fields such as natural language processing, image generation, and autonomous driving have benefited from considerable investments, and some related applications have been successfully implemented. Currently, the practical implementation of autonomous driving is still challenging due to the high demands for model performance and safety. To achieve its goals, AI needs to precisely understand its surrounding environment. Hence, semantic segmentation of scenes has become an essential topic. In this thesis, as opposed to focusing on outdoor scenes commonly associated with autonomous driving, we are more interested in understanding indoor environments. The correct classification and comprehension of indoor objects can assist in various aspects of human life, such as creating intelligent robots to help humans with a series of tasks. To understand scenes accurately, we need to provide AI with high-precision data, typically point clouds, which are a collection of data points defined in a three-dimensional coordinate system, represent the external surface of an object. These data points can capture the shape, and sometimes color, of the physical entities in a scanned environment. They are usually obtained from laser scanners or multi-view reconstructions. However, when collecting this type of data, objects are often obstructed due to the viewpoint of the scanner, leading to occlusions in the data, as shown in Figure \ref{fig:occlusion in a scene} [S3dis], where part of occlusions in a scene are marked with red box. Therefore, we aim to explore how occlusion affects AI's understanding of a scene. More specifically, we want to propose a metric to reflect the occlusion level of a scene and analyze how this characteristic influences the performance of semantic segmentation methods.
+Artificial intelligence has received significant attention in recent research. Fields such as natural language processing, image generation, and autonomous driving have benefited from considerable investments, and some related applications have been successfully implemented. Currently, the practical implementation of autonomous driving is still challenging due to the high demands for model performance and safety. To achieve its goals, AI needs to precisely understand its surrounding environment. Hence, semantic segmentation of scenes has become an essential topic. In this thesis, as opposed to focusing on outdoor scenes commonly associated with autonomous driving, we are more interested in understanding indoor environments. The correct classification and comprehension of indoor objects can assist in various aspects of human life, such as creating intelligent robots to help humans with a series of tasks. To understand scenes accurately, we need to provide AI with high-precision data, typically point clouds, which are a collection of data points defined in a three-dimensional coordinate system, represent the external surface of an object. These data points can capture the shape, and sometimes color, of the physical entities in a scanned environment. They are usually obtained from laser scanners or multi-view reconstructions. However, when collecting this type of data, objects are often obstructed due to the viewpoint of the scanner, leading to occlusions in the data, as shown in Figure \ref{fig:occlusion in a scene}, where part of occlusions in a scene are marked with red box. Therefore, we aim to explore how occlusion affects AI's understanding of a scene. More specifically, we want to propose a metric to reflect the occlusion level of a scene and analyze how this characteristic influences the performance of semantic segmentation methods.
 
 
 \begin{figure}[h]
     \centering
-    \includegraphics*[width=0.75\textwidth]{figures/occlusion in conf2.png}
+    \includegraphics*[width=1.0\textwidth]{figures/occlusion in conf2.png}
     \caption{Occlusion in a scene}
     \label{fig:occlusion in a scene}
 \end{figure}
@@ -153,11 +157,11 @@ To the best of our knowledge currently there is not explicit works that compute 
 
 \paragraph{Occlusion Guided Scene Flow Estimation on 3D Point Clouds.} \label{par:scene flow}
 
-This paper presents the OGSF-Net, a novel architecture designed to address the challenges of occlusions in 3D scene flow estimation. Occlusions, where certain regions in one frame are hidden in another, can hinder accurate flow estimation. The OGSF-Net uniquely integrates the learning of flow and occlusions, using an occlusion handling mechanism in its Cost Volume layer to measure frame correlations. This approach aims to enhance both flow accuracy and the understanding of occluded regions, marking a pioneering effort in 3D scene flow estimation on point clouds. To make this method robust, it is important to make an accurate occlusion prediction. Therefore, they evaluate the performance of occlusion estimation on data set FlyingThings3D, which provides the ground truth occlusion mask of point cloud. For evaluation, they use accuracy and F1 score as metrics. This inspires us to apply similar metrics to evaluate the result of semantic segmentation.
+This paper \cite{OR:21} presents the OGSF-Net, a novel architecture designed to address the challenges of occlusions in 3D scene flow estimation. Occlusions, where certain regions in one frame are hidden in another, can hinder accurate flow estimation. The OGSF-Net uniquely integrates the learning of flow and occlusions, using an occlusion handling mechanism in its Cost Volume layer to measure frame correlations. This approach aims to enhance both flow accuracy and the understanding of occluded regions, marking a pioneering effort in 3D scene flow estimation on point clouds. To make this method robust, it is important to make an accurate occlusion prediction. Therefore, they evaluate the performance of occlusion estimation on data set FlyingThings3D \cite{MIFDB16}, which provides the ground truth occlusion mask of point cloud. For evaluation, they use accuracy and F1 score as metrics. This inspires us to apply similar metrics to evaluate the result of semantic segmentation.
 
 \paragraph{OcCo: Unsupervised Point Cloud Pre-training via Occlusion Completion.} \label{par:OcCo occlusion completion}
 
-In this work, the authors proposed \emph{Occlusion Completion}, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weights for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
+In this work \cite{Wang:21}, the authors proposed \emph{Occlusion Completion}, an unsupervised pre-training method. The main idea is to generate occlusion in a point cloud, then use an encoder-decoder model to reconstruct occluded points, and apply the encoder weights for downstream tasks. What is interesting for us is how they generate occlusion in a scene. They view point cloud from a camera, which is placed in different viewpoints. At each viewpoint, points are projected to a camera reference frame, if some points share the same pixel coordinates, then there might be occlusion. This could also be an inspiration for us to generate occlusion in a scene.
 
 \section{Positioning and Contributions}
 
@@ -175,7 +179,7 @@ Based on the introduction in previous sections, we would elaborate on some key c
 
 \subsection{Point Cloud Data}
 
-A point cloud is a discrete set of data points in space. The points may represent a 3D shape or object. Each point position has its set of Cartesian coordinates (X, Y, Z), in some cases it can also include color(RGB) or intensity information. Point clouds are generally produced by 3D scanners or by photogrammetry software, which measure many points on the external surfaces of objects around them.[wiki] 
+A point cloud is a discrete set of data points in space. The points may represent a 3D shape or object. Each point position has its set of Cartesian coordinates (X, Y, Z), in some cases it can also include color(RGB) or intensity information. Point clouds are generally produced by 3D scanners or by photogrammetry software, which measure many points on the external surfaces of objects around them. 
 
 \vspace{10pt}
 
@@ -192,7 +196,7 @@ At the heart of this research lies the challenge of dealing with occlusions. In 
 
 \paragraph{Minkowski Engine.}
 
-The Minkowski Engine is an auto-differentiation library specifically designed for sparse tensors. In the area of deep learning, where dense tensors are commonly used, the Minkowski Engine brings a fresh perspective by focusing on sparse tensors. This is particularly beneficial for 3D data, which often exhibits spatial sparsity. The engine supports all standard neural network layers, including convolution, pooling, unpooling, and broadcasting operations, but tailored for sparse tensors. Such capabilities make it an ideal choice for semantic segmentation tasks, especially when dealing with point cloud data. [Minkowski]
+The Minkowski Engine \cite{CGS:19} is an auto-differentiation library specifically designed for sparse tensors. In the area of deep learning, where dense tensors are commonly used, the Minkowski Engine brings a fresh perspective by focusing on sparse tensors. This is particularly beneficial for 3D data, which often exhibits spatial sparsity. The engine supports all standard neural network layers, including convolution, pooling, unpooling, and broadcasting operations, but tailored for sparse tensors. Such capabilities make it an ideal choice for semantic segmentation tasks, especially when dealing with point cloud data. [Minkowski]
 
 \begin{figure}[h]
     \centering
@@ -236,7 +240,7 @@ These problems are addressed in following points. Each of them will be provided 
 
 \section{Occluded Area Ratio of Mesh} \label{sec:occluded area ratio of mesh}
 
-In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, there is less occluded region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender[Blender], the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
+In this part we have to prove that as the number of viewpoints increase, there will be more visible area. In another word, there is less occluded region and thus lower occlusion. As shown in figure \ref{fig:scene with light sources}, which is generated by simulating a scene with multiple light sources in blender \cite{blender2023}, the scene with 2 viewpoints has more bright area and less shadow, this also matches our intuition in real life. 
 
 \vspace{10pt}
 
@@ -244,20 +248,20 @@ To determine which area is visible and which is not is the key point here to com
 
 \begin{figure}[H]
     \centering
-    \subfigure[1 viewpoint]{\includegraphics[width=0.475\textwidth]{figures/1 vp.png} \label{fig:1 vp}} \hfill
-    \subfigure[2 viewpoints]{\includegraphics[width=0.475\textwidth]{figures/2 vp.png} \label{fig:2 vp}}
+    \subfigure[1 viewpoint]{\includegraphics[width=0.8\textwidth]{figures/1 vp.png} \label{fig:1 vp}} \hfill
+    \subfigure[2 viewpoints]{\includegraphics[width=0.8\textwidth]{figures/2 vp.png} \label{fig:2 vp}}
     \caption{Scene with Light Sources}
     \label{fig:scene with light sources}
 \end{figure}
 
 \section{Mesh Estimation from Point Cloud} \label{mesh estimation of point cloud}
 
-If we want to apply \emph{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it is crucial for us to improve the result of mesh estimation. 
+If we want to apply \emph{occluded area ratio} to point cloud, we have to generate mesh from it. This mesh is certainly only an estimation. Algorithm such as region growing \cite{pcl_tutorial_2023_rg} can segment points into clusters based on their properties. With these clusters we can estimate a plane for each of them, then we have a mesh composed by a set of planar primitives. The accuracy of estimation in this step will also affect subsequent process, hence, it is crucial for us to improve the result of mesh estimation. 
 
 \vspace{10pt}
 
-In case of region growing, we need to tweak its input parameters. An example of a code snippet is shown in list \ref{lst:region_growing}, with so many parameters to adjust, the result of region growing can be unstable, which also makes subsequent process difficult to control. Therefore, it is essential to find a more accurate way to estimate mesh.   
-\begin{lstlisting}[language=C++, caption=region growing, label=lst:region_growing]
+In case of region growing, we need to tweak its input parameters. An example of a code snippet is shown in List \ref{lst:region_growing}, with so many parameters to adjust, the result of region growing can be unstable, which also makes subsequent process difficult to control. Therefore, it is essential to find a more accurate way to estimate mesh.   
+\begin{lstlisting}[language=C++, caption=Region Growing, label=lst:region_growing]
     pcl::RegionGrowing<pcl::PointXYZ, pcl::Normal> reg;
     reg.setMinClusterSize(min_cluster_size);
     reg.setMaxClusterSize(max_cluster_size);
@@ -282,7 +286,7 @@ A common way to generate point cloud is conducted by casting lasers from scanner
 \begin{figure}[H]
     \centering
     \subfigure[Exterior]{\includegraphics[width=0.65\textwidth]{figures/conf2 ext.png}} \label{fig:exterior} 
-    \subfigure[Interior]{\includegraphics[width=0.65\textwidth]{figures/conf2 int.png}} \label{fig:interior}
+    \subfigure[Interior]{\includegraphics[width=0.65\textwidth, height=0.4\textwidth]{figures/conf2 int.png}} \label{fig:interior}
     \caption{Scene with Light Sources}
     \label{fig:Exterior and interior structure of a point cloud}
 \end{figure}
@@ -310,12 +314,12 @@ In this chapter we will introduce our technical solution to the problem stated i
 
 \section{Compute occluded Area Ratio} \label{sec:compute occluded area ratio}
 
-it is difficult to accurately compute occluded area of a triangle, since we don't exactly know which part is visible or invisible geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are invisible. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing occluded area ratio}.
+It is difficult to accurately compute occluded area of a triangle, since we don't exactly know which part is visible or occluded geometrically. The method applied here is to sample triangle, with samplings we can have a good coverage of the area. Next step is to compute each sampling's visibility to viewpoints in the scene. Then we are able to compute the ratio by counting how many points are occluded. A flow chart of the whole pipeline is shown below in Figure \ref{fig:flowchart of computing occluded area ratio}.
 
 \begin{figure}[H]
     \centering
     \includegraphics*[width=1.0\textwidth]{figures/Compute occluded Area Ratio.png}
-    \caption{Flowchart of Computing occluded Area Ratio}
+    \caption{Flowchart of Computing occluded area ratio}
     \label{fig:flowchart of computing occluded area ratio}
 \end{figure}
 
@@ -417,7 +421,7 @@ When there are multiple viewpoints in the scene, we have to generate same amount
 Ray-triangle intersection is a fundamental operation in computer graphics, especially in the context of ray tracing. Determining whether a ray intersects a triangle and finding the intersection point are crucial for rendering scenes composed of triangular meshes.
 \vspace{10pt}
 
-One of the most efficient and widely used algorithms for this purpose is the \emph{Möller–Trumbore} intersection algorithm. It operates by representing the triangle in barycentric coordinates, which allows it to avoid the computation of explicit plane equations. It then uses these coordinates to find the intersection point of the ray and the triangle, if it exists. The algorithm performs a series of vector operations including dot products and cross products to compute the barycentric coordinates and the distance from the ray's origin to the intersection point. More detail is shown below:
+One of the most efficient and widely used algorithms for this purpose is the \emph{Möller–Trumbore} \cite{MT:97} intersection algorithm. It operates by representing the triangle in barycentric coordinates, which allows it to avoid the computation of explicit plane equations. It then uses these coordinates to find the intersection point of the ray and the triangle, if it exists. The algorithm performs a series of vector operations including dot products and cross products to compute the barycentric coordinates and the distance from the ray's origin to the intersection point. More detail is shown below:
 
 \vspace{10pt}
 
@@ -532,25 +536,21 @@ In this part we estimate mesh for subsequent computation of occluded area ratio.
 
 \subsection{Estimate Mesh from Point Cloud} \label{par:estimate mesh from point cloud}
 
-As discussed in \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the work has been done by Mulin and Florent[GoCoPP], they proposed a method \emph{GoCoPP} to find good configurations of planar primitives in unorganized point cloud. Regarding their experiments, \emph{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \emph{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \emph{GoCoPP} to generate mesh from point cloud.
+As discussed in Section \ref{mesh estimation of point cloud}, region growing is an option here to segment points and to fit planar primitives based on segmented clusters of points, but the result is normally difficult to control, and the process of fitting plane from clusters might increase its instability. An alternative could be the software \emph{GoCoPP} \cite{YL:22}, which can help us on finding good configurations of planar primitives in unorganized point cloud. Regarding the paper behind this software, algorithm in \emph{GoCoPP} outperforms region growing on different evaluation metrics. Below in Figure \ref{segmentation results} shows the result of 2 methods where in case of region growing we only segmented the point cloud, while in \emph{GoCoPP} they already triangulated planar primitive by applying alpha shape algorithm \cite{Akkiraju:95}. With the triangulated mesh we can directly feed this data into our pipeline. Therefore, we choose to apply \emph{GoCoPP} to generate mesh from point cloud.
 
 \begin{figure}[H]
     \centering
-    \subfigure[Region Growing]{\includegraphics[width=0.65\textwidth]{figures/conf2 rg.png}}  \label{fig:region growing} 
-    \subfigure[GoCoPP]{\includegraphics[width=0.65\textwidth]{figures/conf2 gocopp.png}} \label{fig:gocopp}
+    \subfigure[Region Growing]{\includegraphics[width=0.8\textwidth]{figures/conf2 rg.png}}  \label{fig:region growing} 
+    \subfigure[Segmented via GoCoPP]{\includegraphics[width=0.8\textwidth]{figures/conf2 gocopp.png}} \label{fig:gocopp}
     \caption{Segmentation Methods}
     \label{segmentation results}
 \end{figure}
 
-We use the same pipeline introduced in \ref{sec:compute occluded area ratio} to compute its occluded area ratio to represent occlusion level. The result depends on which strategy we use to place viewpoints. We can randomly place them in the scene or with fixed position such as center of the scene's bounding box, this will be explained more detailed in \ref{chp:experimental results}.
-
-\subsection{Generate Point Cloud from Estimated Mesh} \label{par:generate point cloud from estimated mesh}
-
-The computation of occluded area of a mesh is based on visible samples on each triangle. Since we want to make comparison on occlusion level between mesh and point cloud, the cloud should reflect the information about visibility. Hence, here we directly create the visible point cloud from visible samplings.
+We use the same pipeline introduced in Section \ref{sec:compute occluded area ratio} to compute its occluded area ratio to represent occlusion level. The result depends on which strategy we use to place viewpoints. We can randomly place them in the scene or with fixed position such as center of the scene's bounding box, this will be explained more detailed in Chapter \ref{chp:experimental results}.
 
 \section{Compute Boundary Ray Ratio of Point Cloud} \label{compute boundary ray ratio of point cloud} 
 
-We define the boundary ray as the ray which intersects with boundary point. Although our input point cloud has ground truth label of each point, the cloud created from samplings does not preserve this kind of information. Therefore, the first step is to identify the semantic class of each point. With these information we can then compute if a ray intersects with boundary. A workflow of this part is shown in Figure \ref{fig:flowchart of computing boundary ray ratio}.
+We define boundary ray as the ray which intersects with boundary point. Hence, it's also important to categorize each point as either \emph{boundary} or \emph{non-boundary}. Normally, we regard wall, floor, ceiling and window as boundary, in the context of our input data set, we will also add board, column and beam to this class. The exact classification will be shown in Section \ref{sec:boundary ray ratio}. With all points classified we can then input these data into computational pipeline of \emph{boundary ray ratio}. An overall workflow of this part is shown in Figure \ref{fig:flowchart of computing boundary ray ratio}.
 
 \begin{figure}[H]
     \centering
@@ -559,15 +559,10 @@ We define the boundary ray as the ray which intersects with boundary point. Alth
     \label{fig:flowchart of computing boundary ray ratio}
 \end{figure}
 
-\subsection{Estimate Semantics}
-
-We have to first categorize point of the original ground truth cloud into either boundary or non-boundary. 
-Then we put the point of visible sampling cloud inside the pre-processed boundary cloud. To determine the category we compute nearest neighbours of a point, if there are more boundary points we classify it as boundary as well, and vice versa. The computation of nearest neighbours is realized through \emph{K-D Tree} algorithm, which offers us an efficient way to get a search point's \emph{K} nearest neighbour points, where \emph{K} indicate the number of neighbours.
-
 
 \subsection{Generate Random Rays}
 
-We want to use a ray from outside of the scene and directed towards the cloud, then we check how many boundaries the ray can intersects with, since this indicate how much occlusion a ray can contribute to the overall occlusion level. In case of a room, its boundary can be represented as a cuboid, which can at most has 2 faces intersect with one ray. Based on that, our rays can be classified as \emph{non-boundary ray}, \emph{1-boundary ray} and \emph{2-boundary ray} as shown in Figure \ref{classification of bound ray}
+We want to use a ray from outside of the scene and directed towards the cloud, then we check how many boundaries the ray can intersects with, since this indicate how much occlusion a ray can contribute to the overall occlusion level. In case of a room, its boundary can be represented as a cuboid, which can at most has 2 faces intersect with one ray. Based on that, our rays can be classified as \emph{non-boundary ray}, \emph{1-boundary ray} and \emph{2-boundary ray} as shown in Figure \ref{classification of bound ray}.
 
 \begin{figure}[H]
     \centering
@@ -582,6 +577,10 @@ We want to use a ray from outside of the scene and directed towards the cloud, t
 
 In our work, it is more feasible for us to create rays within the room which is always presented as point cloud. We first randomly generate two points within the bounding box of the scene. One as origin of the ray and the other is the look-at direction. To simulate a ray originates from outside and pass through the room we also take its opposite direction into consideration. Namely, for one ray we have to compute its intersection with points in both directions. 
 
+\vspace{10pt}
+
+A ray can intersect multiple boundary and non-boundary points at the same time, here we define that the ray has intersection with boundary on one direction when there is at least one boundary point intersect with it.
+
 \begin{figure}[H]
     \centering
     \includegraphics*[width=0.5\textwidth]{figures/ray with two directions.png}
@@ -595,12 +594,12 @@ Each point within the point cloud is represented as a small sphere with a define
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.32\textwidth]{figures/ray intersect point.png}
+    \includegraphics*[width=0.42\textwidth]{figures/ray intersect point.png}
     \caption{Ray Intersect Point}
     \label{fig:ray intersect point}
 \end{figure}
 
-To determine if a ray intersects with a sphere, we follow algorithm stated below:
+To determine if a ray intersects with a sphere, we follow the algorithm \cite{scratchapixel2023} stated below:
 
 \begin{algorithm}[H]
 \caption{Ray-Sphere Intersection Algorithm}
@@ -632,7 +631,7 @@ Openings or gaps in the scene, such as windows or doors, should not contribute t
 
 \vspace{10pt}
 
-For a set of points \( P = \{p_1, p_2, ..., p_n\} \) that define a polygon, we first estimate a plane \( \mathbf{N} \) that best fits these points. Once the plane is determined, all points are projected onto this plane to ensure they lie within the same plane. The next step involves calculating the intersection of the ray with this plane. If an intersection exists, we need to determine if this intersection point lies inside the polygon. This workflow is shown in Figure \ref{fig:estimate polygon from points}.
+For a set of points \( P = \{p_1, p_2, ..., p_n\} \) that define a polygon, we first estimate a plane \( \mathbf{N} \) that best fits these points. Once the plane is determined, all points are projected onto it to ensure they lie within the same plane. The next step involves calculating the intersection of the ray with this plane. If an intersection exists, we need to determine if this intersection point lies inside the polygon. This workflow is shown in Figure \ref{fig:estimate polygon from points}.
 
 \begin{figure}[H]
     \centering
@@ -662,97 +661,125 @@ Where \( \mathbf{i}, \mathbf{j}, \) and \( \mathbf{k} \) are the unit vectors in
     \label{fig:ray intersect polygon}
 \end{figure}
 
-\subsection{Boundary Ray Ratio}
+\subsection{Boundary Ray Ratio} \label{sec:boundary ray ratio}
 
-The ray within a scene may intersect with multiple boundary points or openings. In our approach, since we have defined the classification of rays with at most 2 boundaries, we only inspect whether each ray intersects with a boundary in each direction. Specifically, if a ray intersects boundaries in both directions, it is classified as a 2-boundary ray.
+Before we compute ray-boundary intersection, it is required to classify all points properly. Then we can categorize rays into different classes.
 
-\vspace{10pt}
+\paragraph{Classification of Points} To compute \emph{boundary ray ratio} correctly, we have to define the class of each point. The exact classification is shown in Table \ref{tab:classification of points}.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Boundary} & \textbf{Non-Boundary} \\
+        \hline
+        Wall & Chair \\
+        Floor & Sofa \\
+        Ceiling & Table \\
+        Sofa & Bookcase \\
+        Table & Clutter \\
+        Door &  \\
+        Window & \\
+        Beam & \\
+        Board & \\
+        Column & \\
+        \hline
+    \end{tabular}
+    \caption{Classification of Points}
+    \label{tab:classification of points}
+\end{table}
 
-After classifying all rays in the scene, we compute the boundary ray ratio, which exactly represents the occlusion level of a point cloud, using the following formula:
+\paragraph{Computation}
+
+After classifying all points in the scene, we compute ray-point intersection to determine which class the ray belongs to. Subsequently, we compute the boundary ray ratio using the following formula:
 
 \[
 \emph{{Occlusion Level}} = \sqrt{\frac{{\left(\frac{2}{3}\right) \cdot \emph{{non-boundary ray count}} + \left(\frac{1}{3}\right) \cdot \emph{{1-boundary ray count}}}}{{\emph{{total rays}}}}}
 \]
 
-\vspace{5pt}
-
-By evaluating the occlusion level with the above formula, we can analyze the proportion of rays that are obstructed versus those that are not, providing insight into the level of visibility within the scene.
-
-
-\section{Evaluate Performance of Segmentation} \label{evaluate performance of segmentation}
-
-In this step, we are going to compare performance of segmentation of point clouds with different occlusion level. Since the complexity and structure of each room scene can vary greatly, we want to do the comparisons within the same scene but with different occlusion level. To achieve this we would create a set of sub-sampled point clouds based on number of viewpoints in the scene.
+We assign different weights to \emph{non-boundary ray} and \emph{1-boundary ray} based on the principle that a ray with less boundary intersection contribute more to occlusion level. To make this ratio comparable with \emph{occluded area ratio}, we apply the square root here since the ray fills the volume of the space and the measurement grows at cubic rate while the area based ratio grows at quadratic rate. 
 
 \subsection{Ray Tracing Based Point Cloud Scanning} \label{sec:ray tracing point cloud scanning}
 
-To down-sample the original point cloud, we would perform it in a manner similar to sampling a real scene using a laser scanner. The points stored in the data acquired from the scanner are those that are visible to it. If we apply this to original point cloud, we are actually creating a sub-sampled data set based on visibility to light sources. 
+To validate that \emph{boundary ray ratio} is a reliable metric to represent occlusion level we would compare it with \emph{occluded area ratio}. Sufficient data is needed in this step as we cannot ensure the robustness of validation with only 2 or 3 comparisons. Besides, the comparison should be conducted within the same scene since the structure of different scene can differ significantly. Therefore, it is necessary to create a set of occluded point clouds for each scene.
+
+\vspace{10pt}
+
+We would perform it in a manner similar to sampling a real scene using a laser scanner. The points stored in the data acquired from the scanner are those that are visible to it. If we apply this to original point cloud, we are actually creating a sub-sampled data set based on visibility to light sources. 
 
 \paragraph{Spherical Light Source}
 
-To simulate a light source that emits rays in all directions, we use a spherical model. Points are sampled on the surface of this sphere using the Halton sequence, which we introduced in Algorithm \ref{alg:halton}. Each point represents a direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan. An example of the result of this method is shown in Figure \ref{fig:halton sample sphere}.
+To simulate a light source that emits rays in all directions, we use a spherical model. Points are sampled on the surface of this sphere, and each point represents a direction for a ray. The number of rays (or sampled points) is predetermined and can be adjusted based on the desired resolution or accuracy of the scan. The exact sampling method is inspired by the work which is dealing with parameterizing surface of spheres \cite{FH:05}. The specific algorithm is as follows:
 
-\begin{figure}[H]
-    \centering
-    \includegraphics*[width=0.4\textwidth]{figures/halton sample sphere.png}
-    \caption{Halton Sample Sphere}
-    \label{fig:halton sample sphere}
-\end{figure}
-
-The sampling on the sphere is achieved using halton sampling in the azimuthal (\( \theta \)) and polar (\( \phi \)) angles. This method ensures a uniform distribution of points over the sphere's surface, providing a comprehensive representation of the light source's emission pattern. The coordinates of a sampled point on the sphere are computed based on the center point of the sphere and a predefined radius. The specific algorithm is as follows:
-
-\begin{algorithm}[H]
-\caption{Halton Sampling on Sphere Surface}
+\begin{algorithm}[H] 
+\label{alg:surface parameterization based sampling}
+\caption{Surface Parameterization Based Sampling}
 \begin{algorithmic}[1]
-\Require Sphere center, Number of samples, Radius
-\State Initialize an empty list of samples
-\For{\(i = 0\) to \( \text{number of samples} - 1\)}
-    \State Compute azimuthal angle \( \theta = 2 \pi \times \text{halton}(i, 2) \)
-    \State Compute polar angle \( \phi = \arccos(2 \times \text{halton}(i, 3) - 1) \)
-    \State Compute sample point coordinates:
-    \State \( x = \text{center.x} + \text{radius} \times \sin(\phi) \times \cos(\theta) \)
-    \State \( y = \text{center.y} + \text{radius} \times \sin(\phi) \times \sin(\theta) \)
-    \State \( z = \text{center.z} + \text{radius} \times \cos(\phi) \)
-    \State Add the computed point to the samples list
-\EndFor
-\State Set the properties of the point cloud (width, height, and density)
-\State \Return the list of samples
+    \Require Number of horizontal samplings \(sampling\_hor\) and number of vertical sampling \(sampling\_ver\)
+    \Ensure A vector of directions constituting the scanning pattern.
+        \State Initialize a vector \(pattern\) with size \(sampling\_hor \times sampling\_ver\)
+        \State \(hor \gets sampling\_hor\)
+        \State \(ver \gets sampling\_ver\)
+        
+        \For{\(i = 0\) to \(sampling\_hor - 1\)}
+            \State \(cos\_i \gets \cos\left(\frac{2\pi i}{hor}\right)\)
+            \State \(sin\_i \gets \sin\left(\frac{2\pi i}{hor}\right)\)
+            
+            \For{\(j = 0\) to \(sampling\_ver - 1\)}
+                \State \(sin\_j \gets \sin\left(\frac{2\pi j}{ver}\right)\)
+                \State \(cos\_j \gets \cos\left(\frac{2\pi j}{ver}\right)\)
+                \State Create a vector \(dir\) with elements \(cos\_i \cdot sin\_j\), \(sin\_i \cdot sin\_j\), and \(cos\_j\)
+                \State \(pattern[j + i \cdot sampling\_ver] \gets dir\)
+            \EndFor
+        \EndFor
+        \State \Return pattern
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Evaluate Performance with Metrics}
+An example of the result of this method is shown in Figure \ref{fig:sample sphere} with multiple views. 
 
-Evaluating the performance of semantic segmentation is crucial to ensure its reliability and effectiveness. Metrics serve as standardized measures to assess the quality of segmentation results, comparing the predicted outputs against the ground truth. In this part, we discuss the metrics used to evaluate the performance of semantic segmentation models.
+\begin{figure}[H]
+    \centering
+    \subfigure[Frontal View]{\includegraphics*[width=0.4\textwidth]{figures/orthographic scan.png}} \label{fig:frontal view} \hfill
+    \subfigure[View from Above]{\includegraphics*[width=0.4\textwidth]{figures/ortho scan v2}} \label{fig:view from above}
+    \caption{Sample Sphere}
+    \label{fig:sample sphere}
+\end{figure}
 
-\paragraph{Semantic Classes}
+\section{Evaluate Performance of Segmentation} \label{evaluate performance of segmentation}
 
-Semantic segmentation requires a clear definition of the classes that are to be identified within the data set. Due to discrepancies between the ground truth point cloud data set, denoted as [S3dis], and the data set used for the pre-trained model, we have extracted those common semantic classes for our segmentation task in Table \ref{tab:semantic_classes}.
+Evaluating the performance of semantic segmentation is crucial to ensure its reliability and effectiveness. Metrics serve as standardized measures to assess the quality of segmentation results, comparing the predicted outputs against the ground truth. In this part, we discuss the semantic classes as well as metrics used to evaluate the performance of semantic segmentation models.
+
+\subsection{Semantic Classes}
+
+Semantic segmentation requires a clear definition of the classes that are to be identified within the data set. Due to discrepancies between the ground truth point cloud data set, denoted as S3dis \cite{Iro:16}, and the data set used for the pre-trained model in \emph{Minkowski Engine}, we have to make sure that their classes are comparable. Classes in S3dis is shown in Table \ref{tab:semantic_classes}. When we do the comparison between points' semantic labels, we categorize 
+class which is not included in the table to \emph{Clutter}.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|}
         \hline
-        \textbf{Semantic Class} & \textbf{Class ID} \\
+        \textbf{Semantic Class} & \textbf{ID} \\
         \hline
         Wall & 0 \\
         Floor & 1 \\
-        Ceiling & 1 \\
-        Chair & 4 \\
-        Sofa & 5 \\
-        Table & 6 \\
-        Door & 7 \\
-        Window & 8 \\
-        Bookcase & 9 \\
-        Beam & 20 \\
-        Board & 21 \\
-        Clutter & 25 \\
-        Column & 26 \\
+        Ceiling & 2 \\
+        Chair & 3 \\
+        Sofa & 4 \\
+        Table & 5 \\
+        Door & 6 \\
+        Window & 7 \\
+        Bookcase & 8 \\
+        Beam & 9 \\
+        Board & 10 \\
+        Clutter & 11 \\
+        Column & 12 \\
         \hline
     \end{tabular}
-    \caption{Mapping of semantic classes to their respective class IDs.} \FIXME{Change class}
+    \caption{Mapping of semantic classes to their respective class IDs.}
     \label{tab:semantic_classes}
 \end{table}
 
-Given a segmented point cloud, we can evaluate the segmentation by calculating various metrics such as accuracy, precision, and recall for each class. In semantic segmentation of point clouds, each point in the cloud is classified into one of several possible categories, which are True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN) regarding the correctness of segmentation. The Algorithm \ref{alg:computation of tp, tn, fp, fn} demonstrates how to classify points into them and counting the values. With these values we can then compute metrics explained in subsequent section.  
+Given a segmented point cloud, we can evaluate the segmentation by calculating various metrics such as precision, and recall for each class. In semantic segmentation of point clouds, each point in the cloud is classified into one of several possible categories, which are True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN) regarding the correctness of segmentation. The Algorithm \ref{alg:computation of tp, tn, fp, fn} demonstrates how to classify points into them and counting the values. With these values we can then compute metrics explained in subsequent section.  
 
 \begin{algorithm}[H]
 \caption{Computation of TP, TN, FP, and FN for Point} \label{alg:computation of tp, tn, fp, fn}
@@ -784,7 +811,7 @@ Given a segmented point cloud, we can evaluate the segmentation by calculating v
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Metrics} \label{par:metrics}
+\subsection{Evaluation Metrics} \label{par:evaluation metrics}
 
 To evaluate the performance of our model in the context of point cloud segmentation, we employ several widely-recognized metrics, which includes \emph{Precision}, \emph{Recall} and \emph{F1 Score}. 
 
@@ -869,7 +896,7 @@ In this chapter, we first delve deeper into the core part of implementation of o
 
 \section{PCL and Eigen Serves for Computation}\label{sec:pcl and eigen}
 
-The Point Cloud Library (PCL) stands as the backbone of our implementation. We rely on PCL to accomplish a set of tasks, ranging from reading point cloud to evaluating its occlusion levels. Parallel to PCL, the Eigen library emerges as an invaluable asset. It is our preferred choice for handling mathematical operations that are indispensable to our pipeline.
+The Point Cloud Library (PCL) \cite{Rusu_ICRA2011_PCL} stands as the backbone of our implementation. We rely on PCL to accomplish a set of tasks, ranging from reading point cloud to evaluating its occlusion levels. Parallel to PCL, the Eigen library \cite{eigenweb} emerges as an invaluable asset. It is our preferred choice for handling mathematical operations that are indispensable to our pipeline.
 
 \subsection{Handling Point Cloud Data}
 
@@ -901,11 +928,11 @@ Computation of ray-opening intersection plays an crucial role in calculating bou
 
 \paragraph{Plane Estimation}
 
-The initial step is fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm embedded within PCL. In the code snippet shown below, PCL's \emph{SACSegmentation} is configured to detect planar models. If successful, it retrieves the plane's coefficients.
+The initial step is fitting a plane to each cluster's point data. For this, we rely on the RANSAC algorithm \cite{RANSAC} embedded within PCL. In the code snippet shown below, PCL's \emph{SACSegmentation} \cite{pcl_planar_segmentation_2023} is configured to detect planar models. If successful, it retrieves the plane's coefficients.
 
 \paragraph{Formation of Polygon}
 
-With the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. Once our points sharing a planar space, we compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points. Here, PCL's \emph{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud, which we refer to as \emph{cloud projected}. The usage of PCL's \emph{ConvexHull} class create a cloud representing the polygon.
+With the plane's coefficients, our next move is to project every point in the cluster onto this plane. This ensures that all points lie in a co-planar fashion. Once our points sharing a planar space, we compute the convex hull of each cluster. This results in a 2D polygon within a 3D space, effectively enveloping all the cluster points. Here, PCL's \emph{ProjectInliers} projects the points onto the detected plane, thereby creating a co-planar point cloud. The usage of PCL's \emph{ConvexHull} \cite{cormen2001introduction} class create a cloud representing the polygon.
 
 
 \subsection{Ray Tracing Based Intersection Computation} \label{sec:ray tracing}
@@ -963,7 +990,7 @@ struct Triangle {
 
 \paragraph{Octree Partitioning}
 
-In the context of our pipeline, it can be quite overwhelming to iterate over all points for rat-tracing computation. A naive approach, iterating through each data point and ray, would be computationally taxing. Recognizing this challenge, it becomes imperative to partition our data into more manageable chunks. Commonly, data structures such as BVH, KD-Tree, and octree are used for this purpose. Since there existing an octree implementation in PCL, we employ it for partitioning our data.
+In the context of our pipeline, it can be quite overwhelming to iterate over all points for rat-tracing computation. A naive approach, iterating through each data point and ray, would be computationally taxing. Recognizing this challenge, it becomes imperative to partition our data into more manageable chunks. Commonly, data structures such as BVH \cite{ERICSON2005235} and octree \cite{octree} are used for this purpose. Since there existing an octree implementation in PCL, we employ it for partitioning our data.
 
 \vspace{10pt}
 
@@ -1036,7 +1063,7 @@ The \emph{minimal point} and \emph{maximal point} can be obtained from the minim
 
 \paragraph{Partition Point Cloud}
 
-For partitioning the point cloud, most steps are the same as mentioned in \ref{par:mesh octree}. The only difference is that we don't need to compute bounding box based on triangle for each node, bounding box offered by PCL should be enough for this part.
+For partitioning the point cloud, most steps are the same as mentioned in \ref{par:mesh octree}. The only difference is that we don't need to compute bounding box based on triangle for each node, methods offered by PCL' octree class already meet our needs.
 
 \paragraph{Ray Intersecting with Bounding Box}
 
@@ -1047,7 +1074,7 @@ To determine whether a ray intersects with a bounding box, there are two primary
     \item If the ray's origin is outside the bounding box, a specialized algorithm is employed to check for the intersection.
 \end{itemize}
 
-The underlying principle is to inspect how the ray interacts with the bounding box by calculating potential intersection points for each dimension (i.e., x, y, and z). This method of computation involves the Slab technique, which calculates the intersection of the ray with the planes that define the bounding box.
+The underlying principle is to inspect how the ray interacts with the bounding box by calculating potential intersection points for each dimension (i.e., x, y, and z). This method of computation involves the slab technique \cite{scratchapixel_raybox}, which calculates the intersection of the ray with the planes that define the bounding box.
 
 
 \section{Auxiliary Components} \label{subsec:supporting libraries}
@@ -1083,7 +1110,6 @@ void on_message(server& s, websocketpp::connection_hdl hdl, server::message_ptr 
 		std::string payload = msg->get_payload();
 		if (payload.substr(0, 3) == "-i=") {
 			data_holder.setFileName(payload.substr(3, payload.length()));
-			data_holder.setInputPath("../files/" + payload.substr(3, payload.length()));
 		}
 		...
 int main{
@@ -1093,18 +1119,17 @@ int main{
         ...
 	print_server.listen(8080);
 	print_server.run();
-	...	
 }
 \end{lstlisting}
 
 %=====================================================================
 \section{Web-Based User Interface} \label{sec:three.js}
 
-Our software is elegantly encapsulated within the framework of a web application. The PCL-based backend is the computational powerhouse, whereas the frontend enhances user interaction. Detailed structures of the backend were previously introduced in Section \ref{sec:pcl and eigen}. In this section, our focus shifts to the frontend components and how they seamlessly communicate with the backend.
+Our software is encapsulated within the framework of a web application. The PCL-based backend is responsible for computation, whereas the frontend enhances user interaction. Detailed structures of the backend were previously introduced in Section \ref{sec:pcl and eigen}. In this section, we will briefly introduce usage of the user interface.
 
 \vspace{10pt}
 
-The user interface's visual representation is captured in Figure \ref{fig:web user interface}.
+The user interface's visual representation is displayed in Figure \ref{fig:web user interface}.
 
 \begin{figure}[H]
 	\centering
@@ -1115,11 +1140,11 @@ The user interface's visual representation is captured in Figure \ref{fig:web us
 
 \subsection{Three.js Serves for Visualization}
 
-Three.js emerges as a versatile, cross-browser JavaScript library, complemented with an API designed to craft and exhibit animated 3D computer graphics directly in a web browser. This dynamic library provides the interactive visualization pivotal for our application.
+Three.js \cite{threejs} is a cross-browser JavaScript library built upon WebGL, complemented with an API designed to exhibit animated 3D computer graphics directly in a web browser. This dynamic library provides the interactive visualization pivotal for our application. 
 
-\subsection{Chosen Web Technology Stack}
+\paragraph{Web Technology Stack}
 
-Given our choice of three.js for visualization, an ensemble of complementary web technologies is integrated to shape our frontend. The roster for our web tech stack is as follows:
+Given our choice of three.js for visualization, a group of complementary web technologies is integrated to build our frontend. The technologies used in our web tech stack are as follows:
 
 \begin{itemize}
 	\item \textbf{TypeScript} - An enhanced version of JavaScript, TypeScript introduces a stricter syntax and the convenience of optional static typing, fortifying code robustness and clarity.
@@ -1159,7 +1184,7 @@ GUI is located at the top right corner of the user interface. It shows different
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.25\textwidth]{figures/GUI.png}
+    \includegraphics*[width=0.25\textwidth]{figures/gui.png}
     \caption{GUI}
     \label{fig:gui}
 \end{figure}
@@ -1168,11 +1193,11 @@ GUI is located at the top right corner of the user interface. It shows different
 	\item \textbf{Light Intensity} - Control the intensity of the light source.
 	\item \textbf{Show Cloud} - Show the point cloud.
 	\item \textbf{Use Shader Material} - Use shader material to visualize the sphere generated by point picker in a different way. Here it is blinking between white and black.
-	\item \textbf{Center} - Center viewpoint.
-	\item \textbf{Viewpoint Max} - Max viewpoint.
-	\item \textbf{Viewpoint Min} - Min viewpoint.
-	\item \textbf{All lights} - Show all light sources in the scene.
+	\item \textbf{Center} - Show center viewpoint.
+	\item \textbf{Viewpoint Max} - Show max-mid viewpoint.
+	\item \textbf{Viewpoint Min} - Show min-mid viewpoint.
 	\item \textbf{Picker Size} - Size of the point picker.
+        \item  \textbf{Semantic} - When this enabled, the semantic label of a point will be displayed after right clicking with mouse.
 \end{itemize}
 
 \paragraph{Buttons}
@@ -1181,30 +1206,30 @@ Below are the buttons on the user interface.
 
 \begin{itemize}
 	\item \textbf{Original Cloud} - Upload and visualize original point cloud.
-	\item \textbf{Segmented Cloud} - Upload and visualize segmented point cloud.
-	\item \textbf{Semantic Cloud} - Upload and visualize semantic point cloud.
+	\item \textbf{Semantic} - Specify file path of point cloud generated from semantic segmentation.
+	\item \textbf{Ground Truth} - Specify file path of ground truth point cloud.
 	\item \textbf{Mesh} - Upload and visualize mesh.
-	\item \textbf{Compute Occlusion} - Compute occlusion of the scene.
-	\item \textbf{Extract Polygons} - Extract polygons from the scene.
-	\item \textbf{Evaluate} - Evaluate the performance of segmentation.
+	\item \textbf{Compute Occlusion} - Compute occlusion of the point cloud.
+	\item \textbf{Extract Polygons} - Extract polygons from the point cloud.
+	\item \textbf{Evaluate} - Evaluate the performance of semantic segmentation.
 \end{itemize}
 
-\subsection{Software Structure}
 
+\subsection{Command Line Usage}
 
-\subsection{Command Line Only Mode}
-
-This project is designated to be used in a web application. However, we also provide a command line only mode for users who want to use this project in a command line environment. In this mode, we use a simple command line interface to interact with the backend.
+This project is designated to be used in a web application. However, we can also manipulate the computational pipeline in command line environment. In addition to functionalities to compute occlusion level and evaluation metrics directly through user interface, there are commands performs intermediate operations within our workflow, such as point cloud scanning, point cloud reconstruction and computation of occluded area ratio etc.  
 
 \paragraph{Arguments and Corresponding Functionality}
 
+Below shows arguments used for different usages. To get proper results, it is needed to modify parameters in the configuration file \emph{config.json}.
+
 \begin{itemize}
-	\item \textbf{-moc} - Mesh Occlusion Computation.
-	\item \textbf{-rgoc} - Region Growing Occlusion Computation.
-	\item \textbf{-poc} - Point Cloud Occlusion Computation.
+	\item \textbf{-moc} - Compute occluded area ratio.
+	\item \textbf{-bounoc} - Compute boundary ray ratio.
 	\item \textbf{-fscan} - Scan cloud with fixed viewpoint.
-	\item \textbf{-recon} - Reconstruct point cloud from .txt file.
+	\item \textbf{-recon} - Reconstruct point cloud with ground truth labels from .txt file.
 	\item \textbf{-eval} - Evaluate performance of segmentation.
+        \item \textbf{-t2ply} - Transfer the format of .pcd files to .ply.
 \end{itemize}
 
 
@@ -1222,7 +1247,7 @@ The validation phase start by computing occlusion level of ground truth mesh. Di
 
 \paragraph{Setup}
 
-We prepare a ground truth mesh which shows a conference room[McGuire Archives] as our input. We have 3 viewpoints in this scene, their positions are center of the scene, midpoint between center and maximal point and midpoint between center and minimal point. The mesh scene is shown in Figure \ref{fig:mesh with viewpoints} where all viewpoints are marked with red box. 
+We prepare a ground truth mesh which shows a conference room \cite{McGuire:17} as our input. Since there are a large quantity of triangles in this mesh, this could potentially result in a significant computational workload, thus we use the software Meshlab \cite{meshlab} to help us reducing its size. We have 3 viewpoints in this scene, their positions are center of the scene, midpoint between center and maximal point and midpoint between center and minimal point. The mesh scene is shown in Figure \ref{fig:mesh with viewpoints} where all viewpoints are marked with red box. 
 
 \vspace{20pt}
 
@@ -1240,12 +1265,12 @@ There are around 10000 triangles in this scene, to simplify the computation, we 
 
 \begin{figure}[H]
     \centering
-    \includegraphics*[width=0.52\textwidth]{figures/pattern of viewpoints.png}
+    \includegraphics*[width=0.52\textwidth]{figures/pattern of light sources.png}
     \caption{Pattern of Viewpoints}
     \label{fig:pattern of viewpoints}
 \end{figure}
 
-\vspace{20pt}
+\vspace{10pt}
 
 \paragraph{Results}
 
@@ -1274,7 +1299,7 @@ Our results are shown in Table \ref{tab:result of each experiment}. We can see t
 
 \vspace{10pt}
 
-Except for patterns we mentioned above, we also added 2 corner cases where in the first case we put one viewpoint right below the center as shown in Figure \ref{fig:corner case under table}. The only difference is that the Z-value of this viewpoint is equal to the minimal vertex of the scene. The center viewpoint is also shown since we want to display the relative position of the viewpoint used in corner case to it, but we don't consider it for computation. Based on its special position, most of the rays cast from samplings should be blocked by the table. The value \textbf{0.914} can verify that in this case most samplings are occluded to this viewpoint, 
+Except for patterns we mentioned above, we also added 2 corner cases where in the first case we put one viewpoint right below the center as shown in Figure \ref{fig:corner case under table}. The only difference is that the Z-value of this viewpoint is equal to the minimal vertex of the scene. The center viewpoint is also shown since we want to display the relative position of the viewpoint used in corner case to it, but we don't consider it for computation. Based on its special position, most of the rays cast from samplings should be blocked by the table. The value \emph{0.914} can verify that in this case most samplings are occluded to this viewpoint, 
 
 \begin{figure}[H]
     \centering
@@ -1283,7 +1308,7 @@ Except for patterns we mentioned above, we also added 2 corner cases where in th
     \label{fig:corner case under table}
 \end{figure}
 
-In the other corner case we change the scene to a pure cube where there is no clutter inside it. Thus, all samplings should be visible to a viewpoint inside the cube regardless of its position. The resulting visible sampling cloud is shown in Figure \ref{fig:corner case pure cube}. Our pipeline output the value \textbf{0}, which can also validate the correctness of computation. 
+In the other corner case we change the scene to a pure cube where there is no clutter inside it. Thus, all samplings should be visible to a viewpoint inside the cube regardless of its position. The resulting visible sampling cloud is shown in Figure \ref{fig:corner case pure cube}. Our pipeline output the value \emph{0}, which can also validate the correctness of computation. 
 
 \vspace{10pt}
 
@@ -1296,13 +1321,13 @@ In the other corner case we change the scene to a pure cube where there is no cl
 
 Based on results presented above, we can take the \emph{Occluded Area Ratio} as a reliable metric to represent the occlusion level of a mesh.
 
-\subsection{Estimated Mesh and Visible Sampling Cloud}
+\subsection{Estimated Mesh and Scanned Cloud}
 
 In this section we are going to compute occlusion level of estimated mesh and visible sampling cloud respectively. 
 
 \paragraph{Setup}
 
-We prepare 3 original point clouds with name \emph{conference room 1}, \emph{conference room 2} and \emph{copy room} respectively. For each of them, we estimate a mesh via \emph{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{exp:occlusion of ground truth mesh} and we can get the \emph{Occluded Area Ratio}. Since we have computed the ratio, the visible sampling cloud was also generated. The next step is to apply the computation pipeline for \emph{Boundary Ray Ratio}. Above workflow will be conducted for each scene 4 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}, and each time we cast 10000 rays in the scene randomly.    
+We prepare 2 original point clouds with name \emph{conference room 1} and \emph{conference room 2} respectively. For each of them, we estimate a mesh via \emph{GoCoPP}. Then for each mesh, we conduct the same workflow described in Section \ref{exp:occlusion of ground truth mesh} and we can get the \emph{Occluded Area Ratio}. Since we have computed the ratio, the visible sampling cloud was also generated. The next step is to apply the computation pipeline for \emph{Boundary Ray Ratio}. Above workflow will be conducted for each scene 6 times as we would keep the same viewpoint strategy presented in Figure \ref{fig:pattern of viewpoints}, and each time we cast 10000 rays in the scene randomly for \emph{Boundary Ray Ratio}.    
 
 \paragraph{Conference Room 1} \label{par:conf1 result}
 
@@ -1310,8 +1335,7 @@ We present the visualization of the scene \emph{Conference Room 1} in each step.
 
 \vspace{10pt}
 
-To detect boundary ray 
-we have to estimate each point's category in terms of boundary from visible sampling cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in the left part pf Figure \ref{fig:conf1 0}. To better deliver the structure of the visible sampling cloud, in the right part there is a cloud with estimated ground truth RGB information. The resulting visualization will be displayed for each viewpoint pattern.
+To detect boundary ray we have to estimate each point's category in terms of boundary from visible sampling cloud, where we use white color to represent boundary point and blue for non-boundary point as shown in the left part pf Figure \ref{fig:conf1 0}. To better deliver the structure of the visible sampling cloud, in the right part there is a cloud with estimated ground truth RGB information. The resulting visualization will be displayed for each viewpoint pattern.
 
 \vspace{30pt}
 
@@ -1329,33 +1353,49 @@ In the end of this part, result of computation for \emph{Occluded Area Ratio} an
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 0.png}}  \label{fig:conf1 b 200 0} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 0.png}} \label{fig:conf1 s 200 0}
-    \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 1}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 0 b.png}}  \label{fig:conf1 b 0} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 0.png}} \label{fig:conf1 s 0}
+    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 1}
     \label{fig:conf1 0}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 4.png}}  \label{fig:conf1 b 200 4} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 4.png}} \label{fig:conf1 s 200 4}
-    \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 2}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 1 b.png}}  \label{fig:conf1 b 1} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 1.png}} \label{fig:conf1 s 1}
+    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 2}
+    \label{fig:conf1 1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 2 b.png}}  \label{fig:conf1 b 2} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 2.png}} \label{fig:conf1 s 2}
+    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 3}
+    \label{fig:conf1 2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 4 b.png}}  \label{fig:conf1 b 4} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 4.png}} \label{fig:conf1 s 200 4}
+    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 4}
     \label{fig:conf1 4}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 5.png}}  \label{fig:conf1 b 200 5} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 5.png}} \label{fig:conf1 s 200 5}
-    \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 3}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 5 b.png}}  \label{fig:conf1 b 5} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 5.png}} \label{fig:conf1 s 5}
+    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 5}
     \label{fig:conf1 5}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 b 200 6.png}}  \label{fig:conf1 b 200 6} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf1 s 200 6.png}} \label{fig:conf1 s 200 6}
-    \caption{Estimated Boundary and Semantics of Conference Room 1 with Viewpoint Pattern 4}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf1 6 b.png}}  \label{fig:conf1 b 6} \hfill
+    \subfigure[Scanning]{\includegraphics[width=0.45\textwidth]{figures/conf1 6.png}} \label{fig:conf1 s 6}
+    \caption{Boundary and Scanning of Conference Room 1 under Viewpoint Pattern 6}
     \label{fig:conf1 6}
 \end{figure}
 
@@ -1365,10 +1405,12 @@ In the end of this part, result of computation for \emph{Occluded Area Ratio} an
         \hline
         \textbf{Pattern} & \textbf{Occluded Area Ratio} & \textbf{Boundary Ray Ratio} \\
         \hline
-        1 & 0.291 & 0.271 \\
-        2 & 0.108 & 0.172 \\
-		3 & 0.153 & 0.211 \\
-		4 & 0.071 & 0.165 \\
+        1 & 0.291 & 0.248 \\
+        2 & 0.178 & 0.214 \\
+		3 & 0.290 & 0.332 \\
+		4 & 0.109 & 0.173 \\
+        5 & 0.153 & 0.194 \\
+        6 & 0.071 & 0.165 \\
         \hline
     \end{tabular}
     \caption{Result of Conference Room 1}
@@ -1391,27 +1433,31 @@ The result shows that as the number of viewpoints increase, the \emph{Occluded A
             legend pos=north east,
             legend style={cells={anchor=west}},
             xtick=data,  % Only show integer values on the x axis
-            xticklabels={1,2,3,4},  % Specify the labels for the x axis
+            xticklabels={1,2,3,4,5,6},  % Specify the labels for the x axis
             ymin=0.05,
-            width=10cm,
+            width=15cm,
             height=8cm
         ]
         
         % Occluded Area Ratio Line
         \addplot[color=blue,mark=square*] coordinates {
             (1, 0.291)
-            (2, 0.108)
-            (3, 0.153)
-            (4, 0.071)
+            (2, 0.178)
+            (3, 0.290)
+            (4, 0.109)
+            (5, 0.153)
+            (6, 0.071)
         };
         \addlegendentry{Occluded Area Ratio}
         
         % Boundary Ray Ratio Line
         \addplot[color=red,mark=triangle*] coordinates {
-            (1, 0.271)
-            (2, 0.172)
-            (3, 0.211)
-            (4, 0.165)
+            (1, 0.248)
+            (2, 0.214)
+            (3, 0.332)
+            (4, 0.173)
+            (5, 0.194)
+            (6, 0.165)
         };
         \addlegendentry{Boundary Ray Ratio}
 
@@ -1436,33 +1482,49 @@ We present the visualization of the scene \emph{Conference Room 2} in each step 
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 0.png}}  \label{fig:conf2 b 200 0} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 0.png}} \label{fig:conf2 s 200 0}
-    \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 1}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 0 b.png}}  \label{fig:conf2 b 0} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 0.png}} \label{fig:conf2 s 0}
+    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 1}
     \label{fig:conf2 0}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 4.png}}  \label{fig:conf2 b 200 4} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 4.png}} \label{fig:conf2 s 200 4}
-    \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 2}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 1 b.png}}  \label{fig:conf2 b 1} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 1.png}} \label{fig:conf2 s 1}
+    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 2}
+    \label{fig:conf2 1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 2 b.png}}  \label{fig:conf2 b 2} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 2.png}} \label{fig:conf2 s 2}
+    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 3}
+    \label{fig:conf2 2}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 4 b.png}}  \label{fig:conf2 b 4} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 4.png}} \label{fig:conf2 s 4}
+    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 4}
     \label{fig:conf2 4}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 5.png}}  \label{fig:conf2 b 200 5} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 5.png}} \label{fig:conf2 s 200 5}
-    \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 3}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 5 b.png}}  \label{fig:conf2 b 5} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 5.png}} \label{fig:conf2 s 5}
+    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 5}
     \label{fig:conf2 5}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 b 200 6.png}}  \label{fig:conf2 b 200 6} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 s 200 6.png}} \label{fig:conf2 s 200 6}
-    \caption{Estimated Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 4}
+    \subfigure[Boundary]{\includegraphics[width=0.45\textwidth]{figures/conf2 6 b.png}}  \label{fig:conf2 b 6} \hfill
+    \subfigure[Semantic]{\includegraphics[width=0.45\textwidth]{figures/conf2 6.png}} \label{fig:conf2 s 6}
+    \caption{Boundary and Semantics of Conference Room 2 with Viewpoint Pattern 6}
     \label{fig:conf2 6}
 \end{figure}
 
@@ -1472,10 +1534,12 @@ We present the visualization of the scene \emph{Conference Room 2} in each step 
         \hline
         \textbf{Pattern} & \textbf{Occluded Area Ratio} & \textbf{Boundary Ray Ratio} \\
         \hline
-        1 & 0.371 & 0.329 \\
-        2 & 0.294 & 0.258 \\
-		3 & 0.264 & 0.255 \\
-		4 & 0.218 & 0.224 \\
+        1 & 0.371 & 0.319 \\
+        2 & 0.525 & 0.473 \\
+        3 & 0.313 & 0.321 \\
+        4 & 0.294 & 0.282 \\
+		5 & 0.264 & 0.265 \\
+		6 & 0.218 & 0.223 \\
         \hline
     \end{tabular}
     \caption{Result of Conference Room 2}
@@ -1498,27 +1562,31 @@ Both ratios display the same trend, thus we can conclude that \emph{Boundary Ray
             legend pos=north east,
             legend style={cells={anchor=west}},
             xtick=data,  % Only show integer values on the x axis
-            xticklabels={1,2,3,4},  % Specify the labels for the x axis
+            xticklabels={1,2,3,4，5,6},  % Specify the labels for the x axis
             ymin=0.2,
-            width=10cm,
+            width=15cm,
             height=8cm
         ]
         
         % Occluded Area Ratio Line
         \addplot[color=blue,mark=square*] coordinates {
             (1, 0.371)
-            (2, 0.294)
-            (3, 0.264)
-            (4, 0.218)
+            (2, 0.525)
+            (3, 0.313)
+            (4, 0.294)
+            (5, 0.264)
+            (6, 0.218)
         };
         \addlegendentry{Occluded Area Ratio}
         
         % Boundary Ray Ratio Line
         \addplot[color=red,mark=triangle*] coordinates {
-            (1, 0.329)
-            (2, 0.258)
-            (3, 0.255)
-            (4, 0.224)
+            (1, 0.319)
+            (2, 0.473)
+            (3, 0.321)
+            (4, 0.282)
+            (5, 0.265)
+            (6, 0.223)
         };
         \addlegendentry{Boundary Ray Ratio}
 
@@ -1528,120 +1596,12 @@ Both ratios display the same trend, thus we can conclude that \emph{Boundary Ray
     \label{fig:result of conference room 2}
 \end{figure}
 
-\vspace{30pt}
 
-\paragraph{Copy Room}
-
-We follow the same workflow as shown before to present the visualization of the scene \emph{Copy Room} in each step. Result is shown in Table \ref{tab:result of copy room} and Figure \ref{fig:result of copy room}.
-
-\vspace{30pt}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics*[width=1.0\textwidth, height=0.4\textwidth]{figures/estimate copy.png}
-    \caption{Estimate Mesh from Copy Room}
-    \label{fig:estimate mesh from copy room}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 0.png}}  \label{fig:copy b 200 0} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 0.png}} \label{fig:copy s 200 0}
-    \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 1}
-    \label{fig:copy 0}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 4.png}}  \label{fig:copy b 200 4} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 4.png}} \label{fig:copy s 200 4}
-    \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 2}
-    \label{fig:copy 4}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 5.png}}  \label{fig:copy b 200 5} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 5.png}} \label{fig:copy s 200 5}
-    \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 3}
-    \label{fig:copy 5}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Boundary]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy b 200 6.png}}  \label{fig:copy b 200 6} \hfill
-    \subfigure[Semantic]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy s 200 6.png}} \label{fig:copy s 200 6}
-    \caption{Estimated Boundary and Semantics of Copy Room with Viewpoint Pattern 4}
-    \label{fig:copy 6}
-\end{figure}
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|c|c|c|}
-        \hline
-        \textbf{Pattern} & \textbf{Occluded Area Ratio} & \textbf{Boundary Ray Ratio} \\
-        \hline
-        1 & 0.156 & 0.366 \\
-        2 & 0.090 & 0.343 \\
-		3 & 0.070 & 0.337 \\
-		4 & 0.040 & 0.331 \\
-        \hline
-    \end{tabular}
-    \caption{Result of Copy Room}
-    \label{tab:result of copy room}
-\end{table}
-
-Although the result between 2 ratios has more difference than the data presented in previous experiments, it shows the same trend as we change pattern of viewpoint again. Hence, we think that \emph{Boundary Ray Ratio} still represents the occlusion level of \emph{Copy Room}. 
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-            title={Ratio in Different Patterns},
-            xlabel={Pattern},
-            ylabel={Ratio},
-            grid=both,
-            minor tick num=1,
-            major grid style={lightgray},
-            minor grid style={lightgray!25},
-            legend pos=north east,
-            legend style={cells={anchor=west}},
-            xtick=data,  % Only show integer values on the x axis
-            xticklabels={1,2,3,4},  % Specify the labels for the x axis
-            ymax=0.55,
-            width=10cm,
-            height=8cm
-        ]
-        
-        % Occluded Area Ratio Line
-        \addplot[color=blue,mark=square*] coordinates {
-            (1, 0.156)
-            (2, 0.090)
-            (3, 0.070)
-            (4, 0.040)
-        };
-        \addlegendentry{Occluded Area Ratio}
-        
-        % Boundary Ray Ratio Line
-        \addplot[color=red,mark=triangle*] coordinates {
-            (1, 0.366)
-            (2, 0.343)
-            (3, 0.337)
-            (4, 0.331)
-        };
-        \addlegendentry{Boundary Ray Ratio}
-
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Result of Copy Room}
-    \label{fig:result of copy room}
-\end{figure}
-
-In this section we conducted 3 experiments to compute and compare occlusion level for different scenes. The result proves that \emph{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
+In this section we conducted 2 experiments to compute and compare occlusion level for different scenes. The result proves that \emph{Boundary Ray Ratio} can be applied for computation in subsequent experiments.
 
 \section{Correlation}
 
-The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 3 scenes, it is obviously not a proper way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \emph{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
+The major task in this part is to find correlation between occlusion level and performance of segmentation. We use the same input data as in previous section. Due to the difference in terms of complexity and structure of the 2 scenes, it is obviously not a feasible way to directly compare the metrics of them. Thus, the first step here is to create a set of occluded point clouds for each room and compute occlusion level for each of them. After the generation, we use \emph{Minkowski Engine} for semantic segmentation. In the final step, we calculate evaluation metrics for each occluded cloud which is generated under different pattern of light sources. With occlusion level and result of evaluation metrics of this data set, we may correlate them and analyze the impact of occlusion on semantic segmentation. The comparison should be done between data generated from the same scene.
 
 \subsection{Setup}
 
@@ -1649,7 +1609,7 @@ To generate occluded point cloud, we place spherical light sources in different 
 
 \vspace{10pt}
 
-We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of viewpoints} to place our sphere lights in the scene. We sample 20 thousands points on each sphere and we thus generate 20 thousands rays per spherical light source.
+We apply the same pattern of placement illustrated in Figure \ref{fig:pattern of viewpoints} to place our sphere lights in the scene. 
 
 \vspace{10pt}
 
@@ -1674,9 +1634,25 @@ We first exhibit visual output of generated point cloud and corresponding segmen
 
 \begin{figure}[H]
     \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 1.png}}  \label{fig:conf1 1 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 1 seg.png}} \label{fig:conf1 1 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Conference Room 1}
+    \label{fig:conf1 1 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 2.png}}  \label{fig:conf1 2 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 2 seg.png}} \label{fig:conf1 2 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 1}
+    \label{fig:conf1 2 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 4.png}}  \label{fig:conf1 4 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 4 seg.png}} \label{fig:conf1 4 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Conference Room 1}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Conference Room 1}
     \label{fig:conf1 4 occ and seg}
 \end{figure}
 
@@ -1684,7 +1660,7 @@ We first exhibit visual output of generated point cloud and corresponding segmen
     \centering
     \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 5.png}}  \label{fig:conf1 5 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 5 seg.png}} \label{fig:conf1 5 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 1}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 5 of Conference Room 1}
     \label{fig:conf1 5 occ and seg}
 \end{figure}
 
@@ -1692,7 +1668,7 @@ We first exhibit visual output of generated point cloud and corresponding segmen
     \centering
     \subfigure[Occluded Cloud]{\includegraphics[width=0.42\textwidth]{figures/conf1 6.png}}  \label{fig:conf1 6 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.42\textwidth]{figures/conf1 6 seg.png}} \label{fig:conf1 6 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Conference Room 1}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 6 of Conference Room 1}
     \label{fig:conf1 6 occ and seg}
 \end{figure}
 
@@ -1700,21 +1676,21 @@ The result is shown below in Table \ref{tab:evaluation metrics of conference roo
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|}
         \hline
-        Pattern & Occlusion & Accuracy & IoU & Precision & Recall & F1 Score \\
+        Pattern & Occlusion & F1 Score \\
         \hline
-        1 & 0.241 & 0.893 & 0.497 & 0.652 & 0.675 & 0.664 \\
-        2 & 0.168 & 0.912 & 0.585 & 0.736 & 0.741 & 0.738 \\
-        3 & 0.197 & 0.878 & 0.461 & 0.655 & 0.609 & 0.631 \\
-        4 & 0.161 & 0.894 & 0.524 & 0.707 & 0.669 & 0.687 \\
+        1 & 0.248 & 0.826 \\
+        2 & 0.214 & 0.887 \\
+        3 & 0.332 & 0.680 \\
+        4 & 0.173 & 0.886 \\
+        5 & 0.194 & 0.737 \\
+        6 & 0.165 & 0.807 \\
         \hline
     \end{tabular}
     \caption{Evaluation Metrics of Conference Room 1}
     \label{tab:evaluation metrics of conference room 1}
 \end{table}
-
-\vspace{20pt}
 
 From the graph we can see opposite trends between occlusion level and evaluation metrics. 
 
@@ -1729,56 +1705,28 @@ From the graph we can see opposite trends between occlusion level and evaluation
         ymajorgrids=true,
         grid style=dashed,
         xtick=data,
-        symbolic x coords={1,2,3,4},
+        symbolic x coords={1,2,3,4,5,6},
         width=12cm,
         height=8cm,
     ]
     
     \addplot[mark=square*,blue] coordinates {
-        (1, 0.241)
-        (2, 0.168)
-        (3, 0.197)
-        (4, 0.161)
+        (1, 0.248)
+        (2, 0.214)
+        (3, 0.332)
+        (4, 0.173)
+        (5, 0.194)
+        (6, 0.165)
     };
     \addlegendentry{Occlusion}
     
-    \addplot[mark=*,red] coordinates {
-        (1, 0.893)
-        (2, 0.912)
-        (3, 0.878)
-        (4, 0.894)
-    };
-    \addlegendentry{Accuracy}
-    
-    \addplot[mark=*,brown] coordinates {
-        (1, 0.497)
-        (2, 0.585)
-        (3, 0.461)
-        (4, 0.524)
-    };
-    \addlegendentry{IoU}
-    
-    \addplot[mark=*,green] coordinates {
-        (1, 0.652)
-        (2, 0.736)
-        (3, 0.655)
-        (4, 0.707)
-    };
-    \addlegendentry{Precision}
-    
-    \addplot[mark=*,orange] coordinates {
-        (1, 0.675)
-        (2, 0.741)
-        (3, 0.609)
-        (4, 0.669)
-    };
-    \addlegendentry{Recall}
-    
     \addplot[mark=*,purple] coordinates {
-        (1, 0.664)
-        (2, 0.738)
-        (3, 0.631)
-        (4, 0.687)
+        (1, 0.826)
+        (2, 0.887)
+        (3, 0.680)
+        (4, 0.886)
+        (5, 0.737)
+        (6, 0.807)
     };
     \addlegendentry{F1 Score}
     
@@ -1803,9 +1751,25 @@ Same workflow here to present our results.
 
 \begin{figure}[H]
     \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 1.png}}  \label{fig:conf2 1 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 1 seg.png}} \label{fig:conf2 1 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Conference Room 2}
+    \label{fig:conf2 1 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 2.png}}  \label{fig:conf2 2 occluded} \hfill
+    \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 2 seg.png}} \label{fig:conf2 2 seg}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 2}
+    \label{fig:conf2 2 occ and seg}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 4.png}}  \label{fig:conf2 4 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 4 seg.png}} \label{fig:conf2 4 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation  under Light Pattern 2 of Conference Room 2}
+    \caption{Occluded Cloud and Corresponding Segmentation  under Light Pattern 4 of Conference Room 2}
     \label{fig:conf2 4 occ and seg}
 \end{figure}
 
@@ -1813,7 +1777,7 @@ Same workflow here to present our results.
     \centering
     \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 5.png}}  \label{fig:conf2 5 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 5 seg.png}} \label{fig:conf2 5 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Conference Room 2}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 5 of Conference Room 2}
     \label{fig:conf2 5 occ and seg}
 \end{figure}
 
@@ -1821,154 +1785,29 @@ Same workflow here to present our results.
     \centering
     \subfigure[Occluded Cloud]{\includegraphics[width=0.45\textwidth]{figures/conf2 6.png}}  \label{fig:conf2 6 occluded} \hfill
     \subfigure[Segmentation]{\includegraphics[width=0.45\textwidth]{figures/conf2 6 seg.png}} \label{fig:conf2 6 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Conference Room 2}
+    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 6 of Conference Room 2}
     \label{fig:conf2 6 occ and seg}
 \end{figure}
 
-The result is shown in \ref{tab:evaluation metrics of conference room 2} and \ref{fig:evaluation metrics of conference room 2}.
+The result is shown in Table \ref{tab:evaluation metrics of conference room 2} and Figure \ref{fig:evaluation metrics of conference room 2}.
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \begin{tabular}{|c|c|c|}
         \hline
-        Pattern & Occlusion & Accuracy & IoU & Precision & Recall & F1 Score \\
+        Pattern & Occlusion & F1 Score \\
         \hline
-        1 & 0.319 & 0.882 & 0.44 & 0.58 & 0.645 & 0.611 \\
-        2 & 0.279 & 0.923 & 0.595 & 0.721 & 0.772 & 0.746 \\
-        3 & 0.259 & 0.879 & 0.452 & 0.632 & 0.614 & 0.622 \\
-        4 & 0.227 & 0.901 & 0.522 & 0.685 & 0.687 & 0.686 \\
+        1 & 0.319 & 0.765 \\
+        2 & 0.473 & 0.888 \\
+        3 & 0.321 & 0.772 \\
+        4 & 0.282 & 0.858 \\
+        5 & 0.265 & 0.797 \\
+        6 & 0.223 & 0.837 \\
         \hline
     \end{tabular}
     \caption{Evaluation Metrics of Conference Room 2}
     \label{tab:evaluation metrics of conference room 2}
 \end{table}
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}
-    \begin{axis}[
-        title={Evaluation Metrics in Different Patterns},
-        xlabel={Occlusion Level},
-        ylabel={Value},
-        legend pos=outer north east,
-        ymajorgrids=true,
-        grid style=dashed,
-        xtick=data,
-        symbolic x coords={1,2,3,4},
-        width=12cm,
-        height=8cm,
-    ]
-    
-    \addplot[mark=square*,blue] coordinates {
-        (1, 0.319)
-        (2, 0.279)
-        (3, 0.259)
-        (4, 0.227)
-    };
-    \addlegendentry{Occlusion}
-    
-    \addplot[mark=*,red] coordinates {
-        (1, 0.882)
-        (2, 0.923)
-        (3, 0.879)
-        (4, 0.901)
-    };
-    \addlegendentry{Accuracy}
-    
-    \addplot[mark=*,brown] coordinates {
-        (1, 0.44)
-        (2, 0.595)
-        (3, 0.452)
-        (4, 0.522)
-    };
-    \addlegendentry{IoU}
-    
-    \addplot[mark=*,green] coordinates {
-        (1, 0.58)
-        (2, 0.721)
-        (3, 0.632)
-        (4, 0.685)
-    };
-    \addlegendentry{Precision}
-    
-    \addplot[mark=*,orange] coordinates {
-        (1, 0.645)
-        (2, 0.772)
-        (3, 0.614)
-        (4, 0.687)
-    };
-    \addlegendentry{Recall}
-
-    \addplot[mark=*,yellow] coordinates {
-        (1, 0.611)
-        (2, 0.746)
-        (3, 0.622)
-        (4, 0.686)
-    };
-    \addlegendentry{F1 Score}
-    
-    \end{axis}
-    \end{tikzpicture}
-    \caption{Evaluation Metrics of Conference Room 2}
-    \label{fig:evaluation metrics of conference room 2}
-\end{figure}
-
-\paragraph{Copy Room}
-
-We show the resulting visualization first.
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 0.png}}  \label{fig:copy 0 occluded} \hfill
-    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 0 seg.png}} \label{fig:copy 0 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 1 of Copy Room}
-    \label{fig:copy 0 occ and seg}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 4.png}}  \label{fig:copy 4 occluded} \hfill
-    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 4 seg.png}} \label{fig:copy 4 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 2 of Copy Room}
-    \label{fig:copy 4 occ and seg}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 5.png}}  \label{fig:copy 5 occluded} \hfill
-    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 5 seg.png}} \label{fig:copy 5 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 3 of Copy Room}
-    \label{fig:copy 5 occ and seg}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \subfigure[Occluded Cloud]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 6.png}}  \label{fig:copy 6 occluded} \hfill
-    \subfigure[Segmentation]{\includegraphics[width=0.37\textwidth, height=0.33\textwidth]{figures/copy 6 seg.png}} \label{fig:copy 6 seg}
-    \caption{Occluded Cloud and Corresponding Segmentation under Light Pattern 4 of Copy Room}
-    \label{fig:copy 6 occ and seg}
-\end{figure}
-
-
-The result is shown in \ref{tab:evaluation metrics of copy room} and \ref{fig:evaluation metrics of copy room}.
-
-\begin{table}[H]
-    \centering
-    \begin{tabular}{|c|c|c|c|c|c|c|}
-        \hline
-        Pattern & Occlusion & Accuracy & IoU & Precision & Recall & F1 Score \\
-        \hline
-        1 & 0.349 & 0.897 & 0.498 & 0.707 & 0.627 & 0.665 \\
-        2 & 0.303 & 0.907 & 0.504 & 0.737 & 0.615 & 0.670 \\
-        3 & 0.314 & 0.855 & 0.361 & 0.566 & 0.499 & 0.530 \\
-        4 & 0.292 & 0.871 & 0.385 & 0.606 & 0.514 & 0.556 \\
-        \hline
-    \end{tabular}
-    \caption{Evaluation Metrics of Copy Room}
-    \label{tab:evaluation metrics of copy room}
-\end{table}
-
-This graph also shows opposite trends between occlusion and metrics.
 
 \begin{figure}[H]
     \centering
@@ -1981,64 +1820,37 @@ This graph also shows opposite trends between occlusion and metrics.
         ymajorgrids=true,
         grid style=dashed,
         xtick=data,
-        symbolic x coords={1,2,3,4},
+        symbolic x coords={1,2,3,4,5,6},
         width=12cm,
         height=8cm,
     ]
     
     \addplot[mark=square*,blue] coordinates {
-        (1, 0.349)
-        (2, 0.303)
-        (3, 0.314)
-        (4, 0.292)
+        (1, 0.319)
+        (2, 0.473)
+        (3, 0.321)
+        (4, 0.282)
+        (5, 0.265)
+        (6, 0.223)
     };
     \addlegendentry{Occlusion}
     
-    \addplot[mark=*,red] coordinates {
-        (1, 0.897)
-        (2, 0.907)
-        (3, 0.855)
-        (4, 0.871)
-    };
-    \addlegendentry{Accuracy}
-    
-    \addplot[mark=*,brown] coordinates {
-        (1, 0.498)
-        (2, 0.504)
-        (3, 0.361)
-        (4, 0.385)
-    };
-    \addlegendentry{IoU}
-    
-    \addplot[mark=*,green] coordinates {
-        (1, 0.707)
-        (2, 0.737)
-        (3, 0.566)
-        (4, 0.606)
-    };
-    \addlegendentry{Precision}
-    
-    \addplot[mark=*,orange] coordinates {
-        (1, 0.627)
-        (2, 0.615)
-        (3, 0.499)
-        (4, 0.514)
-    };
-    \addlegendentry{Recall}
-    
-    \addplot[mark=*,yellow] coordinates {
-        (1, 0.665)
-        (2, 0.670)
-        (3, 0.530)
-        (4, 0.556)
+    \addplot[mark=*,purple] coordinates {
+        (1, 0.765)
+        (2, 0.888)
+        (3, 0.772)
+        (4, 0.858)
+        (5, 0.797)
+        (6, 0.837)
     };
     \addlegendentry{F1 Score}
     
     \end{axis}
     \end{tikzpicture}
-    \caption{Evaluation Metrics of Copy Room}
-    \label{fig:evaluation metrics of copy room}
+    \caption{Evaluation Metrics of Conference Room 2}
+    \label{fig:evaluation metrics of conference room 2}
 \end{figure}
+
 
 %=====================================================================
 \chapter{Conclusion and Discussion} \label{chp:conclusion}
@@ -2075,345 +1887,6 @@ Some future work can be done to improve our work.
 
 Acknowledge any data and code sources you used or for help you received.
 
-
-%=====================================================================
-\chapter*{Document, Writing and Formatting Guidelines}
-%=====================================================================
-
-This part of the document uses non-numbered chapter and section headings as they are not part of a regular report structure. In a regular report, \emph{chapters}, \emph{sections} and \emph{subsections} should normally be numbered. Note the use of comment lines and spacings to give more structure to the ASCII text LaTeX document.
-
-In this appendix like part we discuss the structure and formatting rules and guidelines to follow for a written project, research paper, Bachelor or Master thesis report.
-
-%-------------------------------------------------------------------------------------------------------------------------
-\section*{Text} \label{sec:text}
-%-------------------------------------------------------------------------------------------------------------------------
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Overall Strategies}
-
-The appearance, clarity and organizational structure of a paper is as important as its technical content, but the technical content must be there beforehand. The presentation alone, however, can make the difference between a mediocre and great publication. Exploit all suitable mechanical rules that can always be applied and optimized independently of the technical part.
-
-The paper has to be convincing even to the adverse reader, i.e. a critical reviewer evaluating your work. Think of being a reviewer yourself, not really knowing your domain and possibly not specifically interested in your work. All information must be crystal clear to a non-expert reader, and all terms and concepts must be properly introduced in a logical order. Put yourself in the position of reading that topic and your work for the very first time, with the goal of having to reproduce it afterwards. The presentation must be flawless and the length of the paper must match the amount of content.
-
-Your report must present your work and solution, best within a convincing story about a difficult problem challenge and an important application domain. The text has to encompass and sell your work. Build up and identify the key challenges in the introduction and problem description. Show clearly how you solved exactly this very important problem in a great and unique novel way.
-
-Group your ideas and concepts hierarchically into sections, subsections and even paragraphs. Strictly introduce general and common ideas, concepts and techniques before expanding further on them. Use the concepts of \emph{repetition} and \emph{parallelism} in your text and structure. The main concept of repetition is to:
-
-\begin{quotation}
-Introduce what you are going to tell them -- then tell them in detail -- and finally review what you told them.
-\end{quotation}
-
-This approach of repetition is applied on all levels of a report, overall document, sections, subsections and paragraph, always in an appropriate level of abstraction or detail. Example levels:
-
-\begin{description}
-\item[Document] The introduction briefly describes the main problem, previews your contribution and summarizes the main results. The main technical sections describe your approach in more detail and the experiments show the achieved results. Finally the conclusion, discussion and future work section(s) summarize your contributions.
-\item[Section] In the first paragraph(s) you introduce the topic or aspect that this section covers, followed by the (technical) details, and the last paragraph typically wraps it up, or leads to the next section.
-\item[Paragraph] The first sentence of a paragraph leads into the main \emph{message} of this paragraph, and the last sentence concludes it or leads over to the next paragraph.
-\end{description}
-
-The concept of parallelism means to apply the same strategy or structuring to different parts. E.g. for each technical problem question or topic covered in one section, first introduce the problem definition and then describe the solution subsequently, possibly in subsections and paragraphs. Or for each type or version of experimental results, or for each data set, describe the data, method parameters, measured variables, report and discuss the results.
-
-It is important to get your text exactly clear to the reader and to avoid the impression that something has been left out or that your contribution is not that significant. But do not over-claim, and more importantly do not under-claim either.
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Writting and Structure}
-
-Writing is difficult work and usually takes more time than expected. it is beneficial to formalize and write down your progress as early as possible. Generally \emph{you cannot really be sure that you know something until you are able to explain it} well in writing. Hence conveying ideas exactly but in a concise and compact manner is very important and a key to successful writing. Preciseness and compactness are key to be able to describe a large amount of work and results that you have.
-
-Your text must be smooth, forming a clear and logical order of your thoughts and arguments. Use \emph{parallelism} to introduce a set of topics, questions or issues and then elaborate on them subsequently in sections and paragraphs.
-
-Use \emph{repetition}, e.g. introduce the problem, show how to solve it and review the benefits. Do not assume that the reader still remembers what was mentioned only as a passing comment three pages back, use repetition and parallelism.
-
-Do not abruptly jump topics but motivate topic changes. If the topics of text parts change too much, then divide them into subsections or paragraphs. If between paragraphs there are major changes (sequence of different concepts etc.), try to use inline paragraph headings for easy navigation and orientation. One way to integrate such paragraph sequences is to write an introductory paragraph at the beginning of the section and use parallelism.
-
-%--------------------------------------------------------
-\paragraph*{Sections and Paragraphs}
-
-Use \emph{sections}, \emph{subsections} and \emph{paragraphs} to structure your ideas and content into meaningful parts, and make a clear and meaningful order of them. Each section, subsection or paragraph must cover a clearly delineated topic or idea.
-
-Every section must first introduce to the reader what to expect and then tell the details, following the principles of repetition and parallelism. An introductory paragraph is also a good approach to fill the space between the section heading and the first sub heading if subsections are used. The last paragraph of a section can summarize the concepts and lead over to the next topic or section.
-
-Each paragraph should have one clear single message, there should only be one consistent topic or idea what the paragraph is about. The first paragraph of a section should clearly lead into the main topic of that section, and the first line of a paragraph should state or at least clearly lead into the main message of that paragraph.
-
-Every single sentence should be fully comprehensible in its context, taking only minimal preliminary knowledge of previous paragraphs into account.
-
-%--------------------------------------------------------
-\paragraph*{Wording and Postprocessing}
-
-Use single tenses (i.e. the present or present perfect) as much as possible when describing your design, technical or algorithmic solutions. Generally use present perfect for describing implementations and results which were completed, as this implies something that happened as part of this work in the past but continues to be valid in the present as a result of this paper.
-
-"I" versus "we": For a personal opinion, or your specific personal contribution, you can use the first person. In a personal thesis report one can use "I" as this one's own contribution and text.
-
-For most situations a neutral form should be used, passive voice or third person, but be careful to avoid the interpretation of "passive voice" as "someone else did it, and it is not our contribution", e.g. "This mind-boggling observation was made." vs. "We made this mind-boggling observation.".
-
-Read through the text, spell check, and check the text with a grammar tool as well. Obvious errors are unacceptable.
-Try to take the role of a reviewer or evaluator: Reading your paper or report costs that person significant time, so question everything. The reviewer may not be forgiving if something is not clear. Be the devil's advocate!
-
-Do not use abbreviations (don't -> do not).
-
-%-------------------------------------------------------------------------------------------------------------------------
-\section*{Formatting and Typesetting} \label{sec:formatting}
-%-------------------------------------------------------------------------------------------------------------------------
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{General Rules}
-
-The main text area should have a margin of about 2cm on both sides, and the main text should have a top and bottom margin of about 3cm each.
-
-Section and subsection headings have nested numbering and are typeset in sans-serif bold font type, e.g. Helvetica or Arial.  Sizes range from 18pt for main sections down to at least one point larger than the main body text size. Some vertical space before and after section headings is placed (automatically according to the LaTeX document class of this template).
-
-The main body text is typeset in 11pt Times font (serif font family). Text body is one-column, justified and single-spaced. First line of a paragraph is generally indented with about 0.8cm, however, first paragraph after any section heading may also be non-indented.
-
-\begin{itemize}
-\item Avoid extensive and manual spacing
-\item Use font modifications carefully
-%\item Use the \verb!\emph{}! command fo emphasizing/italicizing not \verb!\emph()!
-\item Use proper math and symbol styles
-%\item Use (our math.tex) style file for consistency
-\end{itemize}
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Folder Structure}
-
-Use main folder for the main latex .tex and .bib files, the main paper body and bibliography database. Optional: use a folder, e.g. ./sections, to separately manage individual section's latex files.
-
-Use ./images and ./figures subdirectories for the raster images and vector graphics used in the figures and diagrams of the paper.
-Only use .jpg and .pdf formats respectively for best results. Put source files, e.g. from Illustrator or OmniGraffle, also directly into the ./figures folder along with the PDF versions.
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Latex Coding}
-
-Follow a clear prologue structure in the LaTeX source file. After the given template components add your \verb!\usepackage{}! block, and \verb!\input{math}! to include our standard math formula definitions. Complete the preamble by any further specific definitions or commands, e.g. \verb!\TODO! and \verb!\FIXME! macros. After the prologue, complete the title and author parts.
-
-If separate .tex files are used for the main report text body, then include them in the main body latex file, and in each of these files indicate the root latex file at the very top:
-\begin{verbatim}
-%\!TEX root = ../<main_file_name>.tex!
-\end{verbatim}
-
-\noindent
-Further LaTeX coding guidelines and recommendations:
-
-\begin{itemize}
-\item Use the \verb!\emph{}! command fo emphasizing/italicizing not \verb!\emph()!
-\item Use (our math.tex) style file for math formula consistency
-\item Use \verb!\mathrm{function()}!  for function names
-\item Use consistent section, equation and figure labelling
-\verb!\label{sec:introduction}! as well as \emph{eq:rendering, fig:system}
-\item Do not liberally introduce manual horizontal or vertical spacings
-\item In particular do not use comment codes \% to control spacing or indentation before or after elements, e.g. arounc equations, figures or tables
-\end{itemize}
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Mathematical Formulas and Equations}
-
-Mathematical expressions should follow a consistent set of rules, symbols and formatting as indicated in our \emph{math.tex} style file. LaTeXiT can be used for consistent symbols and formulas in figures. Apply the same scalar, vector and matrix styles as well as use the same variables consistently throughout your text, see also the predefined styles and specific variables in \emph{math.tex}. A few guidelines that are useful are given below, use them as much as possible (but adjust as necessary to make formulas clear):
-
-\begin{itemize}
-\item use (lower-case) italic letters for normal (scalar) variables such as $x$ or $t$
-\item prefer $i$ and $j$ as index variables and $m$ and $n$ to denote number of elements or iterations
-\item use for example other letters such as $a$, $b$ and $c$ for constants
-\item use lower-case bold italic to denote vectors such as $\vec{u}$ or $\vec{v}$
-\item use upper-case bold letters such as $\mat{M}$ or $\mat{N}$ for sets and matrices
-\item use upper- or lower-case italic letters such as $f()$ or $G()$ to denote functions
-\item use regular plain font and decimal point to denote explicit constants such as $2$ or $100.12$
-\end{itemize}
-
-Use as much formalism, variables and equations, as is useful to clearly understand your description, but not for trivial facts. Use inline equation format also for variables like $x$ and numbers like $12$ used in the main text body segments.
-
-Mathematical equations that are important or are referenced should be laid out as a  regular equation with consecutive numbering to the right as below:
-
-%% example equation  %%
-\begin{equation}
-E = m \cdot c^2
-\label{eq:einstein}
-\end{equation}
-
-Such regular free standing equations do not need a punctuation and follow a paragraph that ends with a dot or double-colon, and the following paragraph starts regularly indented.
-
-Equations may also be treated 'inline' with the main flow of the text, thus being part of one regular sentence. Such 'inline' equations as
-%
-\begin{equation*}
-a^2 + b^2 =  c^2,
-\end{equation*}
-%
-typically end with a comma and the text continues below unindented lower-case to finish the sentence. To adjust spacing, the equation can be connected to the paragraph text flow by separating it only using \% comments. If an equation ends the sentence of a paragraph it ends with a dot.
-
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Floats, Figures, Screenshots and Graphs}
-
-Figures, screenshots, tables, graphs and other floats should support the overall idea of the paper or some description in the text specifically, and are numbered sequentially. Every figure must support a key idea or concept, and it must be meaningful with self-explanatory captions.
-
-\begin{quotation}
-Make sure every figure or float is placed correctly and is used as well as referenced in the text.
-\end{quotation}
-
-\paragraph{Placement}
-Each float is centered and \emph{placed in the text directly after} the first paragraph referencing it, never directly after a heading. If formatting constraints are difficult, figure placement may be forced, e.g. to be placed at the top of the next possible new page.
-In double-column document formats, put large floats spreading both columns at the top of the next following page.
-
-\paragraph{Figures}
-Use a consistent style and appearance for each figure, using clean lines and diagrams. Make careful use of not too bright or disturbing colors, and watch out for grayscale usage when printed.
-
-Use sans-serif fonts in figures and diagrams unless for math symbols and variables. Enforce consistent upper-lower case usage throughout all figures and terms used in the text, and match variables and math formulas or symbols in figures to the ones in in the text. Also match the size of text in figures to the size of the main paper body text.
-
-For figures and diagrams that include any vector graphics elements (e.g. arrows, lines, boxes, points etc.), use the PDF vector graphics format with white or transparent background, and do not use raster image formats. If raster images are included in vector graphics figures, also use the PDF format for the combined figure.
-
-\paragraph{Screenshots}
-Each screenshot must demonstrate a clear visual effect, or major point of your work, or an example or problem of a standard (prior) approach. Some, very few, images may be mostly visual teasers. Each screenshot must include all details such as (data) statistics, used parameters and experimental settings in the caption or in the accompanying text where the figure is referenced from. Use raster image formats only for image-only figures, and then use the JPG file format not PNGs.
-
-\paragraph{Graphs}
-Graphs and plots must clearly demonstrate some numerical test results or data statistics. Strictly avoid clutter within one graph, and clearly relate parameters and results of experiments. Just listing basic values can be done in simple tables.
-Use expressive and clearly labelled axis in all graph plots. Graphs should basically be understandable on their own along with their caption also without reading the main text. Graphs and plots are usually based on vector graphics, thus use the PDF vector graphics format with white or transparent background as for figures and diagrams.
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Cross-References}
-
-Cross-references to numbered items such as sections and figures are capitalized as in the following examples. In Section~\ref{chp:introduction} we provide a brief summary of text formatting instruction and Figure~\ref{fig:logo} shows our group logo. A figure can contain multiple subfigures which can be referenced individually as illustrated in Figure~\ref{fig:uzh}.
-
-%% example figures %%
-\begin{figure}[htp]
- \centering
- \includegraphics[width=0.5\textwidth]{figures/vmml_logo}
- \caption{Example of single figure with caption text.}
- \label{fig:logo}
-\end{figure}
-
-\begin{figure}[htp]
- \centering
-\subfigure[vmml logo]{\includegraphics[width=0.3\textwidth]{figures/vmml_logo} \label{fig:vmml}} \hfill
-\subfigure[uzh logo]{\includegraphics[width=0.3\textwidth]{figures/uzh_logo} \label{fig:uzh}}
- \caption{Example subfigure with captions referencing (a) the VMML and (b) the UZH logos.}
-\end{figure}
-
-Use the same full or shortened form for all references, e.g. Sec.~\ref{chp:introduction}, Fig.~\ref{fig:vmml}, Eq.~\ref{eq:einstein}.
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Pseudo Code}
-
-Example for a pseudo code given below
-
-%% example pseudo code %%
-\lstinputlisting[language=c++,label=example]{pseudocode/example_pcode.txt}
-\vspace{10mm}
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Commands}
-
-You can use the command \verb!\FIXME{}! in order to mark sections in the text, which need to be edited and fixed. E.g. \FIXME{check reference XY}.
-
-
-%-------------------------------------------------------------------------------------------------------------------------
-\section*{Bibliography}
-%-------------------------------------------------------------------------------------------------------------------------
-
-The bibliography with list of references is placed on a new page at the end of the document, titled ``References'' or ``Bibliography'' and typeset similar to the main section headings but without numbering. Bibliography entries should follow standard IEEE or ACM proceedings or transaction journal formatting styles, and be referenced by last name abbreviation and year such as e.g. \cite{Pajarola:07} and \cite{GSSP:10}, or by number as for [1].
-
-%-------------------------------------------------------------------------------------------------------------------------
-\subsection*{Formatting References}
-
-
-Bibliography entries should be clean, accurate, compact and consistent across all entries. Thus for the entries in the BibTeX bibliography .bib file follow the following basic rules:
-
-\begin{itemize}
-\item Have complete entries, including full author names (first and last), full conference paper (inproceedings type with name, year, pages) and journal (article type with journal name, volume, number/issue, month) data
-\item Use capitalized title and special terms, e.g. "Point Set Processing for Data Analysis on the {GPU}".
-\item Use consistent venue description (name the same conference/journal in the same way).
-\item Use compact \emph{inproceedings} booktitle for conferences without year, i.e. "Proceedings IEEE Visualization" instead of "8th Int. Conference on Visualization (VIS'08), IEEE 2008".
-\item Do not use separate organization field if clear from the conference or journal, and usually no publisher, month and address for conferences.
-\item Keep entries concise, avoid unnecessary or duplicate information such as e.g. address or location for conferences or even journals, redundant numpages fields, or duplicated association/organization data etc.
-\item Use these fields sparsely if at all necessary: howpublished, publisher (don't for conferences, only for books or so), series (don't for conferences, only for LNCS or similar)
-\item Typically do not use venue, address or location for conferences or even journals
-\item Keep keywords simple and meaningful (e.g. main first keyword graphics, visualization, geometry, theory, databases, mathematics etc. followed by a few more specific ones)
-\end{itemize}
-
-\noindent
-Example bad BibTeX entry:
-
-\begin{verbatim}
-@ inproceedings{as78439729asf,
-  Title = {Tile-based LOD for the Parallel Age},
-  Author = {Niski, Krzysztof and Cohen, J.~D.},
-  Booktitle = {Proceedings IEEE Visualization Conference (IEEE Vis'10)},
-  Volume = {13},
-  Pages = {1352},
-  Organization = {IEEE},
-  Series = {IEEE TVCG journal},
-  Publisher = {Computer Society Press},
-}
-\end{verbatim}
-
-\noindent
-Above BibTeX entry will result in a not very nice, incomplete and inconsistent reference:
-
-\smallskip
-\noindent
-[NC] Krzysztof Niski and J. D. Cohen. Tile-based lod for the parallel age. In \emph{Proceedings IEEE Visualization Conference (IEEE Vis'10)}, volume 13 of \emph{IEEE TVCG journal}, page 1352. IEEE, Computer Society Press.
-
-\bigskip
-\noindent
-The corresponding clean and consistent BibTeX entry would be:
-
-\begin{verbatim}
-@article{NC:07,
-  Title = {Tile-based {LOD} for the Parallel Age},
-  Author = {Niski, Krzysztof and Cohen, Jonathan~D.},
-  Journal = {IEEE Transactions on Visualization and Computer Graphics},
-  Month = {November/December},
-  Volume = {13},
-  Number = {6},
-  Pages = {1352--1359},
-  Year = {2007}
-}
-\end{verbatim}
-
-\noindent
-This will result in a nice and consistent reference:
-
-\smallskip
-\noindent
-[NC07]  Krzysztof Niski and Jonathan D. Cohen. Tile-based LOD for the parallel age. \emph{IEEE Transactions on Visualization and Computer Graphics}, 13(6):1352-1359, November/December 2007.
-
-\vspace{5mm}
-More bad examples include the following
-\begin{quotation}
-\cite{HWH:10bad,Suss:10bad,HXS:09bad,CH:09bad,Strugar:10bad,Fout:07bad,WGS:07bad,CMF:05bad,AGLMR:02bad,Koltun:00bad,CYHPK:97bad,YL:22}, 
-\end{quotation}
-
-and the good ones are these here
-\begin{quotation}
-\cite{HWH:10,SWF:10,HXS:09,CH:09,Strugar:10,FM:07,WGS:07,CMF:05,AGLMR:02,KCC:00,CYHPK:97,YL:22}.
-\end{quotation}
-
-
-%=====================================================================
-\chapter*{Pages}
-%=====================================================================
-
-
-%-------------------------------------------------------------------------------------------------------------------------
-\section*{Cover and Abstract}
-%-------------------------------------------------------------------------------------------------------------------------
-
-Title of thesis, author, affiliation, date and any other administrative information should be placed on a separate cover page (see first page).
-
-Main title of work should be typeset in large sans-serif bold font type. Title is to be followed by author and affiliation. At the bottom, separated group affiliation is set.
-
-Abstract follows on separate page after cover page and before the table-of-content page(s).
-
-
-%-------------------------------------------------------------------------------------------------------------------------
-\section*{TOC}
-%-------------------------------------------------------------------------------------------------------------------------
-
-The table-of-content (TOC) contains all Section and (Sub-)Sub Section headings and their corresponding pages and is listed on separate pages before the first section. It has its own heading typeset as a section heading without numbering.
-
-%%=====================================================================
-%\chapter{Conclusion} \label{chp:conclusion}
-%%=====================================================================
-%
-%Summarize your main findings in one or maximum two pages. Try to keep yourself short and clear. Give a short discussion about your results where you focus on what your findings mean. E.g., show how your results and interpretations agree with the original question and with other published work  or if there are any possible practical applications for your work. At the end, give hints on further improvements or development directions / areas. 
-
 \bibliographystyle{alpha}
-\bibliography{references,bad_refs,corrected_refs}
+\bibliography{references}
 \end{document}
